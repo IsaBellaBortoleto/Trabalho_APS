@@ -20,7 +20,7 @@ with connection :
 
         cursor.execute('DROP TABLE sanduiche')
 
-        #cria tabelas
+        #cria tabela sanduiche
         sql = (
             'CREATE TABLE IF NOT EXISTS sanduiche ('
             'id INT NOT NULL AUTO_INCREMENT, '
@@ -72,6 +72,7 @@ with connection :
         )
         cursor.executemany(sql, dados)
 
+        #cria tabela bebida
         sql = (
             'CREATE TABLE IF NOT EXISTS bebida ('
             'id INT NOT NULL AUTO_INCREMENT, '
@@ -100,5 +101,173 @@ with connection :
             "capacidade" : "1L", },
         )
         cursor.executemany(sql, dados)
-                
+
+        #cria tabela milkshake
+        cursor.execute('DROP TABLE milkshake')
+
+        sql = (
+            'CREATE TABLE IF NOT EXISTS milkshake ('
+            'id INT NOT NULL AUTO_INCREMENT, '
+            'nome VARCHAR(50) NOT NULL, '
+            'preco DECIMAL(10,2) NOT NULL, '
+            'sabor VARCHAR(50), '
+            'capacidade VARCHAR(50), '
+            'imagem VARCHAR(50), ' 
+            'PRIMARY KEY (id) '
+            ')'
+        )
+        cursor.execute(sql)
+
+        sql = (
+            'INSERT INTO milkshake '
+            '(nome, preco, sabor, capacidade, imagem) '
+            'VALUES (%(nome)s, %(preco)s, %(sabor)s, %(capacidade)s, %(imagem)s) '
+        )
+        dados = (
+        {
+            "nome" : "milkshake moranguete",
+            "preco" : 15.00,
+            "sabor" : "morango",
+            "capacidade" : "300 ml",
+            "imagem" : "teste.jpg" } ,
+        {
+            "nome" : "milkshake moranguete",
+            "preco" : 19.00,
+            "sabor" : "morango",
+            "capacidade" : "500 ml",
+            "imagem" : "teste.jpg" } ,
+        {
+            "nome" : "milkshake chocolatudo",
+            "preco" : 15.00,
+            "sabor" : "chocolate",
+            "capacidade" : "300 ml",
+            "imagem" : "teste.jpg" } , 
+        {
+            "nome" : "milkshake chocolatudo",
+            "preco" : 19.00,
+            "sabor" : "morango",
+            "capacidade" : "500 ml",
+            "imagem" : "teste.jpg" } ,       
+        {
+            "nome" : "milkshake de kitkat",
+            "preco" : 20.00,
+            "sabor" : "baunilha com chocolate e kitkat",
+            "capacidade" : "300 ml",
+            "imagem" : "teste.jpg" } ,
+        {
+            "nome" : "milkshake de kitkat",
+            "preco" : 25.00,
+            "sabor" : "baunilha com chocolate e kitkat",
+            "capacidade" : "500 ml",
+            "imagem" : "teste.jpg" } ,
+        )
+        cursor.executemany(sql, dados)
+
+        #cria tabela pizza 
+        sql = (
+            'CREATE TABLE IF NOT EXISTS pizza ('
+            'id INT NOT NULL AUTO_INCREMENT, '
+            'nome VARCHAR(50) NOT NULL, '
+            'preco DECIMAL(10,2) NOT NULL, '
+            'principal VARCHAR(50), '
+            'massa VARCHAR(50), '
+            'queijo VARCHAR(50), '
+            'borda VARCHAR(50), '
+            'imagem VARCHAR(50), ' 
+            'PRIMARY KEY (id) '
+            ')'
+        )
+        cursor.execute(sql)
+
+        sql = (
+            'INSERT INTO pizza '
+            '(nome, preco, principal, massa, queijo, borda, imagem) '
+            'VALUES (%(nome)s, %(preco)s, %(principal)s, %(massa)s, %(queijo)s, %(borda)s, %(imagem)s) '
+        )   
+
+        dados = (
+        {
+            "nome" : "pizza de calabresa",
+            "preco" : 35.50,
+            "principal" : "calabresa",
+            "massa" : "tradicional",
+            "queijo" : "mussarela",
+            "borda" : "sim",
+            "imagem" : "teste.jpg"  },
+        {
+            "nome" : "pizza de ricota e brocolis",
+            "preco" : 40.50,
+            "principal" : "ricota e brocolis",
+            "massa" :"sem gluten",
+            "queijo" : "branco",
+            "borda" : "nao",
+            "imagem" : "teste.jpg"  },
+        {
+            "nome" : "pizza de frango com catupiry",
+            "preco" : 31.25,
+            "principal" : "frango com catupiry",
+            "massa" : "tradicional",
+            "queijo" : "mussarela",
+            "borda" : "sim",
+            "imagem" : "teste.jpg"  },
+        )
+
+        cursor.executemany(sql, dados)
+
+        #cria tabela hotdog
+        sql = (
+            'CREATE TABLE IF NOT EXISTS hotdog ('
+            'id INT NOT NULL AUTO_INCREMENT, '
+            'nome VARCHAR(50) NOT NULL, '
+            'preco DECIMAL(10,2) NOT NULL, '
+            'principal VARCHAR(50), '
+            'ketchup VARCHAR(50), '
+            'mostarda VARCHAR(50), '
+            'batata_palha VARCHAR(50), '
+            'vinagrete VARCHAR(50), '
+            'imagem VARCHAR(50), ' 
+            'PRIMARY KEY (id) '
+            ')'
+        )
+        cursor.execute(sql)
+
+        sql = (
+            'INSERT INTO hotdog '
+            '(nome, preco, principal, ketchup, mostarda, batata_palha, vinagrete, imagem) '
+            'VALUES (%(nome)s, %(preco)s, %(principal)s, %(ketchup)s, %(mostarda)s, %(batata_palha)s, %(vinagrete)s, %(imagem)s) '
+        )   
+
+        dados = (
+            {
+                "nome" : "cachorro quente tradicional",
+                "preco" : 9.90,
+                "principal" : "1 salsicha",
+                "ketchup" : "sim",
+                "mostarda" : "sim",
+                "batata_palha" : "sim",
+                "vinagrete" : "sim",
+                "imagem" : "teste.png"
+            },
+            {
+                "nome" : "cachorro quente não tradicional",
+                "preco" : 9.90,
+                "principal" : "2 salsicha",
+                "ketchup" : "não",
+                "mostarda" : "sim",
+                "batata_palha" : "sim",
+                "vinagrete" : "não",
+                "imagem" : "teste.png"
+            },
+            {
+                "nome" : "cachorro quente frango",
+                "preco" : 9.90,
+                "principal" : "1 salsicha de frango",
+                "ketchup" : "sim",
+                "mostarda" : "não",
+                "batata_palha" : "não",
+                "vinagrete" : "sim",
+                "imagem" : "teste.png"
+            }
+        )
+        cursor.executemany(sql, dados)
     connection.commit()
