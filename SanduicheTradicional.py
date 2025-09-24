@@ -2,9 +2,11 @@ import pymysql
 from Sanduiche import Sanduiche
 
 class SanduicheTradicional(Sanduiche):
-    def __init__(self):
+    #construtora
+    def __init__(self): 
         pass
-
+    
+    #retorna o preço
     def getpreco(self): #retorno o preço na variável resultado
         # conecta ao MySQL usando pymysql
         conn = pymysql.connect(**self.db_config)
@@ -17,16 +19,38 @@ class SanduicheTradicional(Sanduiche):
         conn.close()
 
         if resultado:
-            print(f"O {self.nome} custa R${resultado[0]:.2f}")
+            print(f"O custa R${resultado[0]:.2f}")
         else:
-            print(f"Preço do {self.nome} não encontrado.")
+            print(f"Preço do não encontrado.")
 
-    def getingredientes():
-        pass
+    #retorna uma tupla de ingredientes
+    def getingredientes(self):
+        conn = pymysql.connect(**self.db_config)
+        cursor = conn.cursor()
 
-    def getimagem():
-        pass
+        colunas = ', '.join(self.ingredientes)
+        cursor.execute(f"SELECT {colunas} FROM sanduiche WHERE id = 1")
+        resultado = cursor.fetchall()
 
+        conn.close()
+
+        for row in resultado:
+            print (row)
+            print(type(resultado)) 
+
+    #retorna a uma tupla com o caminho da imagem
+    def getimagem(self):
+        conn = pymysql.connect(**self.db_config)
+        cursor = conn.cursor()
+
+        cursor.execute("SELECT imagem FROM sanduiche WHERE id = 1")
+        resultado = cursor.fetchone()
+
+        conn.close()
+
+        print(resultado)
+
+    #altera o valor de alguma coluna
     def alteraritem(self, coluna, novovalor): #altera a coluna pra novovalor
         if coluna not in self.descricao:
             pass
@@ -40,7 +64,9 @@ class SanduicheTradicional(Sanduiche):
         conn.close()
 
 
-s = SanduicheTradicional("sanduiche simples")
-s.exibirpreco()
-s.alteraritem("abacaxi", 10.50)
-s.exibirpreco()
+s = SanduicheTradicional()
+s.getpreco()
+s.alteraritem("preco", 10.50)
+s.getpreco()
+s.getingredientes()
+s.getimagem()

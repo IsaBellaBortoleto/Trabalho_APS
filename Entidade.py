@@ -11,7 +11,7 @@ class Entidade(ABC) :
     def __init__(self):
         pass
     @abstractmethod
-    def exibirpreco(self):
+    def getpreco(self):
         pass
 
     

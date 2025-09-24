@@ -31,6 +31,7 @@ with connection :
             'verdura VARCHAR(50), ' 
             'queijo VARCHAR(50), '
             'extra VARCHAR(50), ' 
+            'imagem VARCHAR(50), ' 
             'PRIMARY KEY (id) '
             ')'
         )
@@ -38,8 +39,8 @@ with connection :
 
         sql = (
             'INSERT INTO sanduiche '
-            '(nome, preco, pao, proteina, verdura, queijo, extra) '
-            'VALUES (%(nome)s, %(preco)s, %(pao)s, %(proteina)s, %(verdura)s, %(queijo)s, %(extra)s) '
+            '(nome, preco, pao, proteina, verdura, queijo, extra, imagem) '
+            'VALUES (%(nome)s, %(preco)s, %(pao)s, %(proteina)s, %(verdura)s, %(queijo)s, %(extra)s, %(imagem)s) '
         )
         dados = (
         {  "nome" : "sanduíche simples", 
@@ -48,7 +49,8 @@ with connection :
             "proteina" : "carne", 
             "verdura" : "alface",
             "queijo" : "mussarela",
-            "extra" : "maionese", } ,
+            "extra" : "maionese",
+            "imagem" : "sandu.jpg" } ,
 
         {  "nome" : "sanduíche chicken", 
             "preco" : 12.50,
@@ -56,7 +58,8 @@ with connection :
             "proteina" : "frango", 
             "verdura" : "pepino",
             "queijo" : "mussarela",
-            "extra" : "ketchup", },
+            "extra" : "ketchup", 
+            "imagem" : "sandu.jpg" },
         
         {  "nome" : "sanduíche fish", 
             "preco" : 15.50,
@@ -64,7 +67,8 @@ with connection :
             "proteina" : "peixe", 
             "verdura" : "tomate",
             "queijo" : "branco",
-            "extra" : "mostasda", },
+            "extra" : "mostasda", 
+            "imagem" : "sandu.jpg" },
         )
         cursor.executemany(sql, dados)
 
