@@ -112,7 +112,9 @@ with connection :
             'id INT NOT NULL AUTO_INCREMENT, '
             'nome VARCHAR(50) NOT NULL, '
             'preco DECIMAL(10,2) NOT NULL, '
-            'sabor VARCHAR(50), '
+            'principal VARCHAR(50), '
+            'leite VARCHAR(50), '
+            'cobertura VARCHAR(50), '
             'capacidade VARCHAR(50), '
             'imagem VARCHAR(50), ' 
             'PRIMARY KEY (id) '
@@ -122,44 +124,56 @@ with connection :
 
         sql = (
             'INSERT INTO milkshake '
-            '(nome, preco, sabor, capacidade, imagem) '
-            'VALUES (%(nome)s, %(preco)s, %(sabor)s, %(capacidade)s, %(imagem)s) '
+            '(nome, preco, principal, leite, cobertura, capacidade, imagem) '
+            'VALUES (%(nome)s, %(preco)s, %(principal)s, %(leite)s, %(cobertura)s, %(capacidade)s, %(imagem)s) '
         )
         dados = (
         {
             "nome" : "milkshake moranguete",
             "preco" : 15.00,
-            "sabor" : "morango",
+            "principal" : "morango",
+            "leite" : "normal",
+            "cobertura" : "não",
             "capacidade" : "300 ml",
             "imagem" : "teste.jpg" } ,
         {
             "nome" : "milkshake moranguete",
             "preco" : 19.00,
-            "sabor" : "morango",
+            "principal" : "morango",
+            "leite" : "normal",
+            "cobertura" : "não",
             "capacidade" : "500 ml",
             "imagem" : "teste.jpg" } ,
         {
             "nome" : "milkshake chocolatudo",
             "preco" : 15.00,
-            "sabor" : "chocolate",
+            "principal" : "chocolate",
+            "leite" : "desnatado",
+            "cobertura" : "não",
             "capacidade" : "300 ml",
             "imagem" : "teste.jpg" } , 
         {
             "nome" : "milkshake chocolatudo",
             "preco" : 19.00,
-            "sabor" : "morango",
+            "principal" : "chocolate",
+            "leite" : "desnatado",
+            "cobertura" : "não",
             "capacidade" : "500 ml",
             "imagem" : "teste.jpg" } ,       
         {
             "nome" : "milkshake de kitkat",
             "preco" : 20.00,
-            "sabor" : "baunilha com chocolate e kitkat",
+            "principal" : "baunilha e chocolate",
+            "leite" : "normal",
+            "cobertura" : "kitkat",
             "capacidade" : "300 ml",
             "imagem" : "teste.jpg" } ,
         {
             "nome" : "milkshake de kitkat",
             "preco" : 25.00,
-            "sabor" : "baunilha com chocolate e kitkat",
+            "principal" : "baunilha com chocolate e kitkat",
+            "leite" : "normal",
+            "cobertura" : "kitkat",
             "capacidade" : "500 ml",
             "imagem" : "teste.jpg" } ,
         )
