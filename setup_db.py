@@ -43,7 +43,7 @@ with connection :
             'VALUES (%(nome)s, %(preco)s, %(pao)s, %(proteina)s, %(verdura)s, %(queijo)s, %(extra)s, %(imagem)s) '
         )
         dados = (
-        {  "nome" : "sanduíche simples", 
+        {  "nome" : "sanduíche tradicional", 
             "preco" : 10.50,
             "pao" : "branco",
             "proteina" : "carne", 
@@ -73,6 +73,8 @@ with connection :
         cursor.executemany(sql, dados)
 
         #cria tabela bebida
+        cursor.execute('DROP TABLE bebida')
+
         sql = (
             'CREATE TABLE IF NOT EXISTS bebida ('
             'id INT NOT NULL AUTO_INCREMENT, '
@@ -164,6 +166,9 @@ with connection :
         cursor.executemany(sql, dados)
 
         #cria tabela pizza 
+
+        cursor.execute('DROP TABLE pizza')
+
         sql = (
             'CREATE TABLE IF NOT EXISTS pizza ('
             'id INT NOT NULL AUTO_INCREMENT, '
@@ -215,6 +220,9 @@ with connection :
         cursor.executemany(sql, dados)
 
         #cria tabela hotdog
+
+        cursor.execute('DROP TABLE hotdog')
+        
         sql = (
             'CREATE TABLE IF NOT EXISTS hotdog ('
             'id INT NOT NULL AUTO_INCREMENT, '
