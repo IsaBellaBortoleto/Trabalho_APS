@@ -17,6 +17,7 @@ class SanduicheFish(Sanduiche):
         resultado = cursor.fetchone()
 
         conn.close()
+        return resultado
 
     #retorna uma tupla de ingredientes
     def getingredientes(self):
@@ -28,6 +29,7 @@ class SanduicheFish(Sanduiche):
         resultado = cursor.fetchall()
 
         conn.close()
+        return resultado
 
     #retorna a uma tupla com o caminho da imagem
     def getimagem(self):
@@ -38,6 +40,7 @@ class SanduicheFish(Sanduiche):
         resultado = cursor.fetchone()
 
         conn.close()
+        return resultado
 
     #altera o valor de alguma coluna
     def alteraritem(self, coluna, novovalor): #altera a coluna pra novovalor

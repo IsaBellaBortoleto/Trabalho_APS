@@ -18,10 +18,12 @@ class SanduicheTradicional(Sanduiche):
 
         conn.close()
 
-        if resultado:
-            print(f"O custa R${resultado[0]:.2f}")
-        else:
-            print(f"Preço do não encontrado.")
+        return resultado
+
+        #if resultado:
+        #    print(f"O custa R${resultado[0]:.2f}")
+        #else:
+        #    print(f"Preço do não encontrado.")
 
     #retorna uma tupla de ingredientes
     def getingredientes(self):
@@ -33,10 +35,11 @@ class SanduicheTradicional(Sanduiche):
         resultado = cursor.fetchall()
 
         conn.close()
+        return resultado
 
-        for row in resultado:
-            print (row)
-            print(type(resultado)) 
+        #for row in resultado:
+        #    print (row)
+        #    print(type(resultado)) 
 
     #retorna a uma tupla com o caminho da imagem
     def getimagem(self):
@@ -47,8 +50,9 @@ class SanduicheTradicional(Sanduiche):
         resultado = cursor.fetchone()
 
         conn.close()
+        return resultado
 
-        print(resultado)
+        #print(resultado)
 
     #altera o valor de alguma coluna
     def alteraritem(self, coluna, novovalor): #altera a coluna pra novovalor
@@ -64,9 +68,9 @@ class SanduicheTradicional(Sanduiche):
         conn.close()
 
 
-s = SanduicheTradicional()
-s.getpreco()
-s.alteraritem("preco", 10.50)
-s.getpreco()
-s.getingredientes()
-s.getimagem()
+#s = SanduicheTradicional()
+#s.getpreco()
+#s.alteraritem("preco", 10.50)
+#s.getpreco()
+#s.getingredientes()
+#s.getimagem()

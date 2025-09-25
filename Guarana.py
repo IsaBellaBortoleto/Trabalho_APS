@@ -1,7 +1,7 @@
 import pymysql
-from Sanduiche import Sanduiche
+from Bebida import Bebida
 
-class SanduicheChicken(Sanduiche):
+class Guarana(Bebida):
     #construtora
     def __init__(self): 
         pass
@@ -13,22 +13,11 @@ class SanduicheChicken(Sanduiche):
         cursor = conn.cursor()
 
         # busca preço na tabela
-        cursor.execute("SELECT preco FROM sanduiche WHERE id = 2")
+        cursor.execute("SELECT preco FROM bebida WHERE id = 3")
         resultado = cursor.fetchone()
 
         conn.close()
-        return resultado
 
-    #retorna uma tupla de ingredientes
-    def getingredientes(self):
-        conn = pymysql.connect(**self.db_config)
-        cursor = conn.cursor()
-
-        colunas = ', '.join(self.ingredientes)
-        cursor.execute(f"SELECT {colunas} FROM sanduiche WHERE id = 2")
-        resultado = cursor.fetchall()
-
-        conn.close()
         return resultado
 
     #retorna a uma tupla com o caminho da imagem
@@ -36,7 +25,7 @@ class SanduicheChicken(Sanduiche):
         conn = pymysql.connect(**self.db_config)
         cursor = conn.cursor()
 
-        cursor.execute("SELECT imagem FROM sanduiche WHERE id = 2")
+        cursor.execute("SELECT imagem FROM bebida WHERE id = 3")
         resultado = cursor.fetchone()
 
         conn.close()
@@ -50,7 +39,7 @@ class SanduicheChicken(Sanduiche):
         conn = pymysql.connect(**self.db_config)
         cursor = conn.cursor()
 
-        atualizacao = f"UPDATE sanduiche SET {coluna} = %s WHERE id = 2"
+        atualizacao = f"UPDATE bebida SET {coluna} = %s WHERE id = 3"
         cursor.execute(atualizacao, novovalor)
         conn.commit()
         conn.close()
