@@ -1,0 +1,9 @@
+RemoteSigned
+
+ Get-ExecutionPolicy -List
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine
+
+django-admin (só para CRIAR o projeto) e manage.py runsever fazem a mesma coisa, os outro 99,9999% do tempo
+
+o path do BASE_DIR aponta para a raiz do projeto, caminhos:
+BASE_DIR / subdir

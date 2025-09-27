@@ -1,0 +1,243 @@
+{% load static %} <!-- CARREGA A TAG NO TOPO DO TEMPLATE adicionado dia 14 de setembro-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!--<link rel="stylesheet" href="assets/css/stules.css">-->
+    <!--<link rel="stylesheet" href="assets/css/style.css"> comentado dia 14 de setembro-->
+    <link rel="stylesheet" href="{% static 'assets/css/style.css'%}">
+    <!-- caminho relativo de static-->
+</head>
+
+<body>
+{% comment %}     <form method="POST" action="{% url 'processar_pedido' %}"><!-- 17 de setembro-->
+    {% csrf_token %}
+    <input type="hidden" name="pedido" value="pizza">
+    <button type="submit">Fazer pedido</button>
+    </form>  <!-- 17 de setembro--> {% endcomment %}
+
+    <h1>{% block texto  %}  {% endblock texto %}</h1>
+    <!--  Essa linha de cima funcionou-->
+    
+    <nav class="menu">
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#Hamburguer">Hamburguer</a></li>
+            <li><a href="#Pizzas">Pizza</a></li>
+            <li><a href="#Milkshakes">Milkshake</a></li>
+            <li><a href="#Bebidas">Bebidas</a></li>
+        </ul>
+
+    </nav>
+    <div id="home" class="grid full-page-content full-page">
+        <div class="col">
+            <div class="col-content">
+                Conteúdo
+            </div>
+        </div>
+        <div class="col">
+            <div class="col-content">
+                Conteúdo
+            </div>
+        </div>
+        <div class="col">
+            <div class="col-content">
+                Conteúdo
+            </div>
+        </div>
+        <div class="col">
+            <div class="col-content">
+                Conteúdo
+            </div>
+        </div> 
+       
+        <!--
+        
+        <div class="col">
+            <div class="col-content">
+                Conteúdo
+            </div>
+        </div>
+        <div class="col">
+            <div class="col-content">
+                Conteúdo
+            </div>
+        </div>
+        <div class="col">
+            <div class="col-content">
+                Conteúdo
+            </div>
+        </div>
+         <div class="col">
+            <div class="col-content">
+                Conteúdo
+            </div>
+        </div>
+        <div class="col">
+            <div class="col-content">
+                Conteúdo
+            </div>
+        </div>
+        <div class="col">
+            <div class="col-content">
+                Conteúdo
+            </div>
+        </div>
+        <div class="col">
+            <div class="col-content">
+                Conteúdo
+            </div>
+        </div>
+        <div class="col">
+            <div class="col-content">
+                Conteúdo
+            </div>
+        </div>
+        <div class="col">
+            <div class="col-content">
+                Conteúdo
+            </div>
+        </div>
+        <div class="col">
+            <div class="col-content">
+                Conteúdo
+            </div>
+        </div>
+        <div class="col">
+            <div class="col-content">
+                Conteúdo
+            </div>
+        </div>
+        <div class="col">
+            <div class="col-content">
+                Conteúdo
+            </div>
+        </div> -->
+
+    </div>
+    <section id="Hamburguer" class="full-page Hamburguer">
+        <!-- o ID será usado como target-->
+        <div id="Hamburguer-content" class="grid full-page-content">
+            <h1>Hamburguer</h1>
+            <p class="descricao">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet ea libero corrupti, architecto, rerum nam
+                modi
+                et facilis in veniam quisquam consectetur odit quam provident soluta alias omnis? Hic, facere!</p>
+        
+        <!--<div class="grid">-->
+            <div class="col">
+                <div class="col-content">
+                    Conteúdo
+                </div>
+            </div>
+            <div class="col">
+                <div class="col-content">
+                    Conteúdo
+                </div>
+            </div>
+            <div class="col">
+                <div class="col-content">
+                    Conteúdo
+                </div>
+            </div>
+        </div>
+        <!--</div>-->
+    </section>
+    <section id="Pizzas" class="full-page Pizzas">
+        <!-- o ID será usado como target-->
+        <div id="Pizza-content" class="full-page-content grid">
+            <h1>Pizzas</h1>
+            <p class="descricao">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet ea libero corrupti, architecto, rerum nam
+                modi
+                et facilis in veniam quisquam consectetur odit quam provident soluta alias omnis? Hic, facere!</p>
+        
+       <!-- <div class="grid">-->
+            <div class="col">
+                <div class="col-content">
+                    Conteúdo
+                </div>
+            </div>
+            <div class="col">
+                <div class="col-content">
+                    Conteúdo
+                </div>
+            </div>
+            <div class="col">
+                <div class="col-content">
+                    Conteúdo
+                </div>
+            </div>
+            <div class="col">
+                <div class="col-content">
+                    Conteúdo
+                </div>
+            </div>
+        </div>
+        <!--</div>-->
+    </section>
+        <section id="Milkshakes" class="full-page Milkshakes">
+        <!-- o ID será usado como target-->
+        <div id="Milkshake-content" class="full-page-content">
+            <h1>Milkshakes</h1>
+            <p class="descricao">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet ea libero corrupti, architecto, rerum nam
+                modi
+                et facilis in veniam quisquam consectetur odit quam provident soluta alias omnis? Hic, facere!</p>
+        
+        <div class="grid">
+            <div class="col">
+                <div class="col-content">
+                    Conteúdo
+                </div>
+            </div>
+            <div class="col">
+                <div class="col-content">
+                    Conteúdo
+                </div>
+            </div>
+            <div class="col">
+                <div class="col-content">
+                    Conteúdo
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+        <section id="Bebidas" class="full-page Bebidas">
+        <!-- o ID será usado como target-->
+        <div id="Bebidas-content" class="full-page-content">
+            <h1>Bebidas</h1>
+            <p class="descricao">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet ea libero corrupti, architecto, rerum nam
+                modi
+                et facilis in veniam quisquam consectetur odit quam provident soluta alias omnis? Hic, facere!</p>
+        
+        <div class="grid">
+            <div class="col">
+                <div class="col-content">
+                    Conteúdo
+                </div>
+            </div>
+            <div class="col">
+                <div class="col-content">
+                    Conteúdo
+                </div>
+            </div>
+            <div class="col">
+                <div class="col-content">
+                    Conteúdo
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+</body>
+
+</html>
+
+
+<!--
+tem como fazer LINKS DE ÂNCORA, ELES NÃO APONTAM PARA OUTRA PÁGINA, MAS PARA A MESMA
+de acordo com um ID
+-->
