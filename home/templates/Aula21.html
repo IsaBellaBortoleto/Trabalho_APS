@@ -22,6 +22,8 @@
 
     <h1>{% block texto  %}  {% endblock texto %}</h1>
     <!--  Essa linha de cima funcionou-->
+    <p>Explore nossos produtos e adicione-os ao seu carrinho.</p>
+        
     
     <nav class="menu">
         <ul>
@@ -33,6 +35,46 @@
         </ul>
 
     </nav>
+    
+    <h1>Produtos</h1>
+    
+    <div class="produtos-grid">
+        {% for nome, detalhes in produtos %}
+        <div class="produto-card">
+            <h3>{{ detalhes.nome }}</h3>
+            <p>R$ {{ detalhes.preco }}</p>
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" name="adicionar_item" value="{{ nome }}">
+                    Adicionar ao Carrinho
+                </button>
+            </form>
+        </div>
+        {% endfor %}
+    </div>
+
+    <hr>
+
+    <h1>Seu Carrinho</h1>
+    {% if itens_carrinho %}
+        <ul>
+        {% for item in itens_carrinho %}
+            <li>
+                {{ item.nome }} - R$ {{ item.preco }}
+                <form method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" name="remover_item_por_posicao" value="{{ item.posicao }}">
+                        Remover
+                    </button>
+                </form>
+            </li>
+        {% endfor %}
+        </ul>
+        <p>Total: R$ {{ total }}</p>
+    {% else %}
+        <p>Seu carrinho está vazio.</p>
+    {% endif %}
+    
     <div id="home" class="grid full-page-content full-page">
         <div class="col">
             <div class="col-content">

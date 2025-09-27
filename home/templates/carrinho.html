@@ -1,0 +1,50 @@
+<!--<div class="carrinho-widget">
+    <h2>Seu Carrinho</h2>
+    
+    {% if itens_carrinho %}
+        <ul>
+        {% for item in itens_carrinho %}
+            <li>
+                {{ item.nome }} - R$ {{ item.preco }}
+                <form method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" name="remover_item_por_posicao" value="{{ item.posicao }}">
+                        Remover
+                    </button>
+                </form>
+            </li>
+        {% endfor %}
+        </ul>
+        <p>Total: R$ {{ total }}</p>
+    {% else %}
+        <p>Seu carrinho está vazio.</p>
+    {% endif %}
+
+    <hr>
+    
+    <h3>Adicionar Produtos</h3>
+    <p>Para testar, adicione itens manualmente:</p>
+    
+    <form method="post" style="display: inline;">
+        {% csrf_token %}
+        <button type="submit" name="adicionar_item" value="camiseta">
+            Adicionar Camiseta
+        </button>
+    </form>
+    
+    <form method="post" style="display: inline;">
+        {% csrf_token %}
+        <button type="submit" name="adicionar_item" value="calca">
+            Adicionar Calça
+        </button>
+    </form>
+    
+    <form method="post" style="display: inline;">
+        {% csrf_token %}
+        <button type="submit" name="adicionar_item" value="tenis">
+            Adicionar Tênis
+        </button>
+    </form>
+</div>
+
+-->

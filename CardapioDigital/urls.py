@@ -28,6 +28,18 @@ from pedidos import views as pedViews
 urlpatterns = [
     path('admin/', admin.site.urls),    
     path('', homeViwes.home , name='home'), #não comça url com barra, se fora vazia não coloca barra
-    path('pedidos/', pedViews.pedidos, name='pedidos'),
 
 ]
+    #path('pedidos/', pedViews.pedidos, name='pedidos'),
+    # Mapeia a URL 'carrinho/' para a view listar_carrinho
+    #path('carrinho/', homeViwes.listar_carrinho, name='listar_carrinho'),
+
+    # Mapeia a URL para adicionar um item.
+    # A URL terá o formato: /carrinho/adicionar/nome_produto/
+    #path('carrinho/adicionar/<str:nome_produto>/', homeViwes. adicionar_item, name='adicionar_item'),
+
+    # Mapeia a URL para remover um item.
+    # A URL terá o formato: /carrinho/remover/posicao/
+    #path('carrinho/remover/<int:posicao>/', homeViwes.remover_item_por_posicao, name='remover_item_por_posicao'),
+
+    # URL para a página de produtos. Vamos criar uma view simples para isso.1# path('', views.listar_produtos, name='lista_produtos'),

@@ -9,3 +9,4 @@ from django.db import models
 
     def __str__(self): 17 de setembro
         return f"{self.nome_cliente} - {self.descricao[:20]}" """
+

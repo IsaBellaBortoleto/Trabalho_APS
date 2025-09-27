@@ -1,0 +1,3 @@
+<!--{% include 'carrinho_app/carrinho.html' %}-->
+
+sria usando para dividir o html

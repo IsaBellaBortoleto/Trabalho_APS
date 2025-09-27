@@ -172,3 +172,58 @@ p{
         width: 25%;
     }
 }
+/*27 de setembro de 2025*/
+hr {
+    border: 0;
+    height: 1px;
+    background-color: #ddd;
+    margin: 20px 0;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+li {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+li:last-child {
+    border-bottom: none;
+}
+
+form {
+    display: inline;
+}
+
+button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+button[name="adicionar_item"] {
+    background-color: #28a745;
+    color: white;
+}
+
+button[name="remover_item_por_posicao"] {
+    background-color: #dc3545;
+    color: white;
+}
+
+/* Estilo para a mensagem de carrinho vazio */
+body > p {
+    color: #666;
+    font-style: italic;
+}
