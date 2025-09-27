@@ -18,6 +18,17 @@ class SanduicheFish(Sanduiche):
 
         conn.close()
         return resultado
+    
+        #retorna o nome na variável resultado
+    def getnome(self):
+        conn = pymysql.connect(**self.db_config)
+        cursor = conn.cursor()
+
+        cursor.execute("SELECT nome from sanduiche WHERE id = 3")
+        resultado = cursor.fetchone()
+
+        conn.close()
+        return resultado
 
     #retorna uma tupla de ingredientes
     def getingredientes(self):

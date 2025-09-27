@@ -19,6 +19,17 @@ class Guarana(Bebida):
         conn.close()
 
         return resultado
+    
+    #retorna o nome na variável resultado
+    def getnome(self):
+        conn = pymysql.connect(**self.db_config)
+        cursor = conn.cursor()
+
+        cursor.execute("SELECT nome from bebida WHERE id = 3")
+        resultado = cursor.fetchone()
+
+        conn.close()
+        return resultado
 
     #retorna a uma tupla com o caminho da imagem
     def getimagem(self):

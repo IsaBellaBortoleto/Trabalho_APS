@@ -19,6 +19,17 @@ class HotDogNaoTradicional(HotDog):
         conn.close()
 
         return resultado
+    
+        #retorna o nome na variável resultado
+    def getnome(self):
+        conn = pymysql.connect(**self.db_config)
+        cursor = conn.cursor()
+
+        cursor.execute("SELECT nome from hotdog WHERE id = 2")
+        resultado = cursor.fetchone()
+
+        conn.close()
+        return resultado
 
     #retorna uma tupla de ingredientes
     def getingredientes(self):

@@ -13,5 +13,8 @@ class Entidade(ABC) :
     @abstractmethod
     def getpreco(self):
         pass
+    @abstractmethod
+    def getnome(self):
+        pass
 
     

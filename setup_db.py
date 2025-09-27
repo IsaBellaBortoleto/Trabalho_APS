@@ -81,6 +81,7 @@ with connection :
             'nome VARCHAR(50) NOT NULL, '
             'capacidade VARCHAR(10), '
             'preco DECIMAL(10,2) NOT NULL, '
+            'imagem VARCHAR(50), '
             'PRIMARY KEY (id) '
             ')'
         )
@@ -88,19 +89,22 @@ with connection :
 
         sql = (
             'INSERT INTO bebida '
-            '(nome, preco, capacidade) '
-            'VALUES (%(nome)s, %(preco)s, %(capacidade)s) '
+            '(nome, preco, capacidade, imagem) '
+            'VALUES (%(nome)s, %(preco)s, %(capacidade)s, %(imagem)s) '
         )
         dados = (
         {   "nome" : "Coca-Cola",
             "preco" : 4.50,
-            "capacidade" : "200ml", },
+            "capacidade" : "200ml", 
+            "imagem" : "teste.jpg" },
         {   "nome" : "Suco Vale",
             "preco" : 5.50,
-            "capacidade" : "200ml", },
+            "capacidade" : "200ml", 
+            "imagem" : "teste.jpg" },
         {   "nome" : "Guaraná",
             "preco" : 8.00,
-            "capacidade" : "1L", },
+            "capacidade" : "1L", 
+            "imagem" : "teste.jpg" },
         )
         cursor.executemany(sql, dados)
 
