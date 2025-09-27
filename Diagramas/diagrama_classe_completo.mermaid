@@ -1,6 +1,3 @@
-# Sistema de Pedidos - Diagrama de Classes
-
-```mermaid
 ---
 title: Sistema de Pedidos - Diagrama de Classes
 config:
@@ -24,17 +21,6 @@ classDiagram
         <<abstract>>
         +Map~String,String~ db_config
         +getpreco()* double
-    }
-    
-    %% Classe de serviço para gerenciamento do carrinho
-    class Carrinho {
-        <<service>>
-        +List~Entidade~ itens
-        +incluirItem(item Entidade) void
-        +removerItem(item Entidade) void
-        +exibirTodosItens() List~Entidade~
-        +limpar() void
-        +somaTotal() double
     }
     
     %% Abstract categories - organized in namespace
@@ -98,18 +84,21 @@ classDiagram
     
     namespace Bebidas {
         class CocaCola {
+            <<entity>>
             +getpreco() double
             +getimagem() String
             +alteraritem(String, String) void
         }
         
         class SucoVale {
+            <<entity>>
             +getpreco() double
             +getimagem() String
             +alteraritem(String, String) void
         }
         
         class Guarana {
+            <<entity>>
             +getpreco() double
             +getimagem() String
             +alteraritem(String, String) void
@@ -118,18 +107,21 @@ classDiagram
     
     namespace Milkshakes {
         class MilkshakeMoranguete {
+            <<entity>>
             +getpreco() double
             +getimagem() String
             +alteraritem(String, String) void
         }
         
         class MilkshakeChocolatudo {
+            <<entity>>
             +getpreco() double
             +getimagem() String
             +alteraritem(String, String) void
         }
         
         class MilkshakeKitKat {
+            <<entity>>
             +getpreco() double
             +getimagem() String
             +alteraritem(String, String) void
@@ -138,18 +130,21 @@ classDiagram
     
     namespace Pizzas {
         class PizzaCalabresa {
+            <<entity>>
             +getpreco() double
             +getimagem() String
             +alteraritem(String, String) void
         }
         
         class PizzaRicota {
+            <<entity>>
             +getpreco() double
             +getimagem() String
             +alteraritem(String, String) void
         }
         
         class PizzaFrango {
+            <<entity>>
             +getpreco() double
             +getimagem() String
             +alteraritem(String, String) void
@@ -158,26 +153,26 @@ classDiagram
     
     namespace HotDogs {
         class HotDogTradicional {
+            <<entity>>
             +getpreco() double
             +getimagem() String
             +alteraritem(String, String) void
         }
         
         class HotDogNãoTradicional {
+            <<entity>>
             +getpreco() double
             +getimagem() String
             +alteraritem(String, String) void
         }
         
         class HotDogFrango {
+            <<entity>>
             +getpreco() double
             +getimagem() String
             +alteraritem(String, String) void
         }
     }
-    
-    %% Agregação - Carrinho contém Entidades
-    Carrinho "1" o-- "*" Entidade : contém
     
     %% Inheritance relationships
     Entidade <|-- Sanduiche
@@ -210,4 +205,3 @@ classDiagram
     HotDog <|-- HotDogTradicional
     HotDog <|-- HotDogNãoTradicional
     HotDog <|-- HotDogFrango
-```
