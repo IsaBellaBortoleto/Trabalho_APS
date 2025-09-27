@@ -13,16 +13,24 @@
     <!-- caminho relativo de static-->
 </head>
 
-<body>
+<body >
+    <div class="toda-pagina">
 {% comment %}     <form method="POST" action="{% url 'processar_pedido' %}"><!-- 17 de setembro-->
     {% csrf_token %}
     <input type="hidden" name="pedido" value="pizza">
     <button type="submit">Fazer pedido</button>
     </form>  <!-- 17 de setembro--> {% endcomment %}
-
+        
     <h1>{% block texto  %}  {% endblock texto %}</h1>
     <!--  Essa linha de cima funcionou-->
     <p>Explore nossos produtos e adicione-os ao seu carrinho.</p>
+    <p>Explore nossos produtos e adicione-os ao seu carrinho.</p>
+    <p>Explore nossos produtos e adicione-os ao seu carrinho.</p>
+    <p>Explore nossos produtos e adicione-os ao seu carrinho.</p>
+    <p>Explore nossos produtos e adicione-os ao seu carrinho.</p>
+    <p>Explore nossos produtos e adicione-os ao seu carrinho.</p>
+    <p>Explore nossos produtos e adicione-os ao seu carrinho.</p>
+
         
     
     <nav class="menu">
@@ -38,7 +46,7 @@
     
     <h1>Produtos</h1>
     
-    <div class="produtos-grid">
+    <div class="produtos-grid toda-pagina">
         {% for nome, detalhes in produtos %}
         <div class="produto-card">
             <h3>{{ detalhes.nome }}</h3>
@@ -54,7 +62,7 @@
     </div>
 
     <hr>
-
+    <div class="carrinho">
     <h1>Seu Carrinho</h1>
     {% if itens_carrinho %}
         <ul>
@@ -74,11 +82,18 @@
     {% else %}
         <p>Seu carrinho está vazio.</p>
     {% endif %}
-    
+    </div>
+
     <div id="home" class="grid full-page-content full-page">
         <div class="col">
             <div class="col-content">
                 Conteúdo
+                <form method="post">
+                {% csrf_token %}
+                <button type="submit" name="adicionar_item" value="{{ nome }}">
+                    Adicionar ao Carrinho
+                </button>
+            </form>
             </div>
         </div>
         <div class="col">
@@ -96,70 +111,6 @@
                 Conteúdo
             </div>
         </div> 
-       
-        <!--
-        
-        <div class="col">
-            <div class="col-content">
-                Conteúdo
-            </div>
-        </div>
-        <div class="col">
-            <div class="col-content">
-                Conteúdo
-            </div>
-        </div>
-        <div class="col">
-            <div class="col-content">
-                Conteúdo
-            </div>
-        </div>
-         <div class="col">
-            <div class="col-content">
-                Conteúdo
-            </div>
-        </div>
-        <div class="col">
-            <div class="col-content">
-                Conteúdo
-            </div>
-        </div>
-        <div class="col">
-            <div class="col-content">
-                Conteúdo
-            </div>
-        </div>
-        <div class="col">
-            <div class="col-content">
-                Conteúdo
-            </div>
-        </div>
-        <div class="col">
-            <div class="col-content">
-                Conteúdo
-            </div>
-        </div>
-        <div class="col">
-            <div class="col-content">
-                Conteúdo
-            </div>
-        </div>
-        <div class="col">
-            <div class="col-content">
-                Conteúdo
-            </div>
-        </div>
-        <div class="col">
-            <div class="col-content">
-                Conteúdo
-            </div>
-        </div>
-        <div class="col">
-            <div class="col-content">
-                Conteúdo
-            </div>
-        </div> -->
-
     </div>
     <section id="Hamburguer" class="full-page Hamburguer">
         <!-- o ID será usado como target-->
@@ -274,6 +225,8 @@
         </div>
         </div>
     </section>
+</div>
+
 </body>
 
 </html>

@@ -61,14 +61,6 @@ html {
 /*   no elemtno da direita ( o primeiro parâmetro se colocar INSET A SOMBRA VAI PARA DENTRO DO OBJETO)
 colocando virgula depois da primeira sombra, dá para colocar uma segunda sombra com os seus parâmetros individuais*/
 }
-.pai {
-    height: 100vh;
-    ;
-}
-
-.pai {
-    background-color: gainsboro;
-}
 
 /* ESSE É UM EXEMPLO REAL DE ONDE SE APLICARIA MEDIA QUERIES
 a medida que a tela for diminuindo eu aplica alguma regra do css e dimuniu o número de colunas
@@ -81,6 +73,8 @@ devem ser diferentes do que em telas de pc*/
     width: 100%;
     position: fixed;
     background-color: rgb(27, 27, 27);
+    overflow: auto;
+    min-width: 0;
 }
 
 .menu ul li {
@@ -101,6 +95,15 @@ devem ser diferentes do que em telas de pc*/
 
 body {
     font-family: Arial;
+    /*27 de setembro de 2025*/
+}
+.toda-pagina{
+    display:grid;
+    /*grid-template-columns: 1fr 300px; */
+    max-width: calc(100vw - 300px); /* Ajusta a altura para caber na tela */
+    /*height: 100vh;*/
+    grid-template-rows: auto 1fr;
+    min-height: 100vh;
 }
 h1{
     font-size:35px;
@@ -116,7 +119,7 @@ p{
     max-width: 100%;
     margin: 0 auto;
     /* fica centralizado*/
-    /*height: 100vh;*/
+    width:calc(100vw-300px);
 }
 
 .full-page-content {
@@ -143,13 +146,13 @@ p{
     background-color:rgb(234, 247, 119);
 
 }
-@media all and (max-width:500px) {
+@media all and (max-width:700px) {
     .grid .col {
         width: 100%;
     }
 }
 
-@media(min-width:501px) and (max-width: 760px) {
+@media(min-width:701px) and (max-width: 1000px) {
 
     /* é isso que o eu quero sobreescrever eu quero 1 coluna nessa nova versão */
     .grid .col {
@@ -157,7 +160,7 @@ p{
     }
 }
 
-@media(min-width:760px) and (max-width: 1400px) {
+@media(min-width:1001px) and (max-width: 1400px) {
 
     /* é isso que o eu quero sobreescrever eu quero 1 coluna nessa nova versão */
     .grid .col {
@@ -173,6 +176,18 @@ p{
     }
 }
 /*27 de setembro de 2025*/
+.carrinho{
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 300px;
+    height: 100vh; /* 100vh significa 100% da altura da viewport (tela) */
+    background-color: #f0f0f0; /* Exemplo de cor de fundo */
+    border-left: 1px solid #ccc; /* Exemplo de borda */
+     margin-top: 90px;
+     overflow-y: auto;
+}
+
 hr {
     border: 0;
     height: 1px;
@@ -227,3 +242,76 @@ body > p {
     color: #666;
     font-style: italic;
 }
+
+.produtos-grid {
+    display: grid;
+    grid-template-columns: auto;
+    gap: 20px;
+    padding: 20px;
+}
+
+.produto-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-height: 150px;
+}
+
+/* Estilo para o carrinho */
+.carrinho-container {
+    max-width: 800px;
+    margin: 20px auto;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.carrinho-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.carrinho-item:last-child {
+    border-bottom: none;
+}
+
+.carrinho-item .item-info h3 {
+    margin: 0 0 5px 0;
+}
+
+.btn-adicionar-carrinho, .btn-remover {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-adicionar-carrinho {
+    background-color: #28a745;
+    color: white;
+}
+
+.btn-remover {
+    background-color: #dc3545;
+    color: white;
+}
+
+.carrinho-footer {
+    padding: 20px;
+    border-top: 1px solid #eee;
+    text-align: right;
+}
+
+.carrinho-vazio {
+    text-align: center;
+    padding: 50px;
+}
+
