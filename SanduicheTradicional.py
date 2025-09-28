@@ -25,7 +25,7 @@ class SanduicheTradicional(Sanduiche):
         #else:
         #    print(f"Preço do não encontrado.")
 
-        #retorna o nome na variável resultado
+    #retorna o nome na variável resultado
     def getnome(self):
         conn = pymysql.connect(**self.db_config)
         cursor = conn.cursor()
@@ -77,6 +77,13 @@ class SanduicheTradicional(Sanduiche):
         cursor.execute(atualizacao, novovalor)
         conn.commit()
         conn.close()
+
+    def executar(self):
+        nome = self.getnome()
+        preco = self.getpreco()
+        ingr = self.getingredientes()
+
+        return nome, preco, ingr
 
 
 #s = SanduicheTradicional()

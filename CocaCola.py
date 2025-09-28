@@ -55,3 +55,9 @@ class CocaCola(Bebida):
         cursor.execute(atualizacao, novovalor)
         conn.commit()
         conn.close()
+
+    def executar(self):
+        nome = self.getnome()
+        preco = self.getpreco()
+
+        return nome, preco

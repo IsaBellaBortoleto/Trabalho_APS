@@ -65,3 +65,10 @@ class SanduicheChicken(Sanduiche):
         cursor.execute(atualizacao, novovalor)
         conn.commit()
         conn.close()
+
+    def executar(self):
+        nome = self.getnome()
+        preco = self.getpreco()
+        ingr = self.getingredientes()
+
+        return nome, preco, ingr

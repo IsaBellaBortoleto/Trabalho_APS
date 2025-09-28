@@ -10,11 +10,16 @@ class Entidade(ABC) :
         
     def __init__(self):
         pass
+
     @abstractmethod
     def getpreco(self):
         pass
+
     @abstractmethod
     def getnome(self):
         pass
 
+    @abstractmethod
+    def executar(self):
+        pass
     
