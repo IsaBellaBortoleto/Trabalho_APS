@@ -7,10 +7,10 @@ class Entidade(ABC) :
         "password": "senha123",
         "database": "cardapio_digital"
     }
-        
-    def __init__(self):
-        pass
 
+    def __init__(self):
+        self.nota = None
+        
     @abstractmethod
     def getpreco(self):
         pass

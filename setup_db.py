@@ -50,7 +50,7 @@ with connection :
             "verdura" : "alface",
             "queijo" : "mussarela",
             "extra" : "maionese",
-            "imagem" : "sandu.jpg" } ,
+            "imagem" : "teste.jpg" } ,
 
         {  "nome" : "sanduíche chicken", 
             "preco" : 12.50,
@@ -59,7 +59,7 @@ with connection :
             "verdura" : "pepino",
             "queijo" : "mussarela",
             "extra" : "ketchup", 
-            "imagem" : "sandu.jpg" },
+            "imagem" : "teste.jpg" },
         
         {  "nome" : "sanduíche fish", 
             "preco" : 15.50,
@@ -68,7 +68,7 @@ with connection :
             "verdura" : "tomate",
             "queijo" : "branco",
             "extra" : "mostasda", 
-            "imagem" : "sandu.jpg" },
+            "imagem" : "teste.jpg" },
         )
         cursor.executemany(sql, dados)
 

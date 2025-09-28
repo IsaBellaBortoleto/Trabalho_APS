@@ -25,14 +25,25 @@ class Carrinho():
         if item in self.itens:
             self.itens.remove(item)
 
+    #retorna informações de cada item na lista
     def exibirtodositens(self):
-        return self.itens
+        for i in self.itens:
+            return i.executar()
     
     def limpar(self):
         self.itens.clear()
 
     def somatotal(self):
         return sum(i.getpreco() for i in self.itens)
+    
+    def finalizarpedido(self):
+        #o pedido, a nota e a mesa no banco
+        soma = self.somatotal()
+        self.limpar()
+        return soma
+        
+
+        
     
 
     
