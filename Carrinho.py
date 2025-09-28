@@ -1,3 +1,4 @@
+import pymysql
 from SanduicheTradicional import SanduicheTradicional
 from SanduicheChicken import SanduicheChicken
 from SanduicheFish import SanduicheFish
@@ -36,8 +37,21 @@ class Carrinho():
     def somatotal(self):
         return sum(i.getpreco() for i in self.itens)
     
-    def finalizarpedido(self):
-        #o pedido, a nota e a mesa no banco
+    def finalizarpedido(self, mesa, pedido, nota):
+        
+        conn = pymysql.connect(**self.db_config)
+        cursor = conn.cursor()
+
+        insercao = (
+            'INSERT INTO pedidos '
+            '(mesa, pedido, nota, status) '
+            'VALUES (%(mesa)s, %(pedido)s, %(nota)s, %(status)s) ' 
+        )
+
+        cursor.execute(insercao, mesa, pedido, nota, "Recebido")
+        conn.commit()
+        conn.close()
+        
         soma = self.somatotal()
         self.limpar()
         return soma

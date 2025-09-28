@@ -272,4 +272,18 @@ with connection :
             }
         )
         cursor.executemany(sql, dados)
+
+        cursor.execute('DROP TABLE pedidos')
+
+        sql = (
+            'CREATE TABLE IF NOT EXISTS pedidos ('
+            'id INT NOT NULL AUTO_INCREMENT, '
+            'mesa VARCHAR(50) NOT NULL, '
+            'pedido VARCHAR(50), '
+            'nota VARCHAR(100), '
+            'status VARCHAR(50), '
+            'PRIMARY KEY (id) '
+            ')'
+        )
+        cursor.execute(sql)
     connection.commit()
