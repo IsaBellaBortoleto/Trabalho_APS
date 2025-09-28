@@ -94,8 +94,8 @@ with connection :
         )
         dados = (
         {   "nome" : "Coca-Cola",
-            "preco" : 4.50,
-            "capacidade" : "200ml", 
+            "preco" : 6.50,
+            "capacidade" : "500ml", 
             "imagem" : "teste.jpg" },
         {   "nome" : "Suco Vale",
             "preco" : 5.50,
