@@ -1,0 +1,201 @@
+Quando é criado um app é muito importante colocar ele no setting do porjeto principal, em INSTALLED_APPS,
+se não o django não vai saber que ele foi criado e não vai procupar no templates dele
+o app criado não estva no dicionario de buscas do django antes
+Só necessário colocar uma string com o mesmo valor de name, que está dentro do arquivo apps.py ou app.py do app de minha escolha
+
+quando têm dois arquivos d emesmo nome em apss difernetes, o primeiro que 
+o Django achar vai ser renderizado para os dois apps
+Solução: dentro da pasta templates colcoar uma subpasta ( que irá funcionar como namespace) com o mesmo nome do app e daí sim, colocar os arquivos que 
+estavam em templates e tem que mudar o caminho relativo de render blog/request no arquivo views.py
+
+meu_projeto/
+├── meu_projeto/
+│   ├── settings.py
+│   ├── urls.py
+│   └── wsgi.py
+├── meu_app**/
+│   ├── static/
+│   │   └── meu_app**/
+│   │       └── css/
+│   │           └── estilo.css
+│   ├── templates/
+│   └── ...
+├── static_global/          &larr; Pasta adicionada ao STATICFILES_DIRS
+│   ├── css/
+│   │   └── global.css
+│   ├── js/
+│   │   └── scripts.js
+│   └── imagens/
+│       └── logo.png
+├── manage.py
+└── requirements.txt
+
+quando for baixar o python, é importante colocar ADD PYTHN TO PATH (Variaveis de ambinete de sistema e usuário)
+
+Code runner: quando um trecho do codigo é selecionado o code runner cria um trecho a parte para essa parte selecionada
+e roda apenas a seleção e criam um arquivo temporário para isso
+ em setting.json esse trecho: "code-runner.ignoreSelection": true, faz com que toda fez o arquivo inteiro seja executado
+
+ tem que configurar o base dir (settings.py) para que o html dÊ certo e a extensão do Django, faz um pseudohtml
+
+HTML:
+no curso o professor faz uma pasta como base e dentro outra como global e coloca base.html para ser renderizado no app home
+ele primeiro coloca o comando block no body do base.html, depois ele adicona a pasta base no BASE_DIR (apenas a base)
+então em home/views.py :
+def home (request):
+    print('home')
+    return render(
+        request,
+        'global/base.html'
+    )
+--- assim carrega apena o base
+
+para o home/intex.html ser uma extensão do html global:
+def home (request):
+    print('home')
+    return render(
+        request,
+        'home/index.html'
+    )
+    noo arquivo do home/index.html, coloca o cabeçalho:
+{% extends 'global/base.html' %} --herança
+
+e no arquivo da base, tinha uma "indentificação, como classe" de texto, então
+dá para mudar o texto do base.html, como sobreescrevendo
+{% block texto %} MUDAR TEXTO {% endblock texto %}
+o arquivo que está na pasta base/global pode ser mudado, como se fosse uma função virtual ou herdado da classe base
+
+Aula 431
+inclusão de arquivos parciais (partial)
+caminho: base/global
+                    - partials
+                            head.html
+                    - base.html ( nesse momento é esse qu está sendo renderizado no site. Como template)
+
+na página principal: cabeçalho:
+{% include 'global/partial/head.html' %}
+{% include 'global/partial/menu.html' %}
+//não precisa do base pois está no BASE_DIR do projeto
+
+em tudo tem que ficar criando um monte de namespace
+em pastas padrões, como templates ou static, é de boa prática colocar uma sub pasta com o nome do app. 
+A subasta com o nome do app irá servir como namespace, e não riá permitir que colisões ocorram, já que pastas padrões são 
+confundíveis para o django.
+Não é certeza, mas acho que que dá só colcoa os caminhos relativos as pastas padrões
+como tem pastas padrões, a procura já vai começar dali
+
+a pasta static pode ser criada tanto a partir da raiz do porjeto, quando de outro pasta:
+no curso o professor vai colocar as coisas estáticas na pasta base (da raiz do porjeto)
+agora
+
+base:
+    -global
+        -base.html
+        -partials
+            head.html
+            menu.html
+    -static
+        -global (precisa de um namespace pois a pasta é padrão)
+            -css
+                style.css
+
+com essa nova pasta static será inclusa, o caminho será relativo a ela:
+<link rel="stylesheet" href = "{ % static 'global/css/style.css' % }
+
+Configurações para pasta não padrão:
+a pasta base está inclusa nos Templades em 'DIRS': [
+    BASE_DIR / 'base'
+]
+
+STATIC_URL = 'static/'
+STATICFILES_DIRS = [
+    BASE_DIR / 'base' / 'static' 
+] -- é na pasta static que começa a importação de css
+
+no danjo para exibir alguma coisa: {{ texto }} como 2 chaves
+
+sendo que em views.py do app: 
+
+def home (request):
+    print('home')
+    return render(
+        request,
+        'home/index.html',
+        context=[
+            'texto':'Estamos na home'
+        ]
+    )
+
+também é possível fazer a seguinte forma:
+
+def home (request):
+    print('home')
+    context=[
+            'texto':'Estamos na home',
+            'title' = 'Alterando o codigo para esse trecho',
+        ]
+    return render(
+        request,
+        'home/index.html',
+        context,
+    )
+o trecho >>{{ texto }}<< tem que estar no index.html do arquivo html que está sendo rendnrizado do meu app
+o que está entre as chaves é uma variável, que eu posso pegar de qualquer lugar, até de um banco de dados
+
+não é recomendado colocar as url hard code, por exemplo: <a href = "/"> Home </a>
+//seria para quando clicado na home, vai para a raiz do site, que é o app home
+
+
+>>>>>>>>>>URLS<<<<<<<<<<<<
+de forma dinâmica:
+<a href = "{% url 'home' %} Home </a> , no arquivo html que uso como menu por exemplo
+é alguma página que vai ter um direcionamento
+
+dá em >>APP<< E >>url.py<<
+
+    urlpatterns = [ 
+        path('', views.blog, name='blog'), // no caso da home, em nome poderia ser name = 'home'
+        path('exemplo/', views.exemplo, name='exemplo'),
+    ]
+o erro no site de : NoReverseMatch at / --  que dizer que ele está tentadno buscar uma url por nome
+
+NAMESPACE EM URLS
+no arquivo urls.py eu posso criar um namespace:
+
+no cabeçalho: app_name='blog'
+
+e para usar as coisas que estão contidas pelo namespace em outro lugar do código:
+'blog:blog'-- antes estava só blog
+dai eu posso ter uma home do projeto e uma home para o blog, diferenciando apenas pelo namespace do blog
+
+AULA 436
+post_block.html, no arquivo: base.html: (no meio dele)
+{ % include 'global/partials/menu.html' % } 
+
+o post_block forma um bloco que eu posso duplicar a linkha que é usada para referenciar ele, e não ter que copiar o codigo inteiro na mão:
+eu só chamo o código
+
+Aula 437
+em um arquivo html
+<main class = "posts>
+  {% include 'global/partial/psotblock.html' %}
+</main>
+
+o include é colocado dentro de uma tga django block de nome post, não entendi direito, tem que ver a aula para entender
+
+>> EM views.py tem as variáveis context = {
+     //muitas coisas e pod eser colocado os posts do blog aqui
+}
+
+blocos dentro de includes não funcionam, apenas variáveis
+
+Aula 439:
+JSON: lista iterável de dicionários ( no exemplo foi nomeada como posts) --> foi colocar no arquivo data.py dentro do app blog
+
+para usar: no arquivo que quero usar: from . import data ou  from blog.data import posts
+context = {
+    'posts': data.posts
+}
+
+no Django tem for e endfor //extensão do html
+??? Para pegar o conteudo do post é post.title ->> title é um campo de post (atributo, campo)

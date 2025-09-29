@@ -1,0 +1,317 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    background-color: rgb(129, 255, 192);
+}
+
+.grid {
+    padding: 30px;
+    padding-bottom: 40px;
+    max-width: 1400px;
+    margin: 0 auto ;
+    /*margin: top right bottom left;*/
+    /* fica centralizado*/
+    
+    /* 26/08/2025*/
+    display: flex;        
+      flex-wrap: wrap; 
+      overflow: auto;
+      
+}
+
+.grid::after {
+    content: '';
+    display: block;
+    clear: both;
+}
+
+.grid .col {
+    /* por padrão: display: block;*/
+    /*display: inline-block;*/
+    /*26/08/2025*/
+    /*26/08/2025*/
+    box-sizing: border-box;
+    width: 33.33%;
+    height: 300px;
+    float: left;
+    padding: 15px;
+
+}
+
+.grid .col-content {
+      /*display: flex;*/
+    justify-content: center; /* Centraliza o item horizontalmente */
+    /*align-items: center;    /* Centraliza o item verticalmente */
+    width: 100%;
+    height: 100%;
+    background-color: #f7c6c6;
+    /* Para fazer que nem fillet de AUTOCAD - bordas arredondadas em elementos*/
+    /* border-radius: 50px; */
+    /* border-radius: 30px 100px 30px 100px; */
+    /* Para fazer um círculo*/
+    border-radius: 10%;
+    box-shadow: -8px   8px   10px    10px rgb(187, 186, 186, 0.4);
+    padding: 20px;
+    /*       direita  cima    blur   espalhamento (quase como um padding para a sombra  */
+/*   no elemtno da direita ( o primeiro parâmetro se colocar INSET A SOMBRA VAI PARA DENTRO DO OBJETO)
+colocando virgula depois da primeira sombra, dá para colocar uma segunda sombra com os seus parâmetros individuais*/
+}
+
+/* ESSE É UM EXEMPLO REAL DE ONDE SE APLICARIA MEDIA QUERIES
+a medida que a tela for diminuindo eu aplica alguma regra do css e dimuniu o número de colunas
+*/
+/* isso indica que eu quero colocar breakpoints para fazer uma quebra do conteúdo
+a fim de facilitar a visualização das coisas, em telas muito pequenas os layouts
+devem ser diferentes do que em telas de pc*/
+
+.menu {
+    width: 100%;
+    position: fixed;
+    background-color: rgb(27, 27, 27);
+    overflow: auto;
+    min-width: 0;
+}
+
+.menu ul li {
+    float: left;
+}
+
+.menu ul li a {
+    display: block;
+    color: white;
+    padding: 20px;
+    text-decoration: none;
+    transition: all 500ms ease-in-out;
+}
+
+.menu ul li a:hover {
+    background-color: gray;
+}
+
+body {
+    font-family: Arial;
+    /*27 de setembro de 2025*/
+}
+.toda-pagina{
+    display:grid;
+    /*grid-template-columns: 1fr 300px; */
+    max-width: calc(100vw - 300px); /* Ajusta a altura para caber na tela */
+    /*height: 100vh;*/
+    grid-template-rows: auto 1fr;
+    min-height: 100vh;
+}
+h1{
+    font-size:35px;
+    padding-left: 50px;
+}
+p{
+    font-size: 20px;
+}
+.descricao{
+    padding:20px;
+}
+.full-page {    
+    max-width: 100%;
+    margin: 0 auto;
+    /* fica centralizado*/
+    width:calc(100vw-300px);
+}
+
+.full-page-content {
+    padding: 0 40px;
+    max-width: 1400px;
+    padding-top: 80px;
+    padding-bottom: 25px;
+    min-height: 100vh;
+    /*background-color: aqua;*/
+}
+#Bebidas-content{
+    background-color: rgb(160, 241, 79);
+
+}
+#Milkshake-content{
+    background-color:rgb(183, 117, 214);
+
+}
+#Pizza-content{
+    background-color:rgb(235, 88, 52);
+
+}
+#Hamburguer-content{
+    background-color:rgb(234, 247, 119);
+
+}
+@media all and (max-width:700px) {
+    .grid .col {
+        width: 100%;
+    }
+}
+
+@media(min-width:701px) and (max-width: 1000px) {
+
+    /* é isso que o eu quero sobreescrever eu quero 1 coluna nessa nova versão */
+    .grid .col {
+        width: 50%;
+    }
+}
+
+@media(min-width:1001px) and (max-width: 1400px) {
+
+    /* é isso que o eu quero sobreescrever eu quero 1 coluna nessa nova versão */
+    .grid .col {
+        width: 33.33%;
+    }
+}
+
+@media all and (min-width: 1400px) {
+
+    /* é isso que o eu quero sobreescrever eu quero 1 coluna nessa nova versão */
+    .grid .col {
+        width: 25%;
+    }
+}
+/*27 de setembro de 2025*/
+.carrinho{
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 300px;
+    height: 100vh; /* 100vh significa 100% da altura da viewport (tela) */
+    background-color: #f0f0f0; /* Exemplo de cor de fundo */
+    border-left: 1px solid #ccc; /* Exemplo de borda */
+     margin-top: 90px;
+     overflow-y: auto;
+}
+
+hr {
+    border: 0;
+    height: 1px;
+    background-color: #ddd;
+    margin: 20px 0;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+li {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+li:last-child {
+    border-bottom: none;
+}
+
+form {
+    display: inline;
+}
+
+button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+button[name="adicionar_item"] {
+    background-color: #28a745;
+    color: white;
+}
+
+button[name="remover_item_por_posicao"] {
+    background-color: #dc3545;
+    color: white;
+}
+
+/* Estilo para a mensagem de carrinho vazio */
+body > p {
+    color: #666;
+    font-style: italic;
+}
+
+.produtos-grid {
+    display: grid;
+    grid-template-columns: auto;
+    gap: 20px;
+    padding: 20px;
+}
+
+.produto-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-height: 150px;
+}
+
+/* Estilo para o carrinho */
+.carrinho-container {
+    max-width: 800px;
+    margin: 20px auto;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.carrinho-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.carrinho-item:last-child {
+    border-bottom: none;
+}
+
+.carrinho-item .item-info h3 {
+    margin: 0 0 5px 0;
+}
+
+.btn-adicionar-carrinho, .btn-remover {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-adicionar-carrinho {
+    background-color: #28a745;
+    color: white;
+}
+
+.btn-remover {
+    background-color: #dc3545;
+    color: white;
+}
+
+.carrinho-footer {
+    padding: 20px;
+    border-top: 1px solid #eee;
+    text-align: right;
+}
+
+.carrinho-vazio {
+    text-align: center;
+    padding: 50px;
+}
+

@@ -18,6 +18,7 @@ from Guarana import Guarana
 class Carrinho():
     def __init__(self):
         self.itens = []
+        self.mesa
 
     def incluiritem(self, item):
         self.itens.append(item)
