@@ -23,15 +23,17 @@ def processar_pedido(request):
     return HttpResponse("Método inválido") """
 # carrinho_app/views.py
 from django.shortcuts import render, redirect
-
+from Itens.master.Guarana import Guarana
 # --- Simulação de produtos ---
 # Isso é um dicionário que simula a sua base de dados de produtos.
 # Em um projeto real, você buscaria esses dados de um banco de dados
 # usando os modelos do Django.
+produto_guarana=Guarana()
 PRODUTOS_DISPONIVEIS = {
     "camiseta": {"nome": "Camiseta Básica", "preco": 49.90},
     "calca": {"nome": "Calça Jeans", "preco": 129.50},
-    "tenis": {"nome": "Tênis Esportivo", "preco": 250.00}
+    "tenis": {"nome": "Tênis Esportivo", "preco": 250.00},
+    "guarana": {"nome": produto_guarana.getnome(), "preco":produto_guarana.getpreco() }
 }
 
 def home(request):
