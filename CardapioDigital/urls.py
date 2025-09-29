@@ -28,6 +28,7 @@ from pedidos import views as pedViews
 urlpatterns = [
     path('admin/', admin.site.urls),    
     path('', homeViwes.home , name='home'), #não comça url com barra, se fora vazia não coloca barra
+    path('pedidos/', pedViews.pedidos),
 
 ]
     #path('pedidos/', pedViews.pedidos, name='pedidos'),
