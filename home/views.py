@@ -29,8 +29,7 @@ from Itens.master.Guarana import Guarana
 # Em um projeto real, você buscaria esses dados de um banco de dados
 # usando os modelos do Django.
 produto_guarana=Guarana()
-tupla_preco_guarana=produto_guarana.getpreco()
-preco_guarana=float(tupla_preco_guarana[0])
+preco_guarana=produto_guarana.getpreco()
 nome_guarana = produto_guarana.getnome()
 
 PRODUTOS_DISPONIVEIS = {

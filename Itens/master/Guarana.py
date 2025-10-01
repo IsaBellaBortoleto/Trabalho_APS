@@ -17,6 +17,8 @@ class Guarana(Bebida):
         resultado = cursor.fetchone()
 
         conn.close()
+        
+        resultado=float(resultado[0])
 
         return resultado
     
