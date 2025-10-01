@@ -29,6 +29,14 @@ class Guarana(Bebida):
         resultado = cursor.fetchone()
 
         conn.close()
+        # 1. Remover parênteses
+        resultado=str(resultado)
+        resultado = resultado.replace('(', '').replace(')', '')
+
+        # 2. Remover aspas simples
+        resultado = resultado.replace("'", "")
+        #Remover as virgulas
+        resultado = resultado.replace(",", "")
         return resultado
 
     #retorna a uma tupla com o caminho da imagem

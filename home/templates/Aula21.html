@@ -74,6 +74,29 @@
     {% else %}
         <p>Seu carrinho está vazio.</p>
     {% endif %}
+            <form id="meuFormulario" action="{% url 'home' %}" method="post">
+            {% csrf_token %}
+            
+            <label for="numeroMesa">Número da Mesa:</label>
+            
+            <input 
+                type="number" 
+                id="numeroMesa" 
+                name="numero_mesa" 
+                min="1" 
+                max="20" 
+                step="1"
+                required
+                placeholder="Digite um número entre 1 e 20"
+                value="{{ valor_mesa_invalido|default:'' }}" 
+            >
+            
+            {% if erro_mesa %}
+                <p style="color: red; font-weight: bold;">{{ erro_mesa }}</p>
+            {% endif %}
+            
+            <button type="submit">Finalizar Pedido</button>
+        </form>
     </div>
 
     <div id="home" class="grid full-page-content full-page">
