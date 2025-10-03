@@ -1,5 +1,5 @@
 import pymysql
-from Bebida import Bebida
+from Itens.master.Bebida import Bebida
 
 class Guarana(Bebida):
     #construtora
