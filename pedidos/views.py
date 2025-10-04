@@ -5,6 +5,7 @@ from django.shortcuts import redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout
 
 # Create your views here.
 def pedidos(request):
@@ -35,3 +36,7 @@ def login_pedidos(request):
             messages.error(request, 'Usuário ou senha inválidos')
     
     return render(request, 'login.html')
+
+def logout_pedidos(request):
+    logout(request)
+    return redirect('home')
