@@ -20,6 +20,9 @@ from django.http import HttpResponse
 from home import views as homeViwes
 from pedidos import views as pedViews
 
+#teste pro negócio do login
+from django.urls import include
+
 #urlpatterns = [
  #   path('admin/', admin.site.urls),
   #  path('', homeViwes.home), #não comça url com barra, se fora vazia não coloca barra
@@ -30,6 +33,7 @@ urlpatterns = [
     path('', homeViwes.home , name='home'), #não comça url com barra, se fora vazia não coloca barra
     path('pedidos/', pedViews.pedidos),
     path('sucesso/', homeViwes.pagina_de_sucesso, name='pagina_de_sucesso'),
+    path('', include('pedidos.urls')),
 
 
 ]

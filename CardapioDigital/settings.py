@@ -41,6 +41,10 @@ INSTALLED_APPS = [
     'pedidos',
 ]
 
+#teste pro login
+LOGIN_URL = '/login/'
+#não faço ideia do que faz
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
