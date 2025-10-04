@@ -18,6 +18,8 @@ class SanduicheTradicional(Sanduiche):
 
         conn.close()
 
+        resultado = float(resultado[0])
+
         return resultado
 
         #if resultado:
@@ -34,6 +36,16 @@ class SanduicheTradicional(Sanduiche):
         resultado = cursor.fetchone()
 
         conn.close()
+
+        # 1. Remover parênteses
+        resultado=str(resultado)
+        resultado = resultado.replace('(', '').replace(')', '')
+
+        # 2. Remover aspas simples
+        resultado = resultado.replace("'", "")
+        #Remover as virgulas
+        resultado = resultado.replace(",", "")
+
         return resultado
 
     #retorna uma tupla de ingredientes

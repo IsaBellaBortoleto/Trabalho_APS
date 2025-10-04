@@ -18,7 +18,7 @@ class Guarana(Bebida):
 
         conn.close()
         
-        resultado=float(resultado[0])
+        resultado = float(resultado[0])
 
         return resultado
     
@@ -32,7 +32,7 @@ class Guarana(Bebida):
 
         conn.close()
         # 1. Remover parênteses
-        resultado=str(resultado)
+        resultado = str(resultado)
         resultado = resultado.replace('(', '').replace(')', '')
 
         # 2. Remover aspas simples
