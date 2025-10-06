@@ -38,28 +38,24 @@ class Carrinho():
     def somatotal(self):
         return sum(i.getpreco() for i in self.itens)
     
-    def finalizarpedido(self):
+    def finalizarpedido(self, mesa, pedido, nota):
+        
         conn = pymysql.connect(**self.db_config)
         cursor = conn.cursor()
 
-        for i in self.itens:
-
-            insercao = (
+        insercao = (
             'INSERT INTO pedidos '
             '(mesa, pedido, nota, status) '
-            'VALUES (%(mesa)s, %(pedido)s, %(nota)s, %(status)s) ' )
+            'VALUES (%(mesa)s, %(pedido)s, %(nota)s, %(status)s) ' 
+        )
 
-            cursor.execute(insercao, {
-                'mesa': self.mesa,
-                'pedido': i.getnome(),
-                'nota': i.nota,
-                'status': "Recebido"
-            })
-
+        cursor.execute(insercao, mesa, pedido, nota, "Recebido")
         conn.commit()
         conn.close()
         
+        soma = self.somatotal()
         self.limpar()
+        return soma
         
 
         

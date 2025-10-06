@@ -14,6 +14,8 @@
 </head>
 
 <body>
+    <a href="{% url 'logout_pedidos' %}">Sair do Sistema</a>
+    
 {% comment %}     <form method="POST" action="{% url 'processar_pedido' %}"><!-- 17 de setembro-->
     {% csrf_token %}
     <input type="hidden" name="pedido" value="pizza">
