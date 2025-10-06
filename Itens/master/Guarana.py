@@ -54,6 +54,13 @@ class Guarana(Bebida):
         resultado = cursor.fetchone()
 
         conn.close()
+        resultado=str(resultado)
+        resultado = resultado.replace('(', '').replace(')', '')
+
+        # 2. Remover aspas simples
+        resultado = resultado.replace("'", "")
+        #Remover as virgulas
+        resultado = resultado.replace(",", "")
         return resultado
 
     #altera o valor de alguma coluna

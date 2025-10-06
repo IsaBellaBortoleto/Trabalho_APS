@@ -50,7 +50,7 @@ with connection :
             "verdura" : "alface",
             "queijo" : "mussarela",
             "extra" : "maionese",
-            "imagem" : "teste.jpg" } ,
+            "imagem" : "Imagens/SanduicheTradicional.png" } ,
 
         {  "nome" : "sanduíche chicken", 
             "preco" : 12.50,
@@ -59,7 +59,7 @@ with connection :
             "verdura" : "pepino",
             "queijo" : "mussarela",
             "extra" : "ketchup", 
-            "imagem" : "teste.jpg" },
+            "imagem" : "Imagens/SanduicheChicken.png" },
         
         {  "nome" : "sanduíche fish", 
             "preco" : 15.50,
@@ -68,7 +68,7 @@ with connection :
             "verdura" : "tomate",
             "queijo" : "branco",
             "extra" : "mostasda", 
-            "imagem" : "teste.jpg" },
+            "imagem" : "Imagens/SanduicheFish.avif" },
         )
         cursor.executemany(sql, dados)
 
@@ -96,15 +96,15 @@ with connection :
         {   "nome" : "Coca-Cola",
             "preco" : 6.50,
             "capacidade" : "500ml", 
-            "imagem" : "teste.jpg" },
+            "imagem" : "Imagens/CocaCola.jpg" },
         {   "nome" : "Suco Vale",
             "preco" : 5.50,
             "capacidade" : "200ml", 
-            "imagem" : "teste.jpg" },
+            "imagem" : "Imagens/SucoVale.webp" },
         {   "nome" : "Guaraná",
             "preco" : 8.00,
             "capacidade" : "1L", 
-            "imagem" : "teste.jpg" },
+            "imagem" : "Imagens/Guarana.webp" },
         )
         cursor.executemany(sql, dados)
 
@@ -139,7 +139,7 @@ with connection :
             "leite" : "normal",
             "cobertura" : "não",
             "capacidade" : "300 ml",
-            "imagem" : "teste.jpg" } ,
+            "imagem" : "Imagens/MilkshakeMoranguete.png" } ,
         {
             "nome" : "milkshake chocolatudo",
             "preco" : 19.00,
@@ -147,7 +147,7 @@ with connection :
             "leite" : "desnatado",
             "cobertura" : "kitkat",
             "capacidade" : "500 ml",
-            "imagem" : "teste.jpg" } ,       
+            "imagem" : "Imagens/MilkshakeChocolatudo.png" } ,       
         {
             "nome" : "milkshake de kitkat",
             "preco" : 25.00,
@@ -155,7 +155,7 @@ with connection :
             "leite" : "normal",
             "cobertura" : "kitkat",
             "capacidade" : "500 ml",
-            "imagem" : "teste.jpg" } ,
+            "imagem" : "Imagens/MilkshakeKitKat.webp" } ,
         )
         cursor.executemany(sql, dados)
 
@@ -192,7 +192,7 @@ with connection :
             "massa" : "tradicional",
             "queijo" : "mussarela",
             "borda" : "sim",
-            "imagem" : "teste.jpg"  },
+            "imagem" : "Imagens/PizzaCalabresa.webp"  },
         {
             "nome" : "pizza de ricota e brocolis",
             "preco" : 40.50,
@@ -200,7 +200,7 @@ with connection :
             "massa" :"sem gluten",
             "queijo" : "branco",
             "borda" : "nao",
-            "imagem" : "teste.jpg"  },
+            "imagem" : "Imagens/PizzaRicota.webp"  },
         {
             "nome" : "pizza de frango com catupiry",
             "preco" : 31.25,
@@ -208,7 +208,7 @@ with connection :
             "massa" : "tradicional",
             "queijo" : "mussarela",
             "borda" : "sim",
-            "imagem" : "teste.jpg"  },
+            "imagem" : "Imagens/PizzaFrango.jpg"  },
         )
 
         cursor.executemany(sql, dados)
@@ -248,7 +248,7 @@ with connection :
                 "mostarda" : "sim",
                 "batata_palha" : "sim",
                 "vinagrete" : "sim",
-                "imagem" : "teste.png"
+                "imagem" : "Imagens/HotDogTradicional.png"
             },
             {
                 "nome" : "cachorro quente não tradicional",
@@ -258,7 +258,7 @@ with connection :
                 "mostarda" : "sim",
                 "batata_palha" : "sim",
                 "vinagrete" : "não",
-                "imagem" : "teste.png"
+                "imagem" : "Imagens/HotDogNaoTradicional.jpg"
             },
             {
                 "nome" : "cachorro quente frango",
@@ -268,7 +268,7 @@ with connection :
                 "mostarda" : "não",
                 "batata_palha" : "não",
                 "vinagrete" : "sim",
-                "imagem" : "teste.png"
+                "imagem" : "Imagens/teste.png"
             }
         )
         cursor.executemany(sql, dados)

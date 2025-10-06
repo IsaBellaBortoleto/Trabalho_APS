@@ -1,5 +1,5 @@
 import pymysql
-from .Bebida import Bebida
+from  Bebida  import Bebida
 
 class CocaCola(Bebida):
     #construtora
@@ -53,6 +53,13 @@ class CocaCola(Bebida):
         resultado = cursor.fetchone()
 
         conn.close()
+        resultado=str(resultado)
+        resultado = resultado.replace('(', '').replace(')', '')
+
+        # 2. Remover aspas simples
+        resultado = resultado.replace("'", "")
+        #Remover as virgulas
+        resultado = resultado.replace(",", "")
         return resultado
 
     #altera o valor de alguma coluna
