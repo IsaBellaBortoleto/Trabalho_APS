@@ -1,5 +1,5 @@
 import pymysql
-from Milkshake import Milkshake
+from .Milkshake import Milkshake
 
 class MilshakeChocolatudo(Milkshake):
     #construtora

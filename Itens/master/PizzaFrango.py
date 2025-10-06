@@ -1,5 +1,5 @@
 import pymysql
-from Pizza import Pizza
+from .Pizza import Pizza
 
 class PizzaFrango(Pizza):
     #construtora

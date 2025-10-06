@@ -1,5 +1,5 @@
 import pymysql
-from Sanduiche import Sanduiche
+from .Sanduiche import Sanduiche
 
 class SanduicheChicken(Sanduiche):
     #construtora

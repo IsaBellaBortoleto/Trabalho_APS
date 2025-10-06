@@ -1,5 +1,5 @@
 import pymysql
-from Milkshake import Milkshake
+from .Milkshake import Milkshake
 
 class MilshakeKitKat(Milkshake):
     #construtora

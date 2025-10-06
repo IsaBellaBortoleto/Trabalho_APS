@@ -1,5 +1,5 @@
 import pymysql
-from Bebida import Bebida
+from .Bebida import Bebida
 
 class SucoVale(Bebida):
     #construtora

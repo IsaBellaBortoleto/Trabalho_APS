@@ -44,9 +44,10 @@ html {
 }
 
 .grid .col-content {
-      /*display: flex;*/
+    display: flex;
+    flex-direction: column; 
     justify-content: center; /* Centraliza o item horizontalmente */
-    /*align-items: center;    /* Centraliza o item verticalmente */
+    align-items: center;    /* Centraliza o item verticalmente */
     width: 100%;
     height: 100%;
     background-color: #f7c6c6;

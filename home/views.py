@@ -23,20 +23,35 @@ def processar_pedido(request):
     return HttpResponse("Método inválido") """
 # carrinho_app/views.py
 from django.shortcuts import render, redirect
-from Itens.master.Guarana import Guarana
+#import produtos
+from .produtos import *
+
 # --- Simulação de produtos ---
 # Isso é um dicionário que simula a sua base de dados de produtos.
 # Em um projeto real, você buscaria esses dados de um banco de dados
 # usando os modelos do Django.
-produto_guarana=Guarana()
-preco_guarana=produto_guarana.getpreco()
-nome_guarana = produto_guarana.getnome()
+
 
 PRODUTOS_DISPONIVEIS = {
     "camiseta": {"nome": "Camiseta Básica", "preco": 49.90},
     "calca": {"nome": "Calça Jeans", "preco": 129.50},
     "tenis": {"nome": "Tênis Esportivo", "preco": 250.00},
-    "guarana": {"nome": nome_guarana, "preco":preco_guarana }
+    produto_guarana.getnome(): {"nome": produto_guarana.getnome(), "preco":produto_guarana.getpreco() },
+    produto_cocacola.getnome(): {"nome": produto_cocacola.getnome(), "preco":produto_cocacola.getpreco() },
+    produto_sucovale.getnome(): {"nome": produto_sucovale.getnome(), "preco":produto_sucovale.getpreco() },
+    produto_hotdogfrango.getnome(): {"nome": produto_hotdogfrango.getnome(), "preco":produto_hotdogfrango.getpreco() },
+    produto_hotdognaotradicional.getnome(): {"nome": produto_hotdognaotradicional.getnome(), "preco":produto_hotdognaotradicional.getpreco() },
+    produto_hotdogtradicional.getnome(): {"nome": produto_hotdogtradicional.getnome(), "preco":produto_hotdogtradicional.getpreco() },
+    produto_milkshakechocolatudo.getnome(): {"nome": produto_milkshakechocolatudo.getnome(), "preco":produto_milkshakechocolatudo.getpreco() },
+    produto_milkshakekitkat.getnome(): {"nome": produto_milkshakekitkat.getnome(), "preco":produto_milkshakekitkat.getpreco() },
+    produto_milkshakemoranguete.getnome(): {"nome": produto_milkshakemoranguete.getnome(), "preco":produto_milkshakemoranguete.getpreco() },
+    produto_pizzacalabreza.getnome(): {"nome": produto_pizzacalabreza.getnome(), "preco":produto_pizzacalabreza.getpreco() },
+    produto_pizzafrango.getnome(): {"nome": produto_pizzafrango.getnome(), "preco":produto_pizzafrango.getpreco() },
+    produto_pizzaricota.getnome(): {"nome": produto_pizzaricota.getnome(), "preco":produto_pizzaricota.getpreco() },
+    produto_sanduichechicken.getnome(): {"nome": produto_sanduichechicken.getnome(), "preco":produto_sanduichechicken.getpreco() },
+    produto_sanduichetradicional.getnome(): {"nome": produto_sanduichetradicional.getnome(), "preco":produto_sanduichetradicional.getpreco() },
+    produto_sanduichefish.getnome(): {"nome": produto_sanduichefish.getnome(), "preco":produto_sanduichefish.getpreco() },
+
 }
 
 def home(request):
@@ -127,6 +142,9 @@ def home(request):
         # Adiciona o contexto de erro AQUI
         'erro_mesa': erro_validacao, 
         'valor_mesa_invalido': valor_mesa_invalido,
+        'lista_de_bebidas': BEBIDAS_DISPONIVEIS,
+        'lista_de_pizzas': PIZZAS_DISPONIVEIS,
+
     }
     
     return render(request, 'Aula21.html', context)

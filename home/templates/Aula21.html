@@ -1,5 +1,4 @@
-{% load static %} <!-- CARREGA A TAG NO TOPO DO TEMPLATE adicionado dia 14 de setembro-->
-
+{% load static %} <!-- CARREGA A TAG NO TOPO DO TEMPLATE adicionado dia 14 de setembro--> 
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,7 +14,7 @@
 
 <body >
 
-    <a href="{% url 'login_pedidos' %}">🔐 Fazer Login</a>
+    
     
     <div class="toda-pagina">
 {% comment %}     <form method="POST" action="{% url 'processar_pedido' %}"><!-- 17 de setembro-->
@@ -25,13 +24,10 @@
     </form>  <!-- 17 de setembro--> {% endcomment %}
         
     <h1>{% block texto  %}  {% endblock texto %}</h1>
-    <!--  Essa linha de cima funcionou-->
-
-    <p>Explore nossos produtos e adicione-os ao seu carrinho.</p>      
-
-    
+    <!--  Essa linha de cima funcionou-->    
     <nav class="menu">
         <ul>
+            <li><a href="{% url 'login_pedidos' %}">🔐 Fazer Login</a></li>
             <li><a href="#home">Home</a></li>
             <li><a href="#Hamburguer">Hamburguer</a></li>
             <li><a href="#Pizzas">Pizza</a></li>
@@ -171,22 +167,41 @@
        <!-- <div class="grid">-->
             <div class="col">
                 <div class="col-content">
-                    Conteúdo
+                     <h3>{{ lista_de_pizzas.0.getnome}}<br></h3>
+                    <p> R$ {{lista_de_pizzas.0.getpreco}}</p>
+
+                        <form method="post">
+                            {% csrf_token %}
+                             <button type="submit" name="adicionar_item" value="{{ lista_de_pizzas.0.getnome }}">
+                              Adicionar ao Carrinho
+                             </button>
+                        </form>
                 </div>
             </div>
             <div class="col">
                 <div class="col-content">
-                    Conteúdo
+                     <h3>{{ lista_de_pizzas.1.getnome}}<br></h3>
+                    <p> R$ {{lista_de_pizzas.1.getpreco}}</p>
+
+                        <form method="post">
+                            {% csrf_token %}
+                             <button type="submit" name="adicionar_item" value="{{ lista_de_pizzas.1.getnome }}">
+                              Adicionar ao Carrinho
+                             </button>
+                        </form>
                 </div>
             </div>
             <div class="col">
                 <div class="col-content">
-                    Conteúdo
-                </div>
-            </div>
-            <div class="col">
-                <div class="col-content">
-                    Conteúdo
+                     <h3>{{ lista_de_pizzas.2.getnome}}<br></h3>
+                    <p> R$ {{lista_de_pizzas.2.getpreco}}</p>
+
+                        <form method="post">
+                            {% csrf_token %}
+                             <button type="submit" name="adicionar_item" value="{{ lista_de_pizzas.2.getnome }}">
+                              Adicionar ao Carrinho
+                             </button>
+                        </form>
                 </div>
             </div>
         </div>
@@ -230,17 +245,40 @@
         <div class="grid">
             <div class="col">
                 <div class="col-content">
-                    Conteúdo
+                    <h3>{{ lista_de_bebidas.0.getnome}}<br></h3>
+                    <p> R$ {{lista_de_bebidas.0.getpreco}}</p>
+                        <form method="post">
+                            {% csrf_token %}
+                             <button type="submit" name="adicionar_item" value="{{ lista_de_bebidas.0.getnome }}">
+                              Adicionar ao Carrinho
+                             </button>
+                        </form>
                 </div>
             </div>
             <div class="col">
                 <div class="col-content">
-                    Conteúdo
+                     <h3>{{ lista_de_bebidas.1.getnome}}<br></h3>
+                    <p> R$ {{lista_de_bebidas.1.getpreco}}</p>
+
+                        <form method="post">
+                            {% csrf_token %}
+                             <button type="submit" name="adicionar_item" value="{{ lista_de_bebidas.1.getnome }}">
+                              Adicionar ao Carrinho
+                             </button>
+                        </form>
                 </div>
             </div>
             <div class="col">
                 <div class="col-content">
-                    Conteúdo
+                     <h3>{{ lista_de_bebidas.2.getnome}}<br></h3>
+                    <p> R$ {{lista_de_bebidas.2.getpreco}}</p>
+
+                        <form method="post">
+                            {% csrf_token %}
+                             <button type="submit" name="adicionar_item" value="{{ lista_de_bebidas.2.getnome }}">
+                              Adicionar ao Carrinho
+                             </button>
+                        </form>
                 </div>
             </div>
         </div>

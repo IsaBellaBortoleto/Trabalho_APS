@@ -1,5 +1,5 @@
 import pymysql
-from HotDog import HotDog
+from .HotDog import HotDog
 
 class HotDogFrango(HotDog):
     #construtora
