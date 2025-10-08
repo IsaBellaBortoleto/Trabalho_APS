@@ -1,0 +1,105 @@
+/* Definições de cores e fontes */
+:root {
+    --primary-color: #28a745; /* Verde Sucesso */
+    --secondary-color: #9900ff; /* Azul primário */
+    --warning-color: #ffc107; /* Amarelo Alerta */
+    --background-light: #6d64f3;
+    --text-dark: #343a40;
+}
+
+body {
+    background-color: var(--background-light);
+    color: var(--text-dark);
+    font-family: sans-serif;
+}
+
+/* Estilo do Cartão de Sucesso */
+.success-card {
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(40, 167, 69, 0.5) !important;
+}
+
+.success-icon {
+    font-size: 4rem;
+    color: #fff;
+    /* Efeito de brilho */
+    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5)); 
+}
+
+/* Estilo do Botão de Erro */
+.btn-warning {
+    background-color: var(--warning-color);
+    border-color: var(--warning-color);
+    color: var(--text-dark);
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.btn-warning:hover {
+    background-color: #e0a800;
+    border-color: #e0a800;
+}
+
+/* Estilo do Cartão de Acompanhamento (Timeline) */
+.timeline-card {
+    border-radius: 15px;
+    background-color: rgb(114, 240, 141);
+}
+
+.timeline-header {
+    background-color: var(--secondary-color);
+    color: rgb(250, 231, 167);
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    padding: 1rem;
+}
+
+/* Estilo da Linha do Tempo */
+.timeline {
+    position: relative;
+    padding: 20px 0;
+    margin-left: 20px; /* Espaço para a linha */
+}
+
+/* Linha vertical */
+.timeline::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background-color: #dee2e6; /* Cinza claro */
+    left: 0;
+}
+
+.timeline-item {
+    margin-bottom: 30px;
+    position: relative;
+    padding-left: 40px;
+}
+
+/* Ponto (Dot) da Linha do Tempo */
+.timeline-dot {
+    position: absolute;
+    left: -10px; /* Alinha no centro da linha */
+    top: 5px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background-color: #f7b741; /* Cinza */
+    border: 4px solid var(--background-light);
+    transition: background-color 0.3s;
+}
+
+/* Estilo para Itens ATIVOS */
+.timeline-item.active .timeline-dot {
+    background-color: var(--primary-color);
+    box-shadow: 0 0 0 4px rgba(40, 167, 69, 0.4);
+}
+
+.timeline-item.active .timeline-content h5 {
+    color: var(--primary-color);
+    font-weight: bold;
+}
