@@ -58,8 +58,7 @@ class HotDogFrango(HotDog):
 
         # 2. Remover aspas simples
         resultado = resultado.replace("'", "")
-        #Remover as virgulas
-        resultado = resultado.replace(",", "")
+        
 
         return resultado
 
@@ -77,7 +76,8 @@ class HotDogFrango(HotDog):
 
         # 2. Remover aspas simples
         resultado = resultado.replace("'", "")
-
+        #Remover as virgulas
+        resultado = resultado.replace(",", "")
         return resultado
 
     #altera o valor de alguma coluna

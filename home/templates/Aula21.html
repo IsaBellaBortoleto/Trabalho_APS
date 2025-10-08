@@ -78,36 +78,6 @@
             </form>
 
         </div>
-
-        {% comment %} <div id="home" class="grid full-page-content full-page">
-            <div class="col">
-                <div class="col-content">
-                    Conteúdo
-                    <form method="post">
-                        {% csrf_token %}
-                        <button type="submit" name="adicionar_item" value="{{ nome }}">
-                            Adicionar ao Carrinho
-                        </button>
-                    </form>
-                </div>
-            </div>
-            <div class="col">
-                <div class="col-content">
-                    Conteúdo
-                </div>
-            </div>
-            <div class="col">
-                <div class="col-content">
-                    Conteúdo
-                </div>
-            </div>
-            <div class="col">
-                <div class="col-content">
-                    Conteúdo
-                </div>
-            </div>
-        </div>
-     {% endcomment %}
         <section id="Hamburguer" class="full-page Hamburguer">
             <!-- o ID será usado como target-->
             <div id="Hamburguer-content" class="grid full-page-content">
@@ -121,7 +91,7 @@
                     <div class="col">
                         <div class="col-content">
                             <h3>{{ lista_de_sanduiches.0.getnome}}<br></h3>
-                            <p> {{ lista_de_sanduiches.0.getingredientes}}</p>
+                            <p> {{ lista_de_sanduiches.0.getingredientes}}<br></p>
                             <p> R$ {{lista_de_sanduiches.0.getpreco}}</p>
                             <div class="imagem-container">
                                 <img src="{{ MEDIA_URL }}{{ lista_de_sanduiches.0.getimagem }}"
