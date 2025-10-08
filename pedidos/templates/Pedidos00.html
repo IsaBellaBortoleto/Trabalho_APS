@@ -37,83 +37,76 @@
 
         </nav>
         <hr>
-        <div class="separacao">
-            <div class="problemas">
-                    <h2> Problemas dos clientes </h2>
-            </div>
-            <div class="carrinho">
-                {% if itens_carrinho %}
-                <ul>
-                    {% for item in itens_carrinho %}
-                    <li>
-                        {{ item.nome }} - R$ {{ item.preco }}
-                        <form method="post" style="display: inline;">
-                            {% csrf_token %}
-                            <button type="submit" name="remover_item_por_posicao" value="{{ item.posicao }}">
-                                Remover
-                            </button>
+        <div class="carrinho">
+            <h1>Pedidos realizados</h1>
+            {% if itens_carrinho %}
+            <ul>
+                {% for item in itens_carrinho %}
+                <li>
+                    {{ item.nome }} - R$ {{ item.preco }}
+                    <form method="post" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" name="remover_item_por_posicao" value="{{ item.posicao }}">
+                            Remover
+                        </button>
 
-                            <button type="submit" name="atualizar_status" value="{{ item.posicao }}">
-                                Status
-                            </button>
-                        </form>
-                    </li>
-                    {% endfor %}
-                </ul>
-                <p>Total: R$ {{ total }}</p>
-                {% else %}
-                {% comment %} <p>Seu carrinho está vazio.</p> {% endcomment %}
-                {% endif %}
-                <hr class="my-5">
-                <h2 class="text-center mb-4 text-white">Pedidos Estáticos de Exemplo (Em Aberto)</h2>
-
-                {% for pedido in pedidos_exemplo %}
-                <div class="card mb-4 shadow-sm">
-
-                    <div
-                        class="card-header bg-warning text-dark fw-bold d-flex justify-content-between align-items-center">
-
-                        <span>
-                            Mesa #{{ pedido.mesa }} - Total: <span class="text-success">R$ {{ pedido.total|floatformat:2
-                                }}</span>
-                        </span>
-
-                        <div class="btn-group" role="group" aria-label="Ações do Pedido">
-
-                            <form method="post" action="#" style="display:inline;"
-                                onsubmit="return confirm('Tem certeza que deseja remover este pedido estático?');">
-                                {% csrf_token %}
-                                <input type="hidden" name="remover_item_por_posicao" value="{{ forloop.counter0 }}">
-
-                                <button type="submit" name="remover_item_por_posicao" class="btn btn-sm btn-outline-danger me-2 " title="Remover Pedido">
-                                    <i class="bi bi-trash"></i> Remover
-                                </button>
-                            </form>
-
-                            <button type="button" name="atualizar_status" class="btn btn-sm btn-outline-primary "
-                                title="Avançar Status do Pedido">
-                                <i class="bi bi-arrow-clockwise"></i> Status
-                            </button>
-                        </div>
-                    </div>
-
-                    <ul class="list-group list-group-flush">
-                        {% for item in pedido.itens %}
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <div>
-                                <strong>{{ item.nome }}</strong>
-                                {% if item.nota %}
-                                <small class="text-muted ms-2 text-primary">({{ item.nota }})</small>
-                                {% endif %}
-                            </div>
-                            <span class="badge bg-light text-dark">R$ {{ item.preco|floatformat:2 }}</span>
-                        </li>
-                        {% endfor %}
-                    </ul>
-                </div>
+                        <button type="submit" name="atualizar_status" value="{{ item.posicao }}">
+                            Status
+                        </button>
+                    </form>
+                </li>
                 {% endfor %}
+            </ul>
+            <p>Total: R$ {{ total }}</p>
+            {% else %}
+            <p>Seu carrinho está vazio.</p>
+            {% endif %}
+            <form id="meuFormulario" action="{% url 'home' %}" method="post">
+                {% csrf_token %}
+
+                <label for="numeroMesa">Número da Mesa:</label>
+
+                <input type="number" id="numeroMesa" name="numero_mesa" min="1" max="20" step="1" required
+                    placeholder="Digite um número entre 1 e 20" value="{{ valor_mesa_invalido|default:'' }}">
+
+                {% if erro_mesa %}
+                <p style="color: red; font-weight: bold;">{{ erro_mesa }}</p>
+                {% endif %}
+
+                <button type="submit">Encerrar Pedidos</button>
+            </form>
+
+        </div>
+
+        {% comment %} <div id="home" class="grid full-page-content full-page">
+            <div class="col">
+                <div class="col-content">
+                    Conteúdo
+                    <form method="post">
+                        {% csrf_token %}
+                        <button type="submit" name="editar_item" value="{{ nome }}">
+                            Adicionar ao Carrinho
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <div class="col">
+                <div class="col-content">
+                    Conteúdo
+                </div>
+            </div>
+            <div class="col">
+                <div class="col-content">
+                    Conteúdo
+                </div>
+            </div>
+            <div class="col">
+                <div class="col-content">
+                    Conteúdo
+                </div>
             </div>
         </div>
+     {% endcomment %}
         <section id="Hamburguer" class="full-page Hamburguer">
             <!-- o ID será usado como target-->
             <div id="Hamburguer-content" class="grid full-page-content">
@@ -312,8 +305,8 @@
                             <h3>{{ lista_de_milkshakes.0.getnome}}<br></h3>
                             <p> R$ {{lista_de_milkshakes.0.getpreco}}</p>
                             <div class="imagem-container">
-                                <img src="{{ MEDIA_URL }}{{ lista_de_milkshakes.0.getimagem }}"
-                                    alt="Descrição da Imagem" class="imagem-quadrada">
+                                <img src="{{ MEDIA_URL }}{{ lista_de_milkshakes.0.getimagem }}" alt="Descrição da Imagem"
+                                    class="imagem-quadrada">
                             </div>
                             <form method="post">
                                 {% csrf_token %}
@@ -328,8 +321,8 @@
                             <h3>{{ lista_de_milkshakes.1.getnome}}<br></h3>
                             <p> R$ {{lista_de_milkshakes.1.getpreco}}</p>
                             <div class="imagem-container">
-                                <img src="{{ MEDIA_URL }}{{ lista_de_milkshakes.1.getimagem }}"
-                                    alt="Descrição da Imagem" class="imagem-quadrada">
+                                <img src="{{ MEDIA_URL }}{{ lista_de_milkshakes.1.getimagem }}" alt="Descrição da Imagem"
+                                    class="imagem-quadrada">
                             </div>
                             <form method="post">
                                 {% csrf_token %}
@@ -344,8 +337,8 @@
                             <h3>{{ lista_de_milkshakes.2.getnome}}<br></h3>
                             <p> R$ {{lista_de_milkshakes.2.getpreco}}</p>
                             <div class="imagem-container">
-                                <img src="{{ MEDIA_URL }}{{ lista_de_milkshakes.2.getimagem }}"
-                                    alt="Descrição da Imagem" class="imagem-quadrada">
+                                <img src="{{ MEDIA_URL }}{{ lista_de_milkshakes.2.getimagem }}" alt="Descrição da Imagem"
+                                    class="imagem-quadrada">
                             </div>
                             <form method="post">
                                 {% csrf_token %}
@@ -372,10 +365,10 @@
                         <div class="col-content">
                             <h3>{{ lista_de_bebidas.0.getnome}}<br></h3>
                             <p> R$ {{lista_de_bebidas.0.getpreco}}</p>
-                            <div class="imagem-container">
-                                <img src="{{ MEDIA_URL }}{{ lista_de_bebidas.0.getimagem }}" alt="Descrição da Imagem"
-                                    class="imagem-quadrada">
-                            </div>
+                                <div class="imagem-container">
+                                    <img src="{{ MEDIA_URL }}{{ lista_de_bebidas.0.getimagem }}" alt="Descrição da Imagem"
+                                        class="imagem-quadrada">
+                                </div>
                             <form method="post">
                                 {% csrf_token %}
                                 <button type="submit" name="editar_item" value="{{ lista_de_bebidas.0.getnome }}">
@@ -388,10 +381,10 @@
                         <div class="col-content">
                             <h3>{{ lista_de_bebidas.1.getnome}}<br></h3>
                             <p> R$ {{lista_de_bebidas.1.getpreco}}</p>
-                            <div class="imagem-container">
-                                <img src="{{ MEDIA_URL }}{{ lista_de_bebidas.1.getimagem }}" alt="Descrição da Imagem"
-                                    class="imagem-quadrada">
-                            </div>
+                                <div class="imagem-container">
+                                    <img src="{{ MEDIA_URL }}{{ lista_de_bebidas.1.getimagem }}" alt="Descrição da Imagem"
+                                        class="imagem-quadrada">
+                                </div>
                             <form method="post">
                                 {% csrf_token %}
                                 <button type="submit" name="editar_item" value="{{ lista_de_bebidas.1.getnome }}">
@@ -404,10 +397,10 @@
                         <div class="col-content">
                             <h3>{{ lista_de_bebidas.2.getnome}}<br></h3>
                             <p> R$ {{lista_de_bebidas.2.getpreco}}</p>
-                            <div class="imagem-container">
-                                <img src="{{ MEDIA_URL }}{{ lista_de_bebidas.2.getimagem }}" alt="Descrição da Imagem"
-                                    class="imagem-quadrada">
-                            </div>
+                                <div class="imagem-container">
+                                    <img src="{{ MEDIA_URL }}{{ lista_de_bebidas.2.getimagem }}" alt="Descrição da Imagem"
+                                        class="imagem-quadrada">
+                                </div>
                             <form method="post">
                                 {% csrf_token %}
                                 <button type="submit" name="editar_item" value="{{ lista_de_bebidas.2.getnome }}">

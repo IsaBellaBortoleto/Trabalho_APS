@@ -37,7 +37,7 @@ html {
     /*26/08/2025*/
     box-sizing: border-box;
     width: 33.33%;
-    height: 300px;
+    height: 330px;
     float: left;
     padding: 15px;
 
@@ -101,7 +101,7 @@ body {
 .toda-pagina{
     display:grid;
     /*grid-template-columns: 1fr 300px; */
-    max-width: calc(100vw - 300px); /* Ajusta a altura para caber na tela */
+    max-width: calc(100vw - 500px); /* Ajusta a altura para caber na tela */
     /*height: 100vh;*/
     grid-template-rows: auto 1fr;
     min-height: 100vh;
@@ -180,18 +180,74 @@ p{
     }
 }
 /*27 de setembro de 2025*/
+/* .separacao{
+    width: 500px;
+    
+}
 .carrinho{
     position: fixed;
     right: 0;
     top: 0;
     width: 300px;
     height: 100vh; /* 100vh significa 100% da altura da viewport (tela) */
-    background-color: #f0f0f0; /* Exemplo de cor de fundo */
-    border-left: 1px solid #ccc; /* Exemplo de borda */
-     margin-top: 63px;
+   /* background-color: #f0f0f0; /* Exemplo de cor de fundo */
+    /*border-left: 1px solid #ccc; /* Exemplo de borda */
+    /* margin-top: 60px;
      overflow-y: auto;
 }
+.problemas{
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    margin-right: 300px;
+    border-left: 1px solid #ccc; /* Exemplo de borda */
+     /*margin-top: 60px;
+     overflow-y: auto;
+     width: 200px;
+} */
+ .separacao {
+    /* --- ALTERAÇÕES CHAVE AQUI --- */
+    position: fixed; /* Fixa o container na tela */
+    right: 0;        /* Ancorado na lateral direita da tela */
+    top: 60px;       /* Posição vertical abaixo do topo (menu, por exemplo) */
+    /* --- FIM DAS ALTERAÇÕES CHAVE --- */
 
+    width: 500px;
+    display: flex; /* Mantém o Flexbox para divisão interna */
+    height: calc(100vh - 60px); /* Ocupa a altura restante da tela (100% da viewport menos a margem superior de 60px) */
+    
+    /* Remove a margem horizontal (auto) e mantém apenas a superior */
+    margin: 0; 
+}
+
+.carrinho {
+    /* Não precisa de posicionamento fixo/absoluto */
+    width: 300px;
+    background-color: #f0f0f0;
+    border-left: 1px solid #ccc;
+    overflow-y: auto;
+    
+    /* Ocupa a altura total do .separacao, que agora já tem altura definida */
+    height: 100%; 
+    /* Adicionamos border-right para separar visualmente do .problemas */
+    border-right: 1px solid #ccc;
+}
+
+.problemas {
+    /* Não precisa de posicionamento fixo/absoluto */
+    /* Colocado antes do .carrinho no HTML, ocupará a esquerda dos 500px */
+    width: 200px; 
+    
+    /* Removendo a borda de separação, pois a quebra entre os dois é o problema e o carrinho */
+    border-right: none; 
+    padding: 50px 20px;
+    
+    
+    overflow-y: auto;
+    height: 100%;
+    /* Adicionamos uma cor de fundo diferente para melhor visualização */
+    background-color: #e9e9e9; 
+}
 hr {
     border: 0;
     height: 1px;
@@ -235,13 +291,16 @@ button[name="adicionar_item"] {
     background-color: #28a745;
     color: white;
 }
-
-button[name="remover_item_por_posicao"] {
-    background-color: #dc3545;
+button[name="editar_item"] {
+    background-color: #4e28a7;
     color: white;
 }
-button[name="adicionar_nota"] {
-    background-color: #870ff7;
+button[name="remover_item_por_posicao"] {
+    background-color: #36eedf;
+    color: white;
+}
+button[name="atualizar_status"] {
+    background-color: #f70f55;
     color: white;
 }
 button{

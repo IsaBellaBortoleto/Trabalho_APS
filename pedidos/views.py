@@ -6,14 +6,89 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
-
+from .produtos import *
 # Create your views here.
 PRODUTOS_DISPONIVEIS = {
     "camiseta": {"nome": "Camiseta Básica", "preco": 49.90},
     "calca": {"nome": "Calça Jeans", "preco": 129.50},
     "tenis": {"nome": "Tênis Esportivo", "preco": 250.00},
+    produto_guarana.getnome(): {"nome": produto_guarana.getnome(), "preco":produto_guarana.getpreco() },
+    produto_cocacola.getnome(): {"nome": produto_cocacola.getnome(), "preco":produto_cocacola.getpreco() },
+    produto_sucovale.getnome(): {"nome": produto_sucovale.getnome(), "preco":produto_sucovale.getpreco() },
+    produto_hotdogfrango.getnome(): {"nome": produto_hotdogfrango.getnome(), "preco":produto_hotdogfrango.getpreco() },
+    produto_hotdognaotradicional.getnome(): {"nome": produto_hotdognaotradicional.getnome(), "preco":produto_hotdognaotradicional.getpreco() },
+    produto_hotdogtradicional.getnome(): {"nome": produto_hotdogtradicional.getnome(), "preco":produto_hotdogtradicional.getpreco() },
+    produto_milkshakechocolatudo.getnome(): {"nome": produto_milkshakechocolatudo.getnome(), "preco":produto_milkshakechocolatudo.getpreco() },
+    produto_milkshakekitkat.getnome(): {"nome": produto_milkshakekitkat.getnome(), "preco":produto_milkshakekitkat.getpreco() },
+    produto_milkshakemoranguete.getnome(): {"nome": produto_milkshakemoranguete.getnome(), "preco":produto_milkshakemoranguete.getpreco() },
+    produto_pizzacalabreza.getnome(): {"nome": produto_pizzacalabreza.getnome(), "preco":produto_pizzacalabreza.getpreco() },
+    produto_pizzafrango.getnome(): {"nome": produto_pizzafrango.getnome(), "preco":produto_pizzafrango.getpreco() },
+    produto_pizzaricota.getnome(): {"nome": produto_pizzaricota.getnome(), "preco":produto_pizzaricota.getpreco() },
+    produto_sanduichechicken.getnome(): {"nome": produto_sanduichechicken.getnome(), "preco":produto_sanduichechicken.getpreco() },
+    produto_sanduichetradicional.getnome(): {"nome": produto_sanduichetradicional.getnome(), "preco":produto_sanduichetradicional.getpreco() },
+    produto_sanduichefish.getnome(): {"nome": produto_sanduichefish.getnome(), "preco":produto_sanduichefish.getpreco() },
 
 }
+PEDIDOS_ESTATICOS_EXEMPLO = [
+    {
+        "mesa": 5,
+        "itens": [
+            {"nome_chave": "pizzacalabreza", "nome": "Pizza Calabresa", "preco": 10.00, "nota": "Sem cebola."},
+            {"nome_chave": "cocacola", "nome": "Coca-Cola", "preco": 6.00, "nota": "Com gelo e limão."},
+        ],
+        "total": 16.00
+    },
+    {
+        "mesa": 14,
+        "itens": [
+            {"nome_chave": "sanduichechicken", "nome": "Sanduíche Chicken Crispy", "preco": 22.00, "nota": "Pão integral, por favor."},
+            {"nome_chave": "sucovale", "nome": "Suco Del Valle", "preco": 7.50, "nota": ""},
+            {"nome_chave": "hotdogtradicional", "nome": "Hot Dog Tradicional", "preco": 12.00, "nota": "Muito catchup!"},
+        ],
+        "total": 41.50
+    },
+    {
+        "mesa": 2,
+        "itens": [
+            {"nome_chave": "milkshakechoc", "nome": "Milkshake Chocolatudo", "preco": 18.00, "nota": "Extra chantilly."},
+            {"nome_chave": "milkshakechoc", "nome": "Milkshake Chocolatudo", "preco": 18.00, "nota": ""},
+        ],
+        "total": 36.00
+    },
+    {
+        "mesa": 9,
+        "itens": [
+            {"nome_chave": "pizzafrango", "nome": "Pizza Frango c/ Catupiry", "preco": 11.50, "nota": "Retirar o Catupiry."},
+        ],
+        "total": 11.50
+    },
+    {
+        "mesa": 19,
+        "itens": [
+            {"nome_chave": "guarana", "nome": "Guaraná Antarctica", "preco": 5.00, "nota": ""},
+            {"nome_chave": "hotdogfrango", "nome": "Hot Dog de Frango", "preco": 15.00, "nota": "Maionese à parte."},
+            {"nome_chave": "cocacola", "nome": "Coca-Cola", "preco": 6.00, "nota": "Sem gelo."},
+        ],
+        "total": 26.00
+    },
+    {
+        "mesa": 8,
+        "itens": [
+            {"nome_chave": "sanduichetrad", "nome": "Sanduíche Tradicional", "preco": 19.00, "nota": "Queijo extra."},
+            {"nome_chave": "sucovale", "nome": "Suco Del Valle", "preco": 7.50, "nota": ""},
+        ],
+        "total": 26.50
+    },
+    {
+        "mesa": 1,
+        "itens": [
+            {"nome_chave": "pizzacalabreza", "nome": "Pizza Calabresa", "preco": 10.00, "nota": ""},
+            {"nome_chave": "milkshakechoc", "nome": "Milkshake Chocolatudo", "preco": 18.00, "nota": "Para viagem."},
+        ],
+        "total": 28.00
+    },
+]
+
 
 def pedidos(request):
     """
@@ -109,10 +184,15 @@ def pedidos(request):
         'lista_de_milkshakes' : MILKSHAKES_DISPONIVEIS,
         'lista_de_sanduiches' : SANDUICHES_DISPONIVEIS,
 
+        # Para mostrar a lista completa de produtos (PRODUTOS_DISPONIVEIS)
+        'produtos_disponiveis': PRODUTOS_DISPONIVEIS.items(),
+        
+        # O novo conjunto de dados estáticos para exibir os pedidos
+        'pedidos_exemplo': PEDIDOS_ESTATICOS_EXEMPLO,
 
     }
     
-    return render(request, 'Aula21.html', context)
+    return render(request, 'Pedidos.html', context)
 
 #teste pro negócio de login
 def login_pedidos(request):
