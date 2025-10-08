@@ -53,6 +53,13 @@ class HotDogNaoTradicional(HotDog):
         resultado = cursor.fetchall()
 
         conn.close()
+        resultado=str(resultado)
+        resultado = resultado.replace('(', '').replace(')', '')
+
+        # 2. Remover aspas simples
+        resultado = resultado.replace("'", "")
+
+
         return resultado
 
     #retorna a uma tupla com o caminho da imagem

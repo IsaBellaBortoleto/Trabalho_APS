@@ -43,8 +43,7 @@ class SanduicheTradicional(Sanduiche):
 
         # 2. Remover aspas simples
         resultado = resultado.replace("'", "")
-        #Remover as virgulas
-        resultado = resultado.replace(",", "")
+
 
         return resultado
 
@@ -58,6 +57,12 @@ class SanduicheTradicional(Sanduiche):
         resultado = cursor.fetchall()
 
         conn.close()
+        resultado=str(resultado)
+        resultado = resultado.replace('(', '').replace(')', '')
+
+        # 2. Remover aspas simples
+        resultado = resultado.replace("'", "")
+
         return resultado
 
         #for row in resultado:
@@ -78,8 +83,7 @@ class SanduicheTradicional(Sanduiche):
 
         # 2. Remover aspas simples
         resultado = resultado.replace("'", "")
-        #Remover as virgulas
-        resultado = resultado.replace(",", "")
+
         return resultado
 
         #print(resultado)

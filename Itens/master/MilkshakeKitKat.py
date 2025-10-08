@@ -19,7 +19,7 @@ class MilshakeKitKat(Milkshake):
         conn.close()
 
         resultado = float(resultado[0])
-
+        
         return resultado
     
         #retorna o nome na variável resultado
@@ -53,6 +53,13 @@ class MilshakeKitKat(Milkshake):
         resultado = cursor.fetchall()
 
         conn.close()
+        resultado=str(resultado)
+        resultado = resultado.replace('(', '').replace(')', '')
+
+        # 2. Remover aspas simples
+        resultado = resultado.replace("'", "")
+
+
         return resultado
 
     #retorna a uma tupla com o caminho da imagem

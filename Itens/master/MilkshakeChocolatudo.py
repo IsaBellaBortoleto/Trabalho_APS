@@ -53,6 +53,10 @@ class MilshakeChocolatudo(Milkshake):
         resultado = cursor.fetchall()
 
         conn.close()
+        resultado=str(resultado)
+        resultado = resultado.replace('(', '').replace(')', '')
+
+
         return resultado
 
     #retorna a uma tupla com o caminho da imagem

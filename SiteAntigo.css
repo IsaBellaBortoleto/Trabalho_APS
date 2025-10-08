@@ -1,0 +1,174 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    background-color: rgb(150, 150, 150);
+}
+
+.grid {
+    padding: 30px;
+    padding-bottom: 40px;
+    max-width: 1400px;
+    margin: 0 auto ;
+    /*margin: top right bottom left;*/
+    /* fica centralizado*/
+    
+    /* 26/08/2025*/
+    display: flex;        
+      flex-wrap: wrap; 
+      overflow: auto;
+      
+}
+
+.grid::after {
+    content: '';
+    display: block;
+    clear: both;
+}
+
+.grid .col {
+    /* por padrão: display: block;*/
+    /*display: inline-block;*/
+    /*26/08/2025*/
+    /*26/08/2025*/
+    box-sizing: border-box;
+    width: 33.33%;
+    height: 300px;
+    float: left;
+    padding: 15px;
+
+}
+
+.grid .col-content {
+      /*display: flex;*/
+    justify-content: center; /* Centraliza o item horizontalmente */
+    /*align-items: center;    /* Centraliza o item verticalmente */
+    width: 100%;
+    height: 100%;
+    background-color: #6d7ba1;
+    /* Para fazer que nem fillet de AUTOCAD - bordas arredondadas em elementos*/
+    /* border-radius: 50px; */
+    /* border-radius: 30px 100px 30px 100px; */
+    /* Para fazer um círculo*/
+    border-radius: 10%;
+    box-shadow: -8px   8px   10px    10px rgb(187, 186, 186, 0.4);
+    padding: 20px;
+    /*       direita  cima    blur   espalhamento (quase como um padding para a sombra  */
+/*   no elemtno da direita ( o primeiro parâmetro se colocar INSET A SOMBRA VAI PARA DENTRO DO OBJETO)
+colocando virgula depois da primeira sombra, dá para colocar uma segunda sombra com os seus parâmetros individuais*/
+}
+.pai {
+    height: 100vh;
+    ;
+}
+
+.pai {
+    background-color: gainsboro;
+}
+
+/* ESSE É UM EXEMPLO REAL DE ONDE SE APLICARIA MEDIA QUERIES
+a medida que a tela for diminuindo eu aplica alguma regra do css e dimuniu o número de colunas
+*/
+/* isso indica que eu quero colocar breakpoints para fazer uma quebra do conteúdo
+a fim de facilitar a visualização das coisas, em telas muito pequenas os layouts
+devem ser diferentes do que em telas de pc*/
+
+.menu {
+    width: 100%;
+    position: fixed;
+    background-color: rgb(46, 46, 46);
+}
+
+.menu ul li {
+    float: left;
+}
+
+.menu ul li a {
+    display: block;
+    color: white;
+    padding: 20px;
+    text-decoration: none;
+    transition: all 500ms ease-in-out;
+}
+
+.menu ul li a:hover {
+    background-color: gray;
+}
+
+body {
+    font-family: Arial;
+}
+h1{
+    font-size:35px;
+    padding-left: 50px;
+}
+p{
+    font-size: 20px;
+}
+.descricao{
+    padding:20px;
+}
+.full-page {    
+    max-width: 100%;
+    margin: 0 auto;
+    /* fica centralizado*/
+    /*height: 100vh;*/
+}
+
+.full-page-content {
+    padding: 0 40px;
+    max-width: 1400px;
+    padding-top: 80px;
+    padding-bottom: 25px;
+    min-height: 100vh;
+    /*background-color: aqua;*/
+}
+#Bebidas-content{
+    background-color: chartreuse;
+
+}
+#Milkshake-content{
+    background-color:indianred;
+
+}
+#Pizza-content{
+    background-color:seagreen;
+
+}
+#Hamburguer-content{
+    background-color:rgb(234, 247, 119);
+
+}
+@media all and (max-width:500px) {
+    .grid .col {
+        width: 100%;
+    }
+}
+
+@media(min-width:501px) and (max-width: 760px) {
+
+    /* é isso que o eu quero sobreescrever eu quero 1 coluna nessa nova versão */
+    .grid .col {
+        width: 50%;
+    }
+}
+
+@media(min-width:760px) and (max-width: 1400px) {
+
+    /* é isso que o eu quero sobreescrever eu quero 1 coluna nessa nova versão */
+    .grid .col {
+        width: 33.33%;
+    }
+}
+
+@media all and (min-width: 1400px) {
+
+    /* é isso que o eu quero sobreescrever eu quero 1 coluna nessa nova versão */
+    .grid .col {
+        width: 25%;
+    }
+}

@@ -50,7 +50,7 @@ with connection :
             "verdura" : "alface",
             "queijo" : "mussarela",
             "extra" : "maionese",
-            "imagem" : "SanduicheTradicional.png" } ,
+            "imagem" : "SanduicheTradicional2.png" } ,
 
         {  "nome" : "sanduíche chicken", 
             "preco" : 12.50,
@@ -268,7 +268,7 @@ with connection :
                 "mostarda" : "não",
                 "batata_palha" : "não",
                 "vinagrete" : "sim",
-                "imagem" : "HotDogFrango.png"
+                "imagem" : "HotDogNaoTradicional.png"
             }
         )
         cursor.executemany(sql, dados)
