@@ -47,7 +47,7 @@ html {
     display: flex;
     flex-direction: column; 
     justify-content: center; /* Centraliza o item horizontalmente */
-    align-items: center;    /* Centraliza o item verticalmente */
+    align-items: top;    /* Centraliza o item verticalmente */
     width: 100%;
     height: 100%;
     background-color: #f7c6c6;
@@ -85,7 +85,7 @@ devem ser diferentes do que em telas de pc*/
 .menu ul li a {
     display: block;
     color: white;
-    padding: 20px;
+    padding: 5px 8px;
     text-decoration: none;
     transition: all 500ms ease-in-out;
 }
@@ -147,6 +147,9 @@ p{
     background-color:rgb(234, 247, 119);
 
 }
+#HotDog-content{
+    background-color: #dc3545;
+}
 @media all and (max-width:700px) {
     .grid .col {
         width: 100%;
@@ -185,7 +188,7 @@ p{
     height: 100vh; /* 100vh significa 100% da altura da viewport (tela) */
     background-color: #f0f0f0; /* Exemplo de cor de fundo */
     border-left: 1px solid #ccc; /* Exemplo de borda */
-     margin-top: 90px;
+     margin-top: 63px;
      overflow-y: auto;
 }
 
@@ -237,7 +240,14 @@ button[name="remover_item_por_posicao"] {
     background-color: #dc3545;
     color: white;
 }
-
+button[name="adicionar_nota"] {
+    background-color: #870ff7;
+    color: white;
+}
+button{
+    margin-top: 3px;
+    margin-bottom: 3px;
+}
 /* Estilo para a mensagem de carrinho vazio */
 body > p {
     color: #666;
@@ -316,3 +326,32 @@ body > p {
     padding: 50px;
 }
 
+/* Passo 2A: Centralização do Bloco (Flexbox) */
+.imagem-container {
+    /* Define o container para centralização total */
+    display: flex;
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: top;     /* Centraliza verticalmente (se o container tiver altura definida) */
+    
+    /* Opcional: Garante que o container use a largura total disponível */
+    width: 100%;
+    /* Opcional: Altura mínima para mostrar a centralização vertical */
+    /*min-height: 120px; */
+}
+
+/* Passo 2B: O Alvo (a imagem) */
+.imagem-quadrada {
+    /* 1. Tamanho Fixo */
+    max-width: 150px;
+    height: 110px;
+    
+    /* 2. Propriedade Anti-Distorção (MUITO IMPORTANTE) */
+    /* Garante que a imagem preencha a área de 100x100px, 
+       cortando o excesso (cover), mantendo a proporção original. 
+    */
+    object-fit: cover;
+    
+    /* 3. Estética (Opcional) */
+    border-radius: 5px; /* Bordas arredondadas */
+    display: block; /* Remove possíveis margens de linha */
+}

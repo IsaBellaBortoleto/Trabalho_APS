@@ -144,6 +144,10 @@ def home(request):
         'valor_mesa_invalido': valor_mesa_invalido,
         'lista_de_bebidas': BEBIDAS_DISPONIVEIS,
         'lista_de_pizzas': PIZZAS_DISPONIVEIS,
+        'lista_de_hotdogs' : HOTDOG_DISPONIVEIS,
+        'lista_de_milkshakes' : MILKSHAKES_DISPONIVEIS,
+        'lista_de_sanduiches' : SANDUICHES_DISPONIVEIS,
+
 
     }
     

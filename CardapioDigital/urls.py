@@ -20,6 +20,8 @@ from django.http import HttpResponse
 from home import views as homeViwes
 from pedidos import views as pedViews
 
+from django.conf import settings
+from django.conf.urls.static import static
 #teste pro negócio do login
 from django.urls import include
 
@@ -37,6 +39,11 @@ urlpatterns = [
 
 
 ]
+
+# Adiciona o serviço de arquivos de mídia se estiver em modo de desenvolvimento
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
     #path('pedidos/', pedViews.pedidos, name='pedidos'),
     # Mapeia a URL 'carrinho/' para a view listar_carrinho
     #path('carrinho/', homeViwes.listar_carrinho, name='listar_carrinho'),

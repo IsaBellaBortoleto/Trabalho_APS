@@ -1,4 +1,4 @@
-{% load static %} <!-- CARREGA A TAG NO TOPO DO TEMPLATE adicionado dia 14 de setembro--> 
+{% load static %} <!-- CARREGA A TAG NO TOPO DO TEMPLATE adicionado dia 14 de setembro-->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,132 +12,85 @@
     <!-- caminho relativo de static-->
 </head>
 
-<body >
+<body>
 
-    
-    
+
+
     <div class="toda-pagina">
-{% comment %}     <form method="POST" action="{% url 'processar_pedido' %}"><!-- 17 de setembro-->
-    {% csrf_token %}
-    <input type="hidden" name="pedido" value="pizza">
-    <button type="submit">Fazer pedido</button>
-    </form>  <!-- 17 de setembro--> {% endcomment %}
-        
-    <h1>{% block texto  %}  {% endblock texto %}</h1>
-    <!--  Essa linha de cima funcionou-->    
-    <nav class="menu">
-        <ul>
-            <li><a href="{% url 'login_pedidos' %}">🔐 Fazer Login</a></li>
-            <li><a href="#home">Home</a></li>
-            <li><a href="#Hamburguer">Hamburguer</a></li>
-            <li><a href="#Pizzas">Pizza</a></li>
-            <li><a href="#Milkshakes">Milkshake</a></li>
-            <li><a href="#Bebidas">Bebidas</a></li>
-        </ul>
-
-    </nav>
-    
-    <h1>Produtos</h1>
-    
-    <div class="produtos-grid toda-pagina">
-        {% for nome, detalhes in produtos %}
-        <div class="produto-card">
-            <h3>{{ detalhes.nome }}</h3>
-            <p>R$ {{ detalhes.preco }}</p>
-            <form method="post">
-                {% csrf_token %}
-                <button type="submit" name="adicionar_item" value="{{ nome }}">
-                    Adicionar ao Carrinho
-                </button>
-            </form>
-        </div>
-        {% endfor %}
-    </div>
-
-    <hr>
-    <div class="carrinho">
-    <h1>Seu Carrinho</h1>
-    {% if itens_carrinho %}
-        <ul>
-        {% for item in itens_carrinho %}
-            <li>
-                {{ item.nome }} - R$ {{ item.preco }}
-                <form method="post" style="display: inline;">
-                    {% csrf_token %}
-                    <button type="submit" name="remover_item_por_posicao" value="{{ item.posicao }}">
-                        Remover
-                    </button>
-                </form>
-            </li>
-        {% endfor %}
-        </ul>
-        <p>Total: R$ {{ total }}</p>
-    {% else %}
-        <p>Seu carrinho está vazio.</p>
-    {% endif %}
-            <form id="meuFormulario" action="{% url 'home' %}" method="post">
+        {% comment %} <form method="POST" action="{% url 'processar_pedido' %}"><!-- 17 de setembro-->
             {% csrf_token %}
-            
-            <label for="numeroMesa">Número da Mesa:</label>
-            
-            <input 
-                type="number" 
-                id="numeroMesa" 
-                name="numero_mesa" 
-                min="1" 
-                max="20" 
-                step="1"
-                required
-                placeholder="Digite um número entre 1 e 20"
-                value="{{ valor_mesa_invalido|default:'' }}" 
-            >
-            
-            {% if erro_mesa %}
-                <p style="color: red; font-weight: bold;">{{ erro_mesa }}</p>
+            <input type="hidden" name="pedido" value="pizza">
+            <button type="submit">Fazer pedido</button>
+        </form> <!-- 17 de setembro--> {% endcomment %}
+
+        <h1>{% block texto %} {% endblock texto %}</h1>
+        <!--  Essa linha de cima funcionou-->
+        <nav class="menu">
+            <ul>
+                <li><a href="{% url 'login_pedidos' %}">🔐 Fazer Login</a></li>
+                {% comment %} <li><a href="#home">Home</a></li> {% endcomment %}
+                <li><a href="#Hamburguer">Sanduiche</a></li>
+                <li><a href="#HotDogs">HotDog</a></li>
+                <li><a href="#Pizzas">Pizza</a></li>
+                <li><a href="#Milkshakes">Milkshake</a></li>
+                <li><a href="#Bebidas">Bebidas</a></li>
+            </ul>
+
+        </nav>
+        <hr>
+        <div class="carrinho">
+            <h1>Seu Carrinho</h1>
+            {% if itens_carrinho %}
+            <ul>
+                {% for item in itens_carrinho %}
+                <li>
+                    {{ item.nome }} - R$ {{ item.preco }}
+                    <form method="post" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" name="remover_item_por_posicao" value="{{ item.posicao }}">
+                            Remover
+                        </button>
+
+                        <button type="submit" name="adicionar_nota" value="{{ item.posicao }}">
+                            Nota
+                        </button>
+                    </form>
+                </li>
+                {% endfor %}
+            </ul>
+            <p>Total: R$ {{ total }}</p>
+            {% else %}
+            <p>Seu carrinho está vazio.</p>
             {% endif %}
-            
-            <button type="submit">Finalizar Pedido</button>
-        </form>
-
-    </div>
-
-    <div id="home" class="grid full-page-content full-page">
-        <div class="col">
-            <div class="col-content">
-                Conteúdo
-                <form method="post">
+            <form id="meuFormulario" action="{% url 'home' %}" method="post">
                 {% csrf_token %}
-                <button type="submit" name="adicionar_item" value="{{ nome }}">
-                    Adicionar ao Carrinho
-                </button>
+
+                <label for="numeroMesa">Número da Mesa:</label>
+
+                <input type="number" id="numeroMesa" name="numero_mesa" min="1" max="20" step="1" required
+                    placeholder="Digite um número entre 1 e 20" value="{{ valor_mesa_invalido|default:'' }}">
+
+                {% if erro_mesa %}
+                <p style="color: red; font-weight: bold;">{{ erro_mesa }}</p>
+                {% endif %}
+
+                <button type="submit">Finalizar Pedido</button>
             </form>
-            </div>
+
         </div>
-        <div class="col">
-            <div class="col-content">
-                Conteúdo
+
+        {% comment %} <div id="home" class="grid full-page-content full-page">
+            <div class="col">
+                <div class="col-content">
+                    Conteúdo
+                    <form method="post">
+                        {% csrf_token %}
+                        <button type="submit" name="adicionar_item" value="{{ nome }}">
+                            Adicionar ao Carrinho
+                        </button>
+                    </form>
+                </div>
             </div>
-        </div>
-        <div class="col">
-            <div class="col-content">
-                Conteúdo
-            </div>
-        </div>
-        <div class="col">
-            <div class="col-content">
-                Conteúdo
-            </div>
-        </div> 
-    </div>
-    <section id="Hamburguer" class="full-page Hamburguer">
-        <!-- o ID será usado como target-->
-        <div id="Hamburguer-content" class="grid full-page-content">
-            <h1>Hamburguer</h1>
-            <p class="descricao">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet ea libero corrupti, architecto, rerum nam
-                modi
-                et facilis in veniam quisquam consectetur odit quam provident soluta alias omnis? Hic, facere!</p>
-        
-        <!--<div class="grid">-->
             <div class="col">
                 <div class="col-content">
                     Conteúdo
@@ -154,138 +107,313 @@
                 </div>
             </div>
         </div>
-        <!--</div>-->
-    </section>
-    <section id="Pizzas" class="full-page Pizzas">
-        <!-- o ID será usado como target-->
-        <div id="Pizza-content" class="full-page-content grid">
-            <h1>Pizzas</h1>
-            <p class="descricao">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet ea libero corrupti, architecto, rerum nam
-                modi
-                et facilis in veniam quisquam consectetur odit quam provident soluta alias omnis? Hic, facere!</p>
-        
-       <!-- <div class="grid">-->
-            <div class="col">
-                <div class="col-content">
-                     <h3>{{ lista_de_pizzas.0.getnome}}<br></h3>
-                    <p> R$ {{lista_de_pizzas.0.getpreco}}</p>
+     {% endcomment %}
+        <section id="Hamburguer" class="full-page Hamburguer">
+            <!-- o ID será usado como target-->
+            <div id="Hamburguer-content" class="grid full-page-content">
+                <h1>Sanduiche</h1>
+                <p class="descricao">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet ea libero corrupti,
+                    architecto, rerum nam
+                    modi
+                    et facilis in veniam quisquam consectetur odit quam provident soluta alias omnis? Hic, facere!</p>
 
-                        <form method="post">
-                            {% csrf_token %}
-                             <button type="submit" name="adicionar_item" value="{{ lista_de_pizzas.0.getnome }}">
-                              Adicionar ao Carrinho
-                             </button>
-                        </form>
+                <div class="grid">
+                    <div class="col">
+                        <div class="col-content">
+                            <h3>{{ lista_de_sanduiches.0.getnome}}<br></h3>
+                            <p> R$ {{lista_de_sanduiches.0.getpreco}}</p>
+                            <div class="imagem-container">
+                                <img src="{{ MEDIA_URL }}{{ lista_de_sanduiches.0.getimagem }}"
+                                    alt="Descrição da Imagem" class="imagem-quadrada">
+                            </div>
+                            <form method="post">
+                                {% csrf_token %}
+                                <button type="submit" name="adicionar_item" value="{{ lista_de_sanduiches.0.getnome }}">
+                                    Adicionar ao Carrinho
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="col-content">
+                            <h3>{{ lista_de_sanduiches.1.getnome}}<br></h3>
+                            <p> R$ {{lista_de_sanduiches.1.getpreco}}</p>
+                            <div class="imagem-container">
+                                <img src="{{ MEDIA_URL }}{{ lista_de_sanduiches.1.getimagem }}"
+                                    alt="Descrição da Imagem" class="imagem-quadrada">
+                            </div>
+                            <form method="post">
+                                {% csrf_token %}
+                                <button type="submit" name="adicionar_item" value="{{ lista_de_sanduiches.1.getnome }}">
+                                    Adicionar ao Carrinho
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="col-content">
+                            <h3>{{ lista_de_sanduiches.2.getnome}}<br></h3>
+                            <p> R$ {{lista_de_sanduiches.2.getpreco}}</p>
+                            <div class="imagem-container">
+                                <img src="{{ MEDIA_URL }}{{ lista_de_sanduiches.2.getimagem }}"
+                                    alt="Descrição da Imagem" class="imagem-quadrada">
+                            </div>
+                            <form method="post">
+                                {% csrf_token %}
+                                <button type="submit" name="adicionar_item" value="{{ lista_de_sanduiches.2.getnome }}">
+                                    Adicionar ao Carrinho
+                                </button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="col">
-                <div class="col-content">
-                     <h3>{{ lista_de_pizzas.1.getnome}}<br></h3>
-                    <p> R$ {{lista_de_pizzas.1.getpreco}}</p>
+        </section>
+        <section id="HotDogs" class="full-page Hotdogs">
+            <!-- o ID será usado como target-->
+            <div id="HotDog-content" class="full-page-content">
+                <h1>HotDog</h1>
+                <p class="descricao">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet ea libero corrupti,
+                    architecto, rerum nam
+                    modi
+                    et facilis in veniam quisquam consectetur odit quam provident soluta alias omnis? Hic, facere!</p>
 
-                        <form method="post">
-                            {% csrf_token %}
-                             <button type="submit" name="adicionar_item" value="{{ lista_de_pizzas.1.getnome }}">
-                              Adicionar ao Carrinho
-                             </button>
-                        </form>
+                <div class="grid">
+                    <div class="col">
+                        <div class="col-content">
+                            <h3>{{ lista_de_hotdogs.0.getnome}}<br></h3>
+                            <p> R$ {{lista_de_hotdogs.0.getpreco}}</p>
+                            <div class="imagem-container">
+                                <img src="{{ MEDIA_URL }}{{ lista_de_hotdogs.0.getimagem }}" alt="Descrição da Imagem"
+                                    class="imagem-quadrada">
+                            </div>
+                            <form method="post">
+                                {% csrf_token %}
+                                <button type="submit" name="adicionar_item" value="{{ lista_de_hotdogs.0.getnome }}">
+                                    Adicionar ao Carrinho
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="col-content">
+                            <h3>{{ lista_de_hotdogs.1.getnome}}<br></h3>
+                            <p> R$ {{lista_de_hotdogs.1.getpreco}}</p>
+                            <div class="imagem-container">
+                                <img src="{{ MEDIA_URL }}{{ lista_de_hotdogs.1.getimagem }}" alt="Descrição da Imagem"
+                                    class="imagem-quadrada">
+                            </div>
+                            <form method="post">
+                                {% csrf_token %}
+                                <button type="submit" name="adicionar_item" value="{{ lista_de_hotdogs.1.getnome }}">
+                                    Adicionar ao Carrinho
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="col-content">
+                            <h3>{{ lista_de_hotdogs.2.getnome}}<br></h3>
+                            <p> R$ {{lista_de_hotdogs.2.getpreco}}</p>
+                            <div class="imagem-container">
+                                <img src="{{ MEDIA_URL }}{{ lista_de_hotdogs.2.getimagem }}" alt="Descrição da Imagem"
+                                    class="imagem-quadrada">
+                            </div>
+                            <form method="post">
+                                {% csrf_token %}
+                                <button type="submit" name="adicionar_item" value="{{ lista_de_hotdogs.2.getnome }}">
+                                    Adicionar ao Carrinho
+                                </button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="col">
-                <div class="col-content">
-                     <h3>{{ lista_de_pizzas.2.getnome}}<br></h3>
-                    <p> R$ {{lista_de_pizzas.2.getpreco}}</p>
+        </section>
+        <section id="Pizzas" class="full-page Pizzas">
+            <!-- o ID será usado como target-->
+            <div id="Pizza-content" class="full-page-content grid">
+                <h1>Pizzas</h1>
+                <p class="descricao">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet ea libero corrupti,
+                    architecto, rerum nam
+                    modi
+                    et facilis in veniam quisquam consectetur odit quam provident soluta alias omnis? Hic, facere!</p>
 
+                <!-- <div class="grid">-->
+                <div class="col">
+                    <div class="col-content">
+                        <h3>{{ lista_de_pizzas.0.getnome}}<br></h3>
+                        <p> R$ {{lista_de_pizzas.0.getpreco}}</p>
+                        <div class="imagem-container">
+                            <img src="{{ MEDIA_URL }}{{ lista_de_pizzas.0.getimagem }}" alt="Descrição da Imagem"
+                                class="imagem-quadrada">
+                        </div>
                         <form method="post">
                             {% csrf_token %}
-                             <button type="submit" name="adicionar_item" value="{{ lista_de_pizzas.2.getnome }}">
-                              Adicionar ao Carrinho
-                             </button>
+                            <button type="submit" name="adicionar_item" value="{{ lista_de_pizzas.0.getnome }}">
+                                Adicionar ao Carrinho
+                            </button>
                         </form>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="col-content">
+                        <h3>{{ lista_de_pizzas.1.getnome}}<br></h3>
+                        <p> R$ {{lista_de_pizzas.1.getpreco}}</p>
+                        <div class="imagem-container">
+                            <img src="{{ MEDIA_URL }}{{ lista_de_pizzas.1.getimagem }}" alt="Descrição da Imagem"
+                                class="imagem-quadrada">
+                        </div>
+                        <form method="post">
+                            {% csrf_token %}
+                            <button type="submit" name="adicionar_item" value="{{ lista_de_pizzas.1.getnome }}">
+                                Adicionar ao Carrinho
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="col-content">
+                        <h3>{{ lista_de_pizzas.2.getnome}}<br></h3>
+                        <p> R$ {{lista_de_pizzas.2.getpreco}}</p>
+                        <div class="imagem-container">
+                            <img src="{{ MEDIA_URL }}{{ lista_de_pizzas.2.getimagem }}" alt="Descrição da Imagem"
+                                class="imagem-quadrada">
+                        </div>
+                        <form method="post">
+                            {% csrf_token %}
+                            <button type="submit" name="adicionar_item" value="{{ lista_de_pizzas.2.getnome }}">
+                                Adicionar ao Carrinho
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
-        <!--</div>-->
-    </section>
+            <!--</div>-->
+        </section>
         <section id="Milkshakes" class="full-page Milkshakes">
-        <!-- o ID será usado como target-->
-        <div id="Milkshake-content" class="full-page-content">
-            <h1>Milkshakes</h1>
-            <p class="descricao">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet ea libero corrupti, architecto, rerum nam
-                modi
-                et facilis in veniam quisquam consectetur odit quam provident soluta alias omnis? Hic, facere!</p>
-        
-        <div class="grid">
-            <div class="col">
-                <div class="col-content">
-                    Conteúdo
+            <!-- o ID será usado como target-->
+            <div id="Milkshake-content" class="full-page-content">
+                <h1>Milkshakes</h1>
+                <p class="descricao">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet ea libero corrupti,
+                    architecto, rerum nam
+                    modi
+                    et facilis in veniam quisquam consectetur odit quam provident soluta alias omnis? Hic, facere!</p>
+
+                <div class="grid">
+                    <div class="col">
+                        <div class="col-content">
+                            <h3>{{ lista_de_milkshakes.0.getnome}}<br></h3>
+                            <p> R$ {{lista_de_milkshakes.0.getpreco}}</p>
+                            <div class="imagem-container">
+                                <img src="{{ MEDIA_URL }}{{ lista_de_milkshakes.0.getimagem }}" alt="Descrição da Imagem"
+                                    class="imagem-quadrada">
+                            </div>
+                            <form method="post">
+                                {% csrf_token %}
+                                <button type="submit" name="adicionar_item" value="{{ lista_de_milkshakes.0.getnome }}">
+                                    Adicionar ao Carrinho
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="col-content">
+                            <h3>{{ lista_de_milkshakes.1.getnome}}<br></h3>
+                            <p> R$ {{lista_de_milkshakes.1.getpreco}}</p>
+                            <div class="imagem-container">
+                                <img src="{{ MEDIA_URL }}{{ lista_de_milkshakes.1.getimagem }}" alt="Descrição da Imagem"
+                                    class="imagem-quadrada">
+                            </div>
+                            <form method="post">
+                                {% csrf_token %}
+                                <button type="submit" name="adicionar_item" value="{{ lista_de_milkshakes.1.getnome }}">
+                                    Adicionar ao Carrinho
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="col-content">
+                            <h3>{{ lista_de_milkshakes.2.getnome}}<br></h3>
+                            <p> R$ {{lista_de_milkshakes.2.getpreco}}</p>
+                            <div class="imagem-container">
+                                <img src="{{ MEDIA_URL }}{{ lista_de_milkshakes.2.getimagem }}" alt="Descrição da Imagem"
+                                    class="imagem-quadrada">
+                            </div>
+                            <form method="post">
+                                {% csrf_token %}
+                                <button type="submit" name="adicionar_item" value="{{ lista_de_milkshakes.2.getnome }}">
+                                    Adicionar ao Carrinho
+                                </button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="col">
-                <div class="col-content">
-                    Conteúdo
-                </div>
-            </div>
-            <div class="col">
-                <div class="col-content">
-                    Conteúdo
-                </div>
-            </div>
-        </div>
-        </div>
-    </section>
+        </section>
         <section id="Bebidas" class="full-page Bebidas">
-        <!-- o ID será usado como target-->
-        <div id="Bebidas-content" class="full-page-content">
-            <h1>Bebidas</h1>
-            <p class="descricao">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet ea libero corrupti, architecto, rerum nam
-                modi
-                et facilis in veniam quisquam consectetur odit quam provident soluta alias omnis? Hic, facere!</p>
-        
-        <div class="grid">
-            <div class="col">
-                <div class="col-content">
-                    <h3>{{ lista_de_bebidas.0.getnome}}<br></h3>
-                    <p> R$ {{lista_de_bebidas.0.getpreco}}</p>
-                        <form method="post">
-                            {% csrf_token %}
-                             <button type="submit" name="adicionar_item" value="{{ lista_de_bebidas.0.getnome }}">
-                              Adicionar ao Carrinho
-                             </button>
-                        </form>
+            <!-- o ID será usado como target-->
+            <div id="Bebidas-content" class="full-page-content">
+                <h1>Bebidas</h1>
+                <p class="descricao">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet ea libero corrupti,
+                    architecto, rerum nam
+                    modi
+                    et facilis in veniam quisquam consectetur odit quam provident soluta alias omnis? Hic, facere!</p>
+
+                <div class="grid">
+                    <div class="col">
+                        <div class="col-content">
+                            <h3>{{ lista_de_bebidas.0.getnome}}<br></h3>
+                            <p> R$ {{lista_de_bebidas.0.getpreco}}</p>
+                                <div class="imagem-container">
+                                    <img src="{{ MEDIA_URL }}{{ lista_de_bebidas.0.getimagem }}" alt="Descrição da Imagem"
+                                        class="imagem-quadrada">
+                                </div>
+                            <form method="post">
+                                {% csrf_token %}
+                                <button type="submit" name="adicionar_item" value="{{ lista_de_bebidas.0.getnome }}">
+                                    Adicionar ao Carrinho
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="col-content">
+                            <h3>{{ lista_de_bebidas.1.getnome}}<br></h3>
+                            <p> R$ {{lista_de_bebidas.1.getpreco}}</p>
+                                <div class="imagem-container">
+                                    <img src="{{ MEDIA_URL }}{{ lista_de_bebidas.1.getimagem }}" alt="Descrição da Imagem"
+                                        class="imagem-quadrada">
+                                </div>
+                            <form method="post">
+                                {% csrf_token %}
+                                <button type="submit" name="adicionar_item" value="{{ lista_de_bebidas.1.getnome }}">
+                                    Adicionar ao Carrinho
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="col-content">
+                            <h3>{{ lista_de_bebidas.2.getnome}}<br></h3>
+                            <p> R$ {{lista_de_bebidas.2.getpreco}}</p>
+                                <div class="imagem-container">
+                                    <img src="{{ MEDIA_URL }}{{ lista_de_bebidas.2.getimagem }}" alt="Descrição da Imagem"
+                                        class="imagem-quadrada">
+                                </div>
+                            <form method="post">
+                                {% csrf_token %}
+                                <button type="submit" name="adicionar_item" value="{{ lista_de_bebidas.2.getnome }}">
+                                    Adicionar ao Carrinho
+                                </button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="col">
-                <div class="col-content">
-                     <h3>{{ lista_de_bebidas.1.getnome}}<br></h3>
-                    <p> R$ {{lista_de_bebidas.1.getpreco}}</p>
-
-                        <form method="post">
-                            {% csrf_token %}
-                             <button type="submit" name="adicionar_item" value="{{ lista_de_bebidas.1.getnome }}">
-                              Adicionar ao Carrinho
-                             </button>
-                        </form>
-                </div>
-            </div>
-            <div class="col">
-                <div class="col-content">
-                     <h3>{{ lista_de_bebidas.2.getnome}}<br></h3>
-                    <p> R$ {{lista_de_bebidas.2.getpreco}}</p>
-
-                        <form method="post">
-                            {% csrf_token %}
-                             <button type="submit" name="adicionar_item" value="{{ lista_de_bebidas.2.getnome }}">
-                              Adicionar ao Carrinho
-                             </button>
-                        </form>
-                </div>
-            </div>
-        </div>
-        </div>
-    </section>
-</div>
-
+        </section>
+    </div>
 </body>
 
 </html>

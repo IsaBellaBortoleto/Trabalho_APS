@@ -40,3 +40,12 @@ BEBIDAS_DISPONIVEIS =[
 PIZZAS_DISPONIVEIS = [
     produto_pizzacalabreza,produto_pizzaricota, produto_pizzafrango
 ]
+HOTDOG_DISPONIVEIS = [
+    produto_hotdogtradicional, produto_hotdognaotradicional, produto_hotdogfrango
+]
+SANDUICHES_DISPONIVEIS =[
+    produto_sanduichetradicional, produto_sanduichechicken, produto_sanduichefish
+]
+MILKSHAKES_DISPONIVEIS = [
+    produto_milkshakechocolatudo, produto_milkshakemoranguete, produto_milkshakekitkat
+]

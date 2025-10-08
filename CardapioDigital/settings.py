@@ -70,6 +70,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media',
             ],
         },
     },
@@ -132,3 +133,14 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# settings.py
+
+import os
+from pathlib import Path
+
+# Pasta física onde as imagens estão salvas
+MEDIA_ROOT = os.path.join(BASE_DIR, 'Imagens') 
+
+# Prefixo de URL que o navegador usará para acessar a pasta acima
+MEDIA_URL = '/media/'

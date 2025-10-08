@@ -1,4 +1,4 @@
-from Entidade import Entidade
+from .Entidade import Entidade
 #from Itens.master.Entidade import Entidade
 class Bebida(Entidade):
 
