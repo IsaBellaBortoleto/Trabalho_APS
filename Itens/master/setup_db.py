@@ -281,9 +281,11 @@ with connection :
             'mesa VARCHAR(50) NOT NULL, '
             'pedido VARCHAR(50), '
             'nota VARCHAR(100), '
-            'status VARCHAR(50), '
+            'status ENUM("Recebido pela cozinha", "Em preparo", "Finalizando", "Finalizado", "Entregue"), '
             'PRIMARY KEY (id) '
             ')'
         )
         cursor.execute(sql)
+
+        
     connection.commit()
