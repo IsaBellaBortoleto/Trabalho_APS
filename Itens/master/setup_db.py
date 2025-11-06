@@ -268,7 +268,7 @@ with connection :
                 "mostarda" : "sem mostarda",
                 "batata_palha" : "sem batata palha",
                 "vinagrete" : "com vinagrete",
-                "imagem" : "HotDogNaoTradicional.png"
+                "imagem" : "HotDogFrango.png"
             }
         )
         cursor.executemany(sql, dados)
