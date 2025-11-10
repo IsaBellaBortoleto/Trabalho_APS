@@ -53,7 +53,7 @@ class Carrinho():
                 'mesa': self.mesa,
                 'pedido': i.getnome(),
                 'nota': i.nota,
-                'status': "Recebido"
+                'status': "Recebido pela cozinha"
             })
 
         conn.commit()

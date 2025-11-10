@@ -156,3 +156,90 @@ def home(request):
 def pagina_de_sucesso(request):
     """View para a página de confirmação de pedido."""
     return render(request, 'sucesso/pagina_de_sucesso.html', {})
+ 
+#parte dos pedidos 
+
+import pymysql;
+
+db_config = {
+    "host": "localhost",
+    "user": "usuario_python",
+    "password": "senha123",
+    "database": "cardapio_digital"
+}
+
+def retonraTodosOsPedidos():
+    conn = pymysql.connect(**db_config)
+    cursor = conn.cursor() 
+
+    consulta = {"SELECT * FROM pedidos"}
+    cursor.execute(consulta)
+
+    resultados = cursor.fetchall()
+
+    for linha in resultados:
+        return linha
+
+def retornaPedidosNaoEntregues():
+    conn = pymysql.connect(**db_config)
+    cursor = conn.cursor() 
+
+    consulta = {"SELECT * FROM pedidos WHERE status = 'Finalizado'"}
+    cursor.execute(consulta)
+
+    resultados = cursor.fetchall()
+
+    for linha in resultados:
+        return linha
+    
+def SetEmPreparo(self):
+    conn = pymysql.connect(**db_config)
+    cursor = conn.cursor() 
+
+    sql = "UPDATE pedidos SET status = %s WHERE id = %s"
+    values = ("Em preparo", self.id) #descobrir como acessar o id
+
+    cursor.execute(sql, values)
+
+    conn.commit()
+    conn.close()
+
+def SetFinalizando(self):
+    conn = pymysql.connect(**db_config)
+    cursor = conn.cursor() 
+
+    sql = "UPDATE pedidos SET status = %s WHERE id = %s"
+    values = ("Finalizando", self.id) 
+
+    cursor.execute(sql, values)
+
+    conn.commit()
+    conn.close()
+
+
+def SetFinalizado(self):
+    conn = pymysql.connect(**db_config)
+    cursor = conn.cursor() 
+
+    sql = "UPDATE pedidos SET status = %s WHERE id = %s"
+    values = ("Finalizado", self.id)
+
+    cursor.execute(sql, values)
+
+    conn.commit()
+    conn.close()
+
+
+def SetEntregue(self):
+    conn = pymysql.connect(**db_config)
+    cursor = conn.cursor() 
+
+    sql = "UPDATE pedidos SET status = %s WHERE id = %s"
+    values = ("Entregue", self.id)
+
+    cursor.execute(sql, values)
+
+    conn.commit()
+    conn.close()
+
+
