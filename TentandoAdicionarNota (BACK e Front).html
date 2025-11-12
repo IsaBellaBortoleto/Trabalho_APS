@@ -1,0 +1,67 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Carrinho de Compras</title>
+    </head>
+<body>
+
+<h1>Meu Carrinho</h1>
+
+{% with posicao_para_editar=posicao_para_editar|default:"" %} 
+
+    {% for item in itens_com_detalhes %}
+    <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
+        
+        <h3>{{ item.nome }}</h3>
+        <p>Preço: R$ {{ item.preco|floatformat:2 }}</p>
+        <p>Posição no Carrinho: {{ item.posicao }}</p>
+        
+        {% if item.nota_atual %}
+            <p><strong>Notas:</strong> <em>{{ item.nota_atual }}</em></p>
+        {% endif %}
+
+        <form method="POST" style="display: inline-block;">
+            {% csrf_token %}
+            <input type="hidden" name="posicao_para_editar" value="{{ item.posicao }}">
+            
+            {% if item.posicao|stringformat:"s" == posicao_para_editar %}
+                <button type="submit" name="fechar_edicao" class="btn-fechar">Fechar Edição</button>
+            {% else %}
+                <button type="submit" name="editar_nota" class="btn-editar">Adicionar/Editar Nota</button>
+            {% endif %}
+        </form>
+        
+        <form method="POST" style="display: inline-block;">
+            {% csrf_token %}
+            <button type="submit" name="remover_item_por_posicao" value="{{ item.posicao }}" class="btn-remover">Remover Item</button>
+        </form>
+
+        {% if item.posicao|stringformat:"s" == posicao_para_editar %}
+            <div style="margin-top: 10px; padding: 10px; border: 1px dashed #007bff;">
+                <h4>Editar Nota</h4>
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="posicao_item_nota" value="{{ item.posicao }}">
+                    
+                    <textarea name="nota_adicional" rows="3" placeholder="Digite a nota adicional...">{{ item.nota_atual }}</textarea>
+                    
+                    <button type="submit" name="salvar_nota" class="btn-salvar">OK (Salvar Nota)</button>
+                </form>
+            </div>
+        {% endif %}
+
+    </div>
+    {% endfor %}
+
+    <h2>Total: R$ {{ total|floatformat:2 }}</h2>
+    
+    <form method="POST">
+        {% csrf_token %}
+        </form>
+    
+{% endwith %}
+
+</body>
+</html>

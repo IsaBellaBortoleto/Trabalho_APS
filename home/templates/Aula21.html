@@ -45,16 +45,41 @@
                 {% for item in itens_carrinho %}
                 <li>
                     {{ item.nome }} - R$ {{ item.preco }}
-                    <form method="post" style="display: inline;">
+                    {% if item.nota_atual %}
+                        <p class = "nota_salva_css"><strong>Nota:</strong> <em>{{ item.nota_atual }}</em></p>
+                    {% endif %}
+                    <form method="POST"><!-- style="display: inline-block;"-->
+                        {% csrf_token %}
+                        <input type="hidden" name="posicao_para_editar" value="{{ item.posicao }}">
+
+                        {% if item.posicao|stringformat:"s" == posicao_para_editar %}
+                            <button type="submit" name="fechar_edicao">Fechar Edição</button>
+                        {% else %}
+                            <button type="submit" name="editar_nota">Adicionar/Editar Nota</button>
+                        {% endif %}
+                    </form>
+                    <form method="post" ><!--style="display: inline;"-->
                         {% csrf_token %}
                         <button type="submit" name="remover_item_por_posicao" value="{{ item.posicao }}">
                             Remover
                         </button>
 
-                        <button type="submit" name="adicionar_nota" value="{{ item.posicao }}">
+                        <button type="submit" name="abrir_nota" value="{{ item.posicao }}">
                             Nota
                         </button>
                     </form>
+                    {% if item.posicao|stringformat:"s" == posicao_para_editar %}
+                        <div class="caixa-edicao-nota" > <!-- style="margin-top: 10px;"-->
+                            <form method="POST">
+                                {% csrf_token %}
+                                <input type="hidden" name="posicao_item_nota" value="{{ item.posicao }}">
+                                
+                                <textarea name="nota_adicional" rows="3" placeholder="Ex: sem cebola, ponto da carne...">{{ item.nota_atual }}</textarea>
+                                
+                                <button type="submit" name="salvar_nota">OK (Salvar Nota)</button>
+                            </form>
+                        </div>
+                    {% endif %}
                 </li>
                 {% endfor %}
             </ul>
@@ -62,7 +87,7 @@
             {% else %}
             <p>Seu carrinho está vazio.</p>
             {% endif %}
-            <form id="meuFormulario" action="{% url 'home' %}" method="post">
+            <form id="meuFormulario" action="{% url 'finalizar_pedido' %}" method="post">
                 {% csrf_token %}
 
                 <label for="numeroMesa">Número da Mesa:</label>
@@ -73,8 +98,10 @@
                 {% if erro_mesa %}
                 <p style="color: red; font-weight: bold;">{{ erro_mesa }}</p>
                 {% endif %}
-
-                <button type="submit">Finalizar Pedido</button>
+                {% comment %} <form method="POST" action="{% url 'finalizar_pedido' %}">
+                    {% csrf_token %} {% endcomment %}
+                    <button type="submit" name="finalizar_pedido">Finalizar Pedido</button>
+                {% comment %} </form> {% endcomment %}
             </form>
 
         </div>

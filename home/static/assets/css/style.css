@@ -111,7 +111,8 @@ h1{
     padding-left: 50px;
 }
 p{
-    font-size: 20px;
+    font-size: 16px;
+   
 }
 .descricao{
     padding:20px;
@@ -240,7 +241,7 @@ button[name="remover_item_por_posicao"] {
     background-color: #dc3545;
     color: white;
 }
-button[name="adicionar_nota"] {
+button[name="abrir_nota"] {
     background-color: #870ff7;
     color: white;
 }
@@ -354,4 +355,73 @@ body > p {
     /* 3. Estética (Opcional) */
     border-radius: 5px; /* Bordas arredondadas */
     display: block; /* Remove possíveis margens de linha */
+}
+
+/* Estilo para cada item individual no carrinho */
+.item-carrinho {
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+}
+
+/* Estilo para a nota que já foi salva */
+.item-carrinho .nota-salva {
+    color: #555;
+    font-style: italic;
+    font-size: 10px;
+}
+
+/* MUDANÇA AQUI:
+   A regra "display: inline-block;" foi REMOVIDA.
+   
+   Sem ela, os formulários (que contêm os botões) 
+   voltam ao comportamento padrão de bloco,
+   ou seja, um embaixo do outro.
+*/
+
+.carrinho ul li {
+    display: flex;
+    flex-wrap: wrap;
+}
+/* Estilo para a caixa de edição de nota (que aparece) */
+.caixa-edicao-nota {
+    width: 100%;
+    margin-top: 10px; /* Bota espaço entre os botões e a caixa */
+    padding: 10px;
+    border: 1px dashed #007bff; /* Borda azul tracejada */
+    background-color: #f8f9fa; /* Um fundo cinza claro */
+}
+
+/* Faz a caixa de texto ocupar a largura total da caixa de edição */
+.caixa-edicao-nota textarea {
+    width: 100%;
+    box-sizing: border-box; /* Garante que o padding não quebre o layout */
+    margin-bottom: 5px;
+}
+.nota_salva_css{
+    width:100%;
+    padding: 7px;
+    color:#666;
+}
+/* O botão "OK (Salvar Nota)" já está dentro da 
+   "caixa-edicao-nota", que por si só já fica 
+   abaixo dos outros botões.
+*/
+
+
+/* (Opcional) Estilos dos botões, mantidos do exemplo anterior */
+.btn-editar {
+    background-color: #007bff; /* Azul */
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.btn-remover {
+    background-color: #dc3545; /* Vermelho */
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
 }

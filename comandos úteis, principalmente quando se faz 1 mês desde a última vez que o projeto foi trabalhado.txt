@@ -1,1 +1,15 @@
 python manage.py runserver   
+
+git pull principal master
+
+ .\venv\Scripts\python.exe Itens\master\setup_db.py         
+
+C:/APS/venv/Scripts/Activate.ps1                                                                                                         
+
+git fetch origin master                                                                                                                    
+
+git remote list        
+
+git branch -v 
+
+deactivate   

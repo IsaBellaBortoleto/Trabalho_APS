@@ -63,15 +63,20 @@ def home(request):
     valor_mesa_invalido = None
 
     if request.method == 'POST':
-        # --- 1. Lógica de Adicionar/Remover Item (Ações de Carrinho) ---
+        # --- CARREGANDO AS DUAS LISTAS ---
         carrinho = request.session.get('carrinho', [])
+        carrinho_notas = request.session.get('carrinho_notas', [])
         
         if 'adicionar_item' in request.POST:
             nome_produto = request.POST.get('adicionar_item')
             if nome_produto in PRODUTOS_DISPONIVEIS:
+                # 1. Adiciona o nome à lista principal
                 carrinho.append(nome_produto)
+                # 2. Adiciona uma nota vazia à lista de notas, mantendo o índice
+                carrinho_notas.append('') 
+                
                 request.session['carrinho'] = carrinho
-            # Sempre redirecione após uma ação de carrinho para evitar reenvio do form
+                request.session['carrinho_notas'] = carrinho_notas # Salva a lista de notas
             return redirect('home')
             
         elif 'remover_item_por_posicao' in request.POST:
@@ -80,13 +85,47 @@ def home(request):
                 posicao = int(posicao)
                 if 0 <= posicao < len(carrinho):
                     carrinho.pop(posicao)
+                    # 3. REMOVE a nota correspondente para não quebrar os índices
+                    if 0 <= posicao < len(carrinho_notas):
+                        carrinho_notas.pop(posicao) 
+                        
                     request.session['carrinho'] = carrinho
+                    request.session['carrinho_notas'] = carrinho_notas # Salva a lista de notas atualizada
             except (ValueError, IndexError):
                 pass
-            # Sempre redirecione após uma ação de carrinho
             return redirect('home')
 
-        # --- 2. Lógica de Finalizar Pedido (Validação do Número da Mesa) ---
+        # --- NOVA LÓGICA: Salvar Nota Adicional (POST) ---
+        elif 'salvar_nota' in request.POST:
+            posicao_str = request.POST.get('posicao_item_nota')
+            nova_nota = request.POST.get('nota_adicional', '').strip()
+            
+            try:
+                posicao = int(posicao_str)
+                # 4. Altera a nota APENAS na lista de notas
+                if 0 <= posicao < len(carrinho_notas):
+                    carrinho_notas[posicao] = nova_nota
+                    request.session['carrinho_notas'] = carrinho_notas # Salva a lista de notas
+            except (ValueError, IndexError):
+                pass
+            
+            return redirect('home') # Redireciona para exibir o carrinho atualizado
+        # Código que falta no seu if request.method == 'POST':
+        elif 'editar_nota' in request.POST:
+            posicao_para_editar = request.POST.get('posicao_para_editar')
+            # Neste ponto, você pode salvar a posição na sessão ou apenas deixá-la
+            # ser passada para o template no contexto (o que é mais simples).
+            # return redirect('home')
+            #parece que é só continuar
+            pass
+        elif 'fechar_edicao' in request.POST:
+            # Também não faz nada, apenas recarrega a página
+            # sem a variável de contexto 'posicao_para_editar'.
+            pass
+
+        else:
+            pass
+         # --- 2. Lógica de Finalizar Pedido (Validação do Número da Mesa) ---
         # Se chegamos aqui, é porque nenhum botão de carrinho foi apertado. 
         # Assumimos que é o formulário de finalização.
         
@@ -116,25 +155,27 @@ def home(request):
             # ERRO! Guarda o valor digitado para preencher o formulário novamente
             valor_mesa_invalido = numero_mesa_str
 
-    # --- Lógica de Requisição GET (ou re-renderização pós-erro POST) ---
-    
-    # Carrega o carrinho para exibir na página (GET ou erro POST)
+    # --- Lógica de Requisição GET (e exibição) ---
     carrinho_atual = request.session.get('carrinho', [])
+    carrinho_notas = request.session.get('carrinho_notas', []) # Carrega a lista de notas
     
-    # Prepara os dados para o template
+    # Prepara os dados para o template, combinando as duas listas
     itens_com_detalhes = []
     total = 0
     
     for i, item_nome in enumerate(carrinho_atual):
+        item_nota = carrinho_notas[i] if i < len(carrinho_notas) else '' # Pega a nota correta
+        
         if item_nome in PRODUTOS_DISPONIVEIS:
             detalhes = PRODUTOS_DISPONIVEIS[item_nome]
             total += detalhes['preco']
+            
             itens_com_detalhes.append({
                 'nome': detalhes['nome'], 
                 'preco': detalhes['preco'], 
-                'posicao': i
+                'posicao': i,
+                'nota_atual': item_nota # NOVO: Envia a nota correta para o template
             })
-            
     context = {
         'produtos': PRODUTOS_DISPONIVEIS.items(),
         'itens_carrinho': itens_com_detalhes,
@@ -148,7 +189,7 @@ def home(request):
         'lista_de_milkshakes' : MILKSHAKES_DISPONIVEIS,
         'lista_de_sanduiches' : SANDUICHES_DISPONIVEIS,
 
-
+        'posicao_para_editar': request.POST.get('posicao_para_editar'), # Envia o valor do último POST de edição
     }
     
     return render(request, 'Aula21.html', context)
@@ -167,7 +208,72 @@ db_config = {
     "password": "senha123",
     "database": "cardapio_digital"
 }
+def finalizar_pedido_view(request):
+    """
+    Esta view tem UMA responsabilidade: validar a mesa,
+    salvar o carrinho no banco e limpar a sessão.
+    """
+    
+    # Esta view SÓ deve aceitar POST
+    if request.method == 'POST':
+        
+        # 1. Carrega os dados da sessão
+        carrinho_final = request.session.get('carrinho', [])
+        notas_finais = request.session.get('carrinho_notas', [])
 
+        # Se o carrinho estiver vazio, não faça nada
+        if not carrinho_final:
+            return redirect('pedidos') # Volta para casa
+
+        # 2. Pega e Valida o número da mesa
+        numero_mesa_str = request.POST.get('numero_mesa')
+        erro_validacao = None
+        
+        if not numero_mesa_str:
+            erro_validacao = "O número da mesa é obrigatório."
+        else:
+            try:
+                numero_mesa = int(numero_mesa_str)
+                if not (1 <= numero_mesa <= 20):
+                    erro_validacao = "O número da mesa deve ser entre 1 e 20."
+            except ValueError:
+                erro_validacao = "Formato de número de mesa inválido."
+        
+        # 3. Se a validação FALHAR, volte para home
+        # (Idealmente, você enviaria o erro de volta, mas vamos simplificar)
+        if erro_validacao:
+            # Você pode usar o sistema de 'messages' do Django para mostrar o erro
+            # messages.error(request, erro_validacao) 
+            return redirect('home')
+
+        # 4. SUCESSO! Salva no banco de dados
+        #try:
+        conn = pymysql.connect(**db_config)
+        status_inicial = "Em preparo"
+        with conn.cursor() as cursor:
+            for i, item_nome_chave in enumerate(carrinho_final):
+                item_nota = notas_finais[i] if i < len(notas_finais) else ''
+                nome_real_produto = PRODUTOS_DISPONIVEIS[item_nome_chave]['nome']
+                    
+                sql_insert = "INSERT INTO pedidos (mesa, pedido, nota, status) VALUES (%s, %s, %s, %s);"
+                cursor.execute(sql_insert, [numero_mesa, nome_real_produto, item_nota, status_inicial])
+        conn.commit() 
+        print("--- DEBUG: Commit realizado! ---")
+        #except Exception as e:
+            #print(f"--- DEBUG: ERRO NO BANCO! {e} ---")
+            #return redirect('home')
+
+        # 5. Limpa a sessão
+        if 'carrinho' in request.session:
+            del request.session['carrinho']
+        if 'carrinho_notas' in request.session:
+            del request.session['carrinho_notas']
+            
+        # 6. Redireciona para uma página de sucesso
+        return redirect('pagina_de_sucesso') # Você precisa criar essa página/URL
+
+    # Se alguém tentar acessar /finalizar-pedido/ com GET, apenas volte para casa
+    return redirect('home')
 def retonraTodosOsPedidos():
     conn = pymysql.connect(**db_config)
     cursor = conn.cursor() 

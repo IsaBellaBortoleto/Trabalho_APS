@@ -36,7 +36,7 @@ urlpatterns = [
     path('pedidos/', pedViews.pedidos),
     path('sucesso/', homeViwes.pagina_de_sucesso, name='pagina_de_sucesso'),
     path('', include('pedidos.urls')),
-
+    path('finalizar-pedido/', homeViwes.finalizar_pedido_view, name='finalizar_pedido'),
 
 ]
 
