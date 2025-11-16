@@ -212,12 +212,12 @@ def pagina_de_sucesso(request):
                 FROM pedidos 
                 WHERE (status != %s OR status IS NULL)  /* 1. Primeiro, filtre os ativos */
                 ORDER BY id DESC                      /* 2. Ordene "de baixo para cima" (pelo ID) */
-                LIMIT 15;                             /* 3. Pegue APENAS os 15 mais recentes */
+                LIMIT 10;                             /* 3. Pegue APENAS os 15 mais recentes */
             """
         
             # Executa a consulta
             cursor.execute(sql_query, ['Finalizado'])
-        
+            
             # 2. Pega o nome das colunas...
             colunas = [col[0] for col in cursor.description]
         
@@ -226,19 +226,7 @@ def pagina_de_sucesso(request):
             for row in cursor.fetchall():
                 lista_de_pedidos.append(dict(zip(colunas, row)))
             
-            # Executa a consulta
-            cursor.execute(sql_query, ['Finalizado'])
-            
-            # 2. Pega o nome das colunas do resultado
-            # Isso é um truque para converter o resultado em dicionário
-            colunas = [col[0] for col in cursor.description]
-            
-            #    3. Transforma os resultados em uma lista de dicionários
-            for row in cursor.fetchall():
-                # zip() combina o nome da coluna (ex: 'mesa') com o valor (ex: 5)
-                lista_de_pedidos.append(dict(zip(colunas, row)))
-        
-            #connection.close() """
+           
         
             #lista_finalizados = []
             # 1. A Query:
