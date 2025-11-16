@@ -15,6 +15,7 @@ from CocaCola import CocaCola
 from SucoVale import SucoVale
 from Guarana import Guarana
 
+import pymysql;
 class Carrinho():
     def __init__(self):
         self.itens = []

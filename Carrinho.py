@@ -1,4 +1,4 @@
-import pymysql
+""" import pymysql
 from SanduicheTradicional import SanduicheTradicional
 from SanduicheChicken import SanduicheChicken
 from SanduicheFish import SanduicheFish
@@ -14,7 +14,23 @@ from HotDogFrango import HotDogFrango
 from CocaCola import CocaCola
 from SucoVale import SucoVale
 from Guarana import Guarana
-
+ """
+from Itens.master.Guarana import Guarana
+from Itens.master.CocaCola import CocaCola
+from Itens.master.HotDogFrango import HotDogFrango
+from Itens.master.HotDogTradicional import HotDogTradicional
+from Itens.master.HotDogNaoTradicional import HotDogNaoTradicional
+from Itens.master.MilkshakeChocolatudo import MilshakeChocolatudo
+from Itens.master.MilkshakeKitKat import MilshakeKitKat
+from Itens.master.MilkshakeMoranguete import MilshakeMoranguete
+from Itens.master.PizzaCalabresa import PizzaCalabresa
+from Itens.master.PizzaFrango import PizzaFrango
+from Itens.master.PizzaRicota import PizzaRicota
+from Itens.master.SanduicheChicken import SanduicheChicken
+from Itens.master.SanduicheFish import SanduicheFish
+from Itens.master.SanduicheTradicional import SanduicheTradicional
+from Itens.master.SucoVale import SucoVale
+import pymysql;
 class Carrinho():
     def __init__(self):
         self.itens = []

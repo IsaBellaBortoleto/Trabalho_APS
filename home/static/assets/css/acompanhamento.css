@@ -1,108 +1,78 @@
-/* Definições de cores e fontes */
-:root {
-    --primary-color: #28a745; /* Verde Sucesso */
-    --secondary-color: #9900ff; /* Roxo Primário (Para contraste) */
-    --warning-color: #ffc107; /* Amarelo Alerta */
-    --background-dark: #6d64f3; /* Fundo do BODY - Roxo Suave */
-    --text-dark: #343a40;
-    --card-background: #ffffff; /* Fundo dos cards */
+/* O contêiner que segura todas as caixas */
+.container-pedidos {
+    display: flex;
+    flex-wrap: wrap; /* Permite que as caixas quebrem a linha */
+    gap: 15px; /* Espaço entre as caixas */
+    padding: 10px;
 }
 
-body {
-    background-color: var(--background-dark);
-    color: var(--text-dark);
-    font-family: sans-serif;
+/* Estilo da caixa de cada pedido individual */
+.caixa-pedido {
+    border: 1px solid #333;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 15px;
+    width: 250px; /* Largura fixa para cada caixa */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-/* Estilo do Cartão de Sucesso */
-.success-card {
-    background-color: var(--primary-color);
-    color: white;
-    border-radius: 15px;
-    box-shadow: 0 10px 20px rgba(40, 167, 69, 0.5) !important;
-    max-height: 440px;
+.caixa-pedido h3 {
+    margin-top: 0;
+    color: #0056b3;
 }
 
-.success-icon {
-    font-size: 4rem;
-    color: #fff;
-    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5)); 
-}
-
-/* Estilo do Botão de Erro */
-.btn-warning {
-    background-color: var(--warning-color);
-    border-color: var(--warning-color);
-    color: var(--text-dark);
+.caixa-pedido .nome-pedido {
+    font-size: 1.1em;
     font-weight: bold;
-    transition: background-color 0.3s;
 }
 
-.btn-warning:hover {
-    background-color: #e0a800;
-    border-color: #e0a800;
+.caixa-pedido .nota-pedido {
+    font-style: italic;
+    color: #555;
+    font-size: 0.9em;
 }
 
-/* Estilo do Cartão de Acompanhamento (Timeline) */
-/* Fundo do Card de Acompanhamento - CLARO para contrastar com o fundo do body */
-.timeline-card {
-    border-radius: 15px;
-    background-color: var(--card-background); /* Fundo branco/claro */
-    margin-bottom: 30px; /* Adiciona margem inferior para separar os pedidos */
-}
+/* --- ESTILOS DE STATUS PARA CORES DIFERENTES --- 
+(O '.status-em-preparo' vem do 'slugify' no HTML)
+*/
 
-.timeline-header {
-    background-color: var(--secondary-color); /* Roxo */
-    color: white; /* Texto em branco */
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
-    padding: 1rem;
-}
-
-/* Estilo da Linha do Tempo */
-.timeline {
-    position: relative;
-    padding: 20px 0;
-    margin-left: 20px; 
-}
-
-/* Linha vertical */
-.timeline::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 2px;
-    background-color: #dee2e6;
-    left: 0;
-}
-
-.timeline-item {
-    margin-bottom: 30px;
-    position: relative;
-    padding-left: 40px;
-}
-
-/* Ponto (Dot) da Linha do Tempo */
-.timeline-dot {
-    position: absolute;
-    left: -10px; 
-    top: 5px;
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    background-color: #adb5bd; /* Cinza */
-    border: 4px solid var(--card-background); /* Borda branca para destacar do fundo do card */
-    transition: background-color 0.3s;
-}
-
-/* Estilo para Itens ATIVOS */
-.timeline-item.active .timeline-dot {
-    background-color: var(--primary-color);
-    box-shadow: 0 0 0 4px rgba(40, 167, 69, 0.4);
-}
-
-.timeline-item.active .timeline-content h5 {
-    color: var(--primary-color);
+.status-em-preparo {
+    color: #d9534f; /* Vermelho/Laranja */
     font-weight: bold;
+}
+
+.status-pronto {
+    color: #5cb85c; /* Verde */
+    font-weight: bold;
+}
+
+/* Um status padrão caso não seja nenhum dos acima */
+.status-recebido {
+    color: #f0ad4e; /* Amarelo */
+    font-weight: bold;
+}
+/* Container principal dos finalizados */
+.caixa-finalizados {
+    display: flex;
+    /*flex-direction: column; /* <--- O SEGREDO: Isso força um embaixo do outro */
+    display: block;
+    background-color: #d9534f;
+    border: 2px ;
+    border-radius: 8px;
+    padding: 15px;
+}
+
+/* Estilo de cada "cartão" de pedido finalizado */
+.card-finalizado {
+    border-radius: 5px;
+    background-color: #ec7b77;
+    color: black;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 6px;
+}
+.finalizados {
+    display: flex;
+    flex-wrap: wrap; /* Permite que as caixas quebrem a linha */
+    gap: 15px; /* Espaço entre as caixas */
+    padding: 10px;
 }

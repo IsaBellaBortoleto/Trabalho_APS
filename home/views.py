@@ -195,10 +195,88 @@ def home(request):
     return render(request, 'Aula21.html', context)
 
 def pagina_de_sucesso(request):
-    """View para a página de confirmação de pedido."""
-    return render(request, 'sucesso/pagina_de_sucesso.html', {})
- 
-#parte dos pedidos 
+    """
+    Busca todos os pedidos no banco de dados que 
+    não estão com o status 'Finalizado' e os exibe.
+    """
+    
+    lista_de_pedidos = []
+    lista_finalizados = []
+    connection = pymysql.connect(**db_config)
+
+    try:
+        with connection.cursor() as cursor:
+
+            sql_query = """
+                SELECT id, mesa, pedido, nota, status 
+                FROM pedidos 
+                WHERE (status != %s OR status IS NULL)  /* 1. Primeiro, filtre os ativos */
+                ORDER BY id DESC                      /* 2. Ordene "de baixo para cima" (pelo ID) */
+                LIMIT 15;                             /* 3. Pegue APENAS os 15 mais recentes */
+            """
+        
+            # Executa a consulta
+            cursor.execute(sql_query, ['Finalizado'])
+        
+            # 2. Pega o nome das colunas...
+            colunas = [col[0] for col in cursor.description]
+        
+            # 3. Transforma os resultados em uma lista de dicionários
+            # (Este loop 'for' agora só vai rodar 15 vezes, no máximo)
+            for row in cursor.fetchall():
+                lista_de_pedidos.append(dict(zip(colunas, row)))
+            
+            # Executa a consulta
+            cursor.execute(sql_query, ['Finalizado'])
+            
+            # 2. Pega o nome das colunas do resultado
+            # Isso é um truque para converter o resultado em dicionário
+            colunas = [col[0] for col in cursor.description]
+            
+            #    3. Transforma os resultados em uma lista de dicionários
+            for row in cursor.fetchall():
+                # zip() combina o nome da coluna (ex: 'mesa') com o valor (ex: 5)
+                lista_de_pedidos.append(dict(zip(colunas, row)))
+        
+            #connection.close() """
+        
+            #lista_finalizados = []
+            # 1. A Query:
+            #    - WHERE status = 'Finalizado'
+            #    - ORDER BY id DESC (Do maior ID para o menor = De baixo para cima)
+            #    - LIMIT 5 (Pega apenas 5)
+            sql_query_finalizados = """
+                SELECT mesa, pedido, nota, status 
+                FROM pedidos 
+                WHERE status = %s 
+                ORDER BY id DESC 
+                LIMIT 5;
+            """
+                
+            # 2. Executa usando o mesmo cursor
+            cursor.execute(sql_query_finalizados, ['Finalizado'])
+                
+            # 3. Pega os nomes das colunas novamente (caso sejam diferentes)
+            colunas_fin = [col[0] for col in cursor.description]
+                
+            # 4. Transforma em dicionário e coloca na lista
+            for row in cursor.fetchall():
+                lista_finalizados.append(dict(zip(colunas_fin, row)))
+
+            # Fecha a conexão (Só depois de fazer TUDO)
+            connection.close()
+
+    except Exception as e:
+        print(f"Erro ao buscar pedidos na pagina_de_sucesso: {e}")
+   
+    # 4. Envia a lista para o template
+    context = {
+        'pedidos_ativos': lista_de_pedidos,
+        'pedidos_finalizados': lista_finalizados,
+    }
+    
+    # 5. Renderiza o novo arquivo HTML
+    return render(request, 'sucesso/pagina_de_sucesso.html', context)
 
 import pymysql;
 
