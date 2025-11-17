@@ -28,10 +28,10 @@
         <nav class="menu">
             <ul>
                 {% comment %} <li><a href="#home">Home</a></li> {% endcomment %}
-                <li><a href="#Hamburguer">Sanduiche</a></li>
-                <li><a href="#HotDogs">HotDog</a></li>
-                <li><a href="#Pizzas">Pizza</a></li>
-                <li><a href="#Milkshakes">Milkshake</a></li>
+                <li><a href="#Hamburguer">Sanduíches</a></li>
+                <li><a href="#HotDogs">HotDogs</a></li>
+                <li><a href="#Pizzas">Pizzas</a></li>
+                <li><a href="#Milkshakes">Milkshakes</a></li>
                 <li><a href="#Bebidas">Bebidas</a></li>
             </ul>
 
@@ -117,11 +117,8 @@
         <section id="Hamburguer" class="full-page Hamburguer">
             <!-- o ID será usado como target-->
             <div id="Hamburguer-content" class="grid full-page-content">
-                <h1>Sanduiche</h1>
-                <p class="descricao">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet ea libero corrupti,
-                    architecto, rerum nam
-                    modi
-                    et facilis in veniam quisquam consectetur odit quam provident soluta alias omnis? Hic, facere!</p>
+                <h1>Sanduíches</h1>
+                <p class="descricao"></p>
 
                 <div class="grid">
                     <div class="col">
@@ -132,12 +129,20 @@
                                 <img src="{{ MEDIA_URL }}{{ lista_de_sanduiches.0.getimagem }}"
                                     alt="Descrição da Imagem" class="imagem-quadrada">
                             </div>
-                            <form method="post">
+                            <!-- <form method="post"> 
                                 {% csrf_token %}
                                 <button type="submit" name="editar_item" value="{{ lista_de_sanduiches.0.getnome }}">
                                     Editar produto
                                 </button>
-                            </form>
+                            </form> -->
+
+                            <button type="button" 
+                                class="btn-editar-produto" 
+                                data-product-name="{{ lista_de_sanduiches.0.getnome }}"
+                                data-product-price="{{ lista_de_sanduiches.0.getpreco }}"
+                                data-product-pao="{{ lista_de_sanduiches.0.get}}">
+                                Editar produto
+                            </button>
                         </div>
                     </div>
                     <div class="col">
@@ -148,12 +153,12 @@
                                 <img src="{{ MEDIA_URL }}{{ lista_de_sanduiches.1.getimagem }}"
                                     alt="Descrição da Imagem" class="imagem-quadrada">
                             </div>
-                            <form method="post">
-                                {% csrf_token %}
-                                <button type="submit" name="editar_item" value="{{ lista_de_sanduiches.1.getnome }}">
-                                    Editar produto
-                                </button>
-                            </form>
+                            <button type="button" 
+                                class="btn-editar-produto" 
+                                data-product-name="{{ lista_de_sanduiches.1.getnome }}"
+                                data-product-price="{{ lista_de_sanduiches.1.getpreco }}">
+                                Editar produto
+                            </button>
                         </div>
                     </div>
                     <div class="col">
@@ -164,11 +169,12 @@
                                 <img src="{{ MEDIA_URL }}{{ lista_de_sanduiches.2.getimagem }}"
                                     alt="Descrição da Imagem" class="imagem-quadrada">
                             </div>
-                            <form method="post">
-                                {% csrf_token %}
-                                <button type="submit" name="editar_item" value="{{ lista_de_sanduiches.2.getnome }}">
-                                    Editar produto
-                                </button>
+                            <button type="button" 
+                                class="btn-editar-produto" 
+                                data-product-name="{{ lista_de_sanduiches.2.getnome }}"
+                                data-product-price="{{ lista_de_sanduiches.2.getpreco }}">
+                                Editar produto
+                            </button>
                             </form>
                         </div>
                     </div>
@@ -178,11 +184,8 @@
         <section id="HotDogs" class="full-page Hotdogs">
             <!-- o ID será usado como target-->
             <div id="HotDog-content" class="full-page-content">
-                <h1>HotDog</h1>
-                <p class="descricao">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet ea libero corrupti,
-                    architecto, rerum nam
-                    modi
-                    et facilis in veniam quisquam consectetur odit quam provident soluta alias omnis? Hic, facere!</p>
+                <h1>HotDogs</h1>
+                <p class="descricao"></p>
 
                 <div class="grid">
                     <div class="col">
@@ -193,12 +196,12 @@
                                 <img src="{{ MEDIA_URL }}{{ lista_de_hotdogs.0.getimagem }}" alt="Descrição da Imagem"
                                     class="imagem-quadrada">
                             </div>
-                            <form method="post">
-                                {% csrf_token %}
-                                <button type="submit" name="editar_item" value="{{ lista_de_hotdogs.0.getnome }}">
-                                    Editar produto
-                                </button>
-                            </form>
+                            <button type="button" 
+                                class="btn-editar-produto" 
+                                data-product-name="{{ lista_de_hotdogs.0.getnome }}"
+                                data-product-price="{{ lista_de_hotdogs.0.getpreco }}">
+                                Editar produto
+                            </button>
                         </div>
                     </div>
                     <div class="col">
@@ -209,12 +212,12 @@
                                 <img src="{{ MEDIA_URL }}{{ lista_de_hotdogs.1.getimagem }}" alt="Descrição da Imagem"
                                     class="imagem-quadrada">
                             </div>
-                            <form method="post">
-                                {% csrf_token %}
-                                <button type="submit" name="editar_item" value="{{ lista_de_hotdogs.1.getnome }}">
-                                    Editar produto
-                                </button>
-                            </form>
+                            <button type="button" 
+                                class="btn-editar-produto" 
+                                data-product-name="{{ lista_de_hotdogs.1.getnome }}"
+                                data-product-price="{{ lista_de_hotdogs.1.getpreco }}">
+                                Editar produto
+                            </button>
                         </div>
                     </div>
                     <div class="col">
@@ -225,12 +228,12 @@
                                 <img src="{{ MEDIA_URL }}{{ lista_de_hotdogs.2.getimagem }}" alt="Descrição da Imagem"
                                     class="imagem-quadrada">
                             </div>
-                            <form method="post">
-                                {% csrf_token %}
-                                <button type="submit" name="editar_item" value="{{ lista_de_hotdogs.2.getnome }}">
-                                    Editar produto
-                                </button>
-                            </form>
+                            <button type="button" 
+                                class="btn-editar-produto" 
+                                data-product-name="{{ lista_de_hotdogs.2.getnome }}"
+                                data-product-price="{{ lista_de_hotdogs.2.getpreco }}">
+                                Editar produto
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -240,10 +243,7 @@
             <!-- o ID será usado como target-->
             <div id="Pizza-content" class="full-page-content grid">
                 <h1>Pizzas</h1>
-                <p class="descricao">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet ea libero corrupti,
-                    architecto, rerum nam
-                    modi
-                    et facilis in veniam quisquam consectetur odit quam provident soluta alias omnis? Hic, facere!</p>
+                <p class="descricao"></p>
 
                 <!-- <div class="grid">-->
                 <div class="col">
@@ -254,12 +254,12 @@
                             <img src="{{ MEDIA_URL }}{{ lista_de_pizzas.0.getimagem }}" alt="Descrição da Imagem"
                                 class="imagem-quadrada">
                         </div>
-                        <form method="post">
-                            {% csrf_token %}
-                            <button type="submit" name="editar_item" value="{{ lista_de_pizzas.0.getnome }}">
+                            <button type="button" 
+                                class="btn-editar-produto" 
+                                data-product-name="{{ lista_de_pizzas.0.getnome }}"
+                                data-product-price="{{ lista_de_pizzas.0.getpreco }}">
                                 Editar produto
                             </button>
-                        </form>
                     </div>
                 </div>
                 <div class="col">
@@ -270,12 +270,12 @@
                             <img src="{{ MEDIA_URL }}{{ lista_de_pizzas.1.getimagem }}" alt="Descrição da Imagem"
                                 class="imagem-quadrada">
                         </div>
-                        <form method="post">
-                            {% csrf_token %}
-                            <button type="submit" name="editar_item" value="{{ lista_de_pizzas.1.getnome }}">
+                            <button type="button" 
+                                class="btn-editar-produto" 
+                                data-product-name="{{ lista_de_pizzas.1.getnome }}"
+                                data-product-price="{{ lista_de_pizzas.1.getpreco }}">
                                 Editar produto
                             </button>
-                        </form>
                     </div>
                 </div>
                 <div class="col">
@@ -286,12 +286,12 @@
                             <img src="{{ MEDIA_URL }}{{ lista_de_pizzas.2.getimagem }}" alt="Descrição da Imagem"
                                 class="imagem-quadrada">
                         </div>
-                        <form method="post">
-                            {% csrf_token %}
-                            <button type="submit" name="editar_item" value="{{ lista_de_pizzas.2.getnome }}">
+                            <button type="button" 
+                                class="btn-editar-produto" 
+                                data-product-name="{{ lista_de_pizzas.2.getnome }}"
+                                data-product-price="{{ lista_de_pizzas.2.getpreco }}">
                                 Editar produto
                             </button>
-                        </form>
                     </div>
                 </div>
             </div>
@@ -301,10 +301,7 @@
             <!-- o ID será usado como target-->
             <div id="Milkshake-content" class="full-page-content">
                 <h1>Milkshakes</h1>
-                <p class="descricao">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet ea libero corrupti,
-                    architecto, rerum nam
-                    modi
-                    et facilis in veniam quisquam consectetur odit quam provident soluta alias omnis? Hic, facere!</p>
+                <p class="descricao"></p>
 
                 <div class="grid">
                     <div class="col">
@@ -315,12 +312,12 @@
                                 <img src="{{ MEDIA_URL }}{{ lista_de_milkshakes.0.getimagem }}"
                                     alt="Descrição da Imagem" class="imagem-quadrada">
                             </div>
-                            <form method="post">
-                                {% csrf_token %}
-                                <button type="submit" name="editar_item" value="{{ lista_de_milkshakes.0.getnome }}">
-                                    Editar produto
-                                </button>
-                            </form>
+                            <button type="button" 
+                                class="btn-editar-produto" 
+                                data-product-name="{{ lista_de_milkshakes.0.getnome }}"
+                                data-product-price="{{ lista_de_milkshakes.0.getpreco }}">
+                                Editar produto
+                            </button>
                         </div>
                     </div>
                     <div class="col">
@@ -331,12 +328,12 @@
                                 <img src="{{ MEDIA_URL }}{{ lista_de_milkshakes.1.getimagem }}"
                                     alt="Descrição da Imagem" class="imagem-quadrada">
                             </div>
-                            <form method="post">
-                                {% csrf_token %}
-                                <button type="submit" name="editar_item" value="{{ lista_de_milkshakes.1.getnome }}">
-                                    Editar produto
-                                </button>
-                            </form>
+                            <button type="button" 
+                                class="btn-editar-produto" 
+                                data-product-name="{{ lista_de_milkshakes.1.getnome }}"
+                                data-product-price="{{ lista_de_milkshakes.1.getpreco }}">
+                                Editar produto
+                            </button>
                         </div>
                     </div>
                     <div class="col">
@@ -347,12 +344,12 @@
                                 <img src="{{ MEDIA_URL }}{{ lista_de_milkshakes.2.getimagem }}"
                                     alt="Descrição da Imagem" class="imagem-quadrada">
                             </div>
-                            <form method="post">
-                                {% csrf_token %}
-                                <button type="submit" name="editar_item" value="{{ lista_de_milkshakes.2.getnome }}">
-                                    Editar produto
-                                </button>
-                            </form>
+                            <button type="button" 
+                                class="btn-editar-produto" 
+                                data-product-name="{{ lista_de_milkshakes.2.getnome }}"
+                                data-product-price="{{ lista_de_milkshakes.2.getpreco }}">
+                                Editar produto
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -362,10 +359,7 @@
             <!-- o ID será usado como target-->
             <div id="Bebidas-content" class="full-page-content">
                 <h1>Bebidas</h1>
-                <p class="descricao">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet ea libero corrupti,
-                    architecto, rerum nam
-                    modi
-                    et facilis in veniam quisquam consectetur odit quam provident soluta alias omnis? Hic, facere!</p>
+                <p class="descricao"></p>
 
                 <div class="grid">
                     <div class="col">
@@ -376,12 +370,12 @@
                                 <img src="{{ MEDIA_URL }}{{ lista_de_bebidas.0.getimagem }}" alt="Descrição da Imagem"
                                     class="imagem-quadrada">
                             </div>
-                            <form method="post">
-                                {% csrf_token %}
-                                <button type="submit" name="editar_item" value="{{ lista_de_bebidas.0.getnome }}">
-                                    Editar produto
-                                </button>
-                            </form>
+                            <button type="button" 
+                                class="btn-editar-produto" 
+                                data-product-name="{{ lista_de_bebidas.0.getnome }}"
+                                data-product-price="{{ lista_de_bebidas.0.getpreco }}">
+                                Editar produto
+                            </button>
                         </div>
                     </div>
                     <div class="col">
@@ -392,12 +386,12 @@
                                 <img src="{{ MEDIA_URL }}{{ lista_de_bebidas.1.getimagem }}" alt="Descrição da Imagem"
                                     class="imagem-quadrada">
                             </div>
-                            <form method="post">
-                                {% csrf_token %}
-                                <button type="submit" name="editar_item" value="{{ lista_de_bebidas.1.getnome }}">
-                                    Editar produto
-                                </button>
-                            </form>
+                            <button type="button" 
+                                class="btn-editar-produto" 
+                                data-product-name="{{ lista_de_bebidas.1.getnome }}"
+                                data-product-price="{{ lista_de_bebidas.1.getpreco }}">
+                                Editar produto
+                            </button>
                         </div>
                     </div>
                     <div class="col">
@@ -408,18 +402,84 @@
                                 <img src="{{ MEDIA_URL }}{{ lista_de_bebidas.2.getimagem }}" alt="Descrição da Imagem"
                                     class="imagem-quadrada">
                             </div>
-                            <form method="post">
-                                {% csrf_token %}
-                                <button type="submit" name="editar_item" value="{{ lista_de_bebidas.2.getnome }}">
-                                    Editar produto
-                                </button>
-                            </form>
+                            <button type="button" 
+                                class="btn-editar-produto" 
+                                data-product-name="{{ lista_de_bebidas.2.getnome }}"
+                                data-product-price="{{ lista_de_bebidas.2.getpreco }}">
+                                Editar produto
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
     </div>
+
+<!-- parte do editar produto -->
+<div id="editProductModal" class="modal">
+    <div class="modal-content">
+        <span class="close-button">&times;</span>
+        <h2>Editar Produto</h2>
+        <form method="post" id="editProductForm">
+            {% csrf_token %}
+            <input type="hidden" name="acao" value="editar_produto_modal">
+            <input type="hidden" name="original_product_name" id="modalOriginalProductName">
+
+            <label for="modalProductName">Nome do Produto:</label>
+            <input type="text" id="modalProductName" name="new_product_name" required>
+            <br>
+            <label for="modalProductPrice">Preço (R$):</label>
+            <input type="number" step="0.01" id="modalProductPrice" name="new_product_price" required>
+            <br>
+            
+            <button type="submit">Salvar Edição</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    // Obter os elementos principais
+    var modal = document.getElementById("editProductModal");
+    var btns = document.querySelectorAll(".btn-editar-produto"); // Todos os botões de edição
+    var span = document.getElementsByClassName("close-button")[0]; // O 'x' para fechar
+
+    // Obter os campos do formulário dentro do modal
+    var modalProductNameInput = document.getElementById("modalProductName");
+    var modalProductPriceInput = document.getElementById("modalProductPrice");
+    var modalOriginalProductNameInput = document.getElementById("modalOriginalProductName");
+
+    // Lógica para abrir o modal
+    btns.forEach(function(btn) {
+        btn.onclick = function() {
+            // Pega os dados armazenados no atributo 'data-' do botão clicado
+            var productName = this.getAttribute("data-product-name");
+            var productPrice = parseFloat(this.getAttribute("data-product-price"));
+
+            // Preenche o formulário do modal com os dados do produto
+            modalProductNameInput.value = productName;
+            modalProductPriceInput.value = productPrice.toFixed(2);
+            modalOriginalProductNameInput.value = productName; // Nome original para o backend
+
+            modal.style.display = "flex"; // Usa 'flex' para exibir e centralizar
+        }
+    });
+
+    // Lógica para fechar o modal
+    // Quando o usuário clica em <span> (x)
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    // Quando o usuário clica em qualquer lugar fora do modal
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+
+</script>
+
 </body>
 
 </html>

@@ -174,7 +174,12 @@ def pedidos(request):
     pedidos_realizados = []
     pedidos_realizados = pedidos_clientes(request)
     
-    print(pedidos_realizados[0])
+    # Evitar erro quando a lista estiver vazia
+    if pedidos_realizados:
+        print(pedidos_realizados[0])
+    else:
+        print("Nenhum pedido realizado ainda.")
+
     context = {
         'produtos': PRODUTOS_DISPONIVEIS.items(),
         #'itens_carrinho': itens_com_detalhes,

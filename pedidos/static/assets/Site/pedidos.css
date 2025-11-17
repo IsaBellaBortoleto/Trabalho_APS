@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Domine:wght@400;500;600;700&display=swap');
 * {
     margin: 0;
     padding: 0;
@@ -7,6 +8,13 @@
 html {
     scroll-behavior: smooth;
     background-color: rgb(129, 255, 192);
+}
+
+.full-page-content h1 {
+    /* Força o título a ocupar toda a largura disponível */
+    width: 100%; 
+    /* Garante que o elemento se comporte como um bloco padrão, forçando quebra de linha */
+    display: block; 
 }
 
 .grid {
@@ -21,6 +29,7 @@ html {
     display: flex;        
       flex-wrap: wrap; 
       overflow: auto;
+    gap: 30px; /* ADICIONE ISTO */
       
 }
 
@@ -36,9 +45,8 @@ html {
     /*26/08/2025*/
     /*26/08/2025*/
     box-sizing: border-box;
-    width: 33.33%;
+    width: calc((100% - 60px) / 3);
     height: 330px;
-    float: left;
     padding: 15px;
 
 }
@@ -46,17 +54,19 @@ html {
 .grid .col-content {
     display: flex;
     flex-direction: column; 
-    justify-content: center; /* Centraliza o item horizontalmente */
-    align-items: top;    /* Centraliza o item verticalmente */
+    justify-content: flex-start; /* Centraliza o item horizontalmente */
+    align-items: stretch;    /* Centraliza o item verticalmente */
     width: 100%;
     height: 100%;
-    background-color: #62e6f0;
+    box-sizing: border-box;
+    min-width: 200px;
+    background-color: white;
     /* Para fazer que nem fillet de AUTOCAD - bordas arredondadas em elementos*/
     /* border-radius: 50px; */
     /* border-radius: 30px 100px 30px 100px; */
     /* Para fazer um círculo*/
     border-radius: 10%;
-    box-shadow: -8px   8px   10px    10px rgb(187, 186, 186, 0.4);
+    box-shadow: -8px   8px   10px    10px rgba(0, 0, 0, 0.15);
     padding: 20px;
     /*       direita  cima    blur   espalhamento (quase como um padding para a sombra  */
 /*   no elemtno da direita ( o primeiro parâmetro se colocar INSET A SOMBRA VAI PARA DENTRO DO OBJETO)
@@ -73,7 +83,7 @@ devem ser diferentes do que em telas de pc*/
 .menu {
     width: 100%;
     position: fixed;
-    background-color: rgb(27, 27, 27);
+    background-color: #5A3A28;
     overflow: auto;
     min-width: 0;
 }
@@ -95,13 +105,14 @@ devem ser diferentes do que em telas de pc*/
 }
 
 body {
-    font-family: Arial;
+    font-family: "Domine", serif;
     /*27 de setembro de 2025*/
 }
 .toda-pagina{
     display:grid;
     /*grid-template-columns: 1fr 300px; */
     max-width: calc(100vw - 500px); /* Ajusta a altura para caber na tela */
+    
     /*height: 100vh;*/
     grid-template-rows: auto 1fr;
     min-height: 100vh;
@@ -118,6 +129,7 @@ p{
 }
 .full-page {    
     max-width: 100%;
+    min-width: 100%;
     margin: 0 auto;
     /* fica centralizado*/
     width:calc(100vw-300px);
@@ -132,23 +144,23 @@ p{
     /*background-color: aqua;*/
 }
 #Bebidas-content{
-    background-color: rgb(160, 241, 79);
+    background-color: #E7B07A
 
 }
 #Milkshake-content{
-    background-color:rgb(183, 117, 214);
+    background-color:#E7D3BE;
 
 }
 #Pizza-content{
-    background-color:rgb(235, 88, 52);
+    background-color:#E7B07A
 
 }
 #Hamburguer-content{
-    background-color:rgb(234, 247, 119);
+    background-color:#E7B07A
 
 }
 #HotDog-content{
-    background-color: #dc3545;
+    background-color:#E7D3BE;
 }
 @media all and (max-width:700px) {
     .grid .col {
@@ -223,7 +235,7 @@ p{
 .carrinho {
     /* Não precisa de posicionamento fixo/absoluto */
     width: 300px;
-    background-color: #f0f0f0;
+    background-color: #F5E6D3;
     border-left: 1px solid #ccc;
     overflow-y: auto;
     
@@ -246,7 +258,7 @@ p{
     overflow-y: auto;
     height: 100%;
     /* Adicionamos uma cor de fundo diferente para melhor visualização */
-    background-color: #e9e9e9; 
+    background-color: #8F3A2A; 
 }
 hr {
     border: 0;
@@ -265,7 +277,7 @@ ul {
 
 li {
     padding: 15px;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #5A3A28;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -288,19 +300,19 @@ button {
 }
 
 button[name="adicionar_item"] {
-    background-color: #28a745;
+    background-color: #8F3A2A;
     color: white;
 }
 button[name="editar_item"] {
-    background-color: #4e28a7;
+    background-color: #8F3A2A;
     color: white;
 }
 button[name="remover_item_por_posicao"] {
-    background-color: #36eedf;
+    background-color: #8F3A2A;
     color: white;
 }
 button[name="atualizar_status"] {
-    background-color: #f70f55;
+    background-color: #8F3A2A;
     color: white;
 }
 button{
@@ -413,4 +425,100 @@ body > p {
     /* 3. Estética (Opcional) */
     border-radius: 5px; /* Bordas arredondadas */
     display: block; /* Remove possíveis margens de linha */
+}
+
+/* Estilos para o Modal (pop-up) */
+.modal {
+    display: none; /* Escondido por padrão */
+    position: fixed; /* Fica no topo da página */
+    z-index: 1000; /* Fica na frente de todo o resto */
+    left: 0;
+    top: 0;
+    width: 100%; /* Largura total */
+    height: 100%; /* Altura total */
+    background-color: rgba(0,0,0,0.6); /* Fundo semi-transparente escuro */
+    
+    /* Para centralizar o modal */
+    justify-content: center; 
+    align-items: center; 
+}
+
+.modal-content {
+    background-color: #F5E6D3;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 90%; 
+    max-width: 500px; /* Largura máxima, bom para mobile */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    border-radius: 8px;
+    position: relative; 
+}
+
+.close-button {
+    color: #8F3A2A;
+    font-size: 30px;
+    font-weight: bold;
+    position: absolute; 
+    right: 15px;
+    top: 5px;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Estilos para o formulário */
+#editProductForm label {
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+#editProductForm input[type="text"],
+#editProductForm input[type="number"] {
+    width: calc(100% - 22px); 
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box; /* Garante que o padding e border fiquem dentro da largura */
+}
+
+#editProductForm button[type="submit"] {
+    background-color: #8F3A2A; /* Cor primária do botão */
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+#editProductForm button[type="submit"]:hover {
+    background-color: #8F3A2A;
+}
+
+/* Estilos para o botão "Editar produto" que abre o modal */
+.btn-editar-produto {
+    /* Cor de fundo principal do botão */
+    background-color: #8F3A2A; 
+    
+    /* Cor do texto do botão */
+    color: white; 
+    
+    /* Outros estilos para consistência */
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px; /* Use 5px para combinar com outros botões */
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+    margin-top: 3px;
+    margin-bottom: 3px;
+    width: 100%; /* Para ocupar a largura do card, se desejar */
 }
