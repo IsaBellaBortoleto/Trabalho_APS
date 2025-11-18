@@ -96,6 +96,33 @@ def pedidos(request):
     Esta view lida com a exibição da página e com todas as
     ações de carrinho e finalização (POST).
     """
+
+    if request.method == 'POST':
+        acao = request.POST.get('acao')
+
+        # ----------------------------------------------------
+        # 2. Lógica para Processar a Edição do Produto
+        # ----------------------------------------------------
+        if acao == 'editar_produto_modal':
+            # Capturar os três valores enviados pelo formulário
+            nome_original = request.POST.get('original_product_name')
+            novo_nome = request.POST.get('new_product_name')
+            
+            # Converte o preço para float de forma segura
+            try:
+                novo_preco = float(request.POST.get('new_product_price'))
+            except (ValueError, TypeError):
+                # Tratar erro: se o preço não for válido, defina um valor padrão ou ignore
+                print("ERRO: Preço inválido recebido.")
+                novo_preco = 0.00 
+            
+            # Executa a função de salvamento no DB
+            salvar_edicao_produto_sql(nome_original, novo_nome, novo_preco)
+            
+            # Redireciona para evitar reenvio do formulário
+            return redirect('pedidos') 
+        
+
     # erro_validacao = None
     # valor_mesa_invalido = None
 
@@ -239,7 +266,8 @@ def pedidos_clientes(request):
 
     except Exception as e:
         print(f"Erro ao buscar pedidos na pagina_de_sucesso: {e}")
-    return (lista_de_pedidos)    
+    return (lista_de_pedidos)  
+  
 #teste pro negócio de login
 def login_pedidos(request):
     # Se usuário JÁ ESTIVER LOGADO, redireciona direto para pedidos
@@ -263,3 +291,31 @@ def login_pedidos(request):
 def logout_pedidos(request):
     logout(request)
     return redirect('home')
+
+def salvar_edicao_produto_sql(nome_original, novo_nome, novo_preco):
+    conn = None
+    try:
+        conn = pymysql.connect(**db_config)
+        cursor = conn.cursor()
+        
+        # Comando SQL: Atualiza os campos na tabela 'sanduiche'
+        # IMPORTANTE: Se o nome da tabela no seu DB for diferente (ex: 'produtos'), MUDAR AQUI.
+        sql = """
+        UPDATE sanduiche 
+        SET nome = %s, preco = %s 
+        WHERE nome = %s
+        """
+        
+        # A tupla de valores DEVE seguir a ordem do SQL: (novo nome, novo preco, nome original)
+        valores = (novo_nome, novo_preco, nome_original)
+        
+        cursor.execute(sql, valores)
+        conn.commit()
+        
+    except Exception as e:
+        print(f"Erro no DB: {e}")
+        if conn:
+            conn.rollback() 
+    finally:
+        if conn:
+            conn.close()

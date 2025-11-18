@@ -37,15 +37,14 @@ class SanduicheTradicional(Sanduiche):
 
         conn.close()
 
-        # 1. Remover parênteses
-        resultado=str(resultado)
-        resultado = resultado.replace('(', '').replace(')', '')
+        if resultado:
+            # 1. ACESSE O PRIMEIRO E ÚNICO ELEMENTO DA TUPLA.
+            nome_limpo = resultado[0] 
+            
+            # 2. Use .strip() para garantir que não haja espaços em branco indesejados.
+            return nome_limpo.strip()
 
-        # 2. Remover aspas simples
-        resultado = resultado.replace("'", "")
-
-
-        return resultado
+        return nome_limpo
 
     #retorna uma tupla de ingredientes
     def getingredientes(self):
