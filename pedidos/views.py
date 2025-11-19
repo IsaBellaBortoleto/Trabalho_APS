@@ -200,6 +200,44 @@ def pedidos(request):
     #         })
     pedidos_realizados = []
     pedidos_realizados = pedidos_clientes(request)
+    # ----------------------------------------------------
+    # 3. Lógica para Carregar Dados (GET)
+    # ----------------------------------------------------
+
+    problemas_reportados = [] # Inicializa a lista de problemas
+    conn = None
+
+    try:
+        # CONEXÃO COM O BANCO DE DADOS
+        conn = pymysql.connect(**db_config)
+        
+        # O DictCursor facilita o uso dos dados no template
+        with conn.cursor(pymysql.cursors.DictCursor) as cursor:
+            
+            # --- O SELECT CRUCIAL PARA BUSCAR OS PROBLEMAS ---
+            sql_problemas = """
+            SELECT 
+                prob.id AS problema_id,
+                prob.problema AS descricao,
+                p.mesa AS numero_mesa,
+                p.pedido AS nome_pedido
+            FROM 
+                problemas prob
+            JOIN 
+                pedidos p ON prob.pedido_id = p.id
+            ORDER BY 
+                prob.id DESC;
+            """
+            cursor.execute(sql_problemas)
+            # A lista de problemas prontos para o HTML
+            problemas_reportados = cursor.fetchall()
+            
+    except Exception as e:
+        print(f"Erro ao carregar problemas do banco de dados: {e}")
+
+    finally:
+        if conn:
+            conn.close()
     
     # Evitar erro quando a lista estiver vazia
     if pedidos_realizados:
@@ -226,6 +264,7 @@ def pedidos(request):
         # O novo conjunto de dados estáticos para exibir os pedidos
         #'pedidos_exemplo': PEDIDOS_ESTATICOS_EXEMPLO,
         'pedidos_realizados': pedidos_realizados,
+        'problemas_reportados': problemas_reportados,
 
     }
     
@@ -319,3 +358,39 @@ def salvar_edicao_produto_sql(nome_original, novo_nome, novo_preco):
     finally:
         if conn:
             conn.close()
+
+def reportar_problema_view(request):
+    """
+    Recebe o ID do pedido e a descrição do problema e atualiza o DB.
+    """
+    if request.method == 'POST':
+        pedido_id_str = request.POST.get('pedido_id')
+        descricao_problema = request.POST.get('descricao_problema', '').strip()
+
+        if not pedido_id_str or not descricao_problema:
+            messages.error(request, "ID do pedido ou descrição do problema não foram fornecidos.")
+            return redirect('pagina_de_sucesso') # Volte para a página de acompanhamento
+
+        try:
+            pedido_id = int(pedido_id_str)
+            
+            # Conexão e Atualização do Banco de Dados
+            conn = pymysql.connect(**db_config)
+
+            with conn.cursor() as cursor:
+                sql_update = "INSERT INTO problemas (pedido_id, problema) VALUES (%s, %s)"
+                cursor.execute(sql_update, [pedido_id, descricao_problema])
+            
+            conn.commit()
+            conn.close()
+            
+            messages.success(request, f"Problema reportado com sucesso para o Pedido ID: {pedido_id}!")
+            
+        except ValueError:
+            messages.error(request, "ID de pedido inválido.")
+        except Exception as e:
+            messages.error(request, f"Erro ao atualizar o banco de dados: {e}")
+            print(f"ERRO DE DB: {e}") # Log para debug
+
+    # Redireciona de volta para a página de onde veio
+    return redirect('pagina_de_sucesso')

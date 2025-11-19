@@ -245,25 +245,53 @@ p{
     border-right: 1px solid #ccc;
 }
 
+
+/* parte dos reportar problemas */
 .problemas {
-    /* Não precisa de posicionamento fixo/absoluto */
-    /* Colocado antes do .carrinho no HTML, ocupará a esquerda dos 500px */
-    width: 200px; 
-    
-    /* Removendo a borda de separação, pois a quebra entre os dois é o problema e o carrinho */
-    border-right: none; 
-    padding: 50px 20px;
-    
-    
-    overflow-y: auto;
+    width: 300px; 
     height: 100%;
-    /* Adicionamos uma cor de fundo diferente para melhor visualização */
+    overflow-y: auto;
     background-color: #8F3A2A; 
+    border-right: none;
+    padding: 50px 20px; 
+    
+    /* Outras configurações */
+    border: 2px solid #E7D3BE; 
+    box-sizing: border-box; 
 }
+
+.problemas h2 {
+    color: #E7D3BE; 
+    margin-bottom: 15px;
+    word-wrap: break-word; /* Garante que o título 'Problemas dos clientes' não estoure */
+}
+
+.container-problemas {
+    display: flex;
+    flex-direction: column; 
+    gap: 15px; 
+}
+
+.card-problema {
+    background-color: white;
+    padding: 10px;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 200px; /* Largura fixa para a caixinha */
+}
+.card-problema strong {
+    color: #dc3545; /* Cor vermelha para a mesa/item */
+}
+.descricao-problema {
+    margin-top: 10px;
+    font-style: italic;
+    color: #333;
+}
+
 hr {
     border: 0;
-    height: 1px;
-    background-color: #ddd;
+    height: 0.5px;
+    background-color: #E7D3BE;
     margin: 20px 0;
 }
 

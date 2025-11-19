@@ -40,6 +40,33 @@
         <div class="separacao">
             <div class="problemas">
                     <h2> Problemas dos clientes </h2>
+
+                    <div class="container-problemas">
+        
+                    {% for problema in problemas_reportados %}
+                    <!-- INÍCIO DA CAIXINHA DE PROBLEMA -->
+                    <div class="card-problema">
+                    
+                        <!-- Aqui usamos os ALIAS definidos no SELECT do Python -->
+                        <h4>Mesa {{ problema.numero_mesa }}</h4>
+                        <p>Pedido: <strong>{{ problema.nome_pedido }}</strong></p>
+                    
+                        <hr> 
+                        
+                        <p class="descricao-problema">
+                            <!-- O TEXTO DO PROBLEMA -->
+                            "{{ problema.descricao }}"
+                        </p>
+                    </div>
+                    <!-- FIM DA CAIXINHA DE PROBLEMA -->
+                
+                    {% empty %}
+                    <!-- Mensagem se a lista estiver vazia -->
+                    <p> Nenhum problema ativo reportado no momento.</p>
+                    {% endfor %}
+
+                </div>
+
             </div>
             <div class="carrinho">
                 {% if itens_carrinho %}
