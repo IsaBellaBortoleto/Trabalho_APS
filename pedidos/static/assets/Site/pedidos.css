@@ -122,7 +122,7 @@ h1{
     padding-left: 50px;
 }
 p{
-    font-size: 20px;
+    font-size: 17px;
 }
 .descricao{
     padding:20px;
@@ -234,10 +234,11 @@ p{
 
 .carrinho {
     /* Não precisa de posicionamento fixo/absoluto */
-    width: 300px;
+    width: 250px;
     background-color: #F5E6D3;
     border-left: 1px solid #ccc;
     overflow-y: auto;
+    padding: 10px;
     
     /* Ocupa a altura total do .separacao, que agora já tem altura definida */
     height: 100%; 
@@ -245,10 +246,107 @@ p{
     border-right: 1px solid #ccc;
 }
 
+.carrinho h2 {
+    color: #8F3A2A; 
+    margin-bottom: 15px;
+    word-wrap: break-word; 
+}
+
+/* 3. Estilo de Cada Pedido (substitui o 'card') */
+.carrinho .card {
+    /* Agora é apenas um div, vamos dar o visual de 'card' */
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #fff; /* Fundo do card claro */
+    color: #333; /* Texto do card escuro */
+}
+
+/* 4. Estilo do Cabeçalho do Pedido (FUNDO AMARELO) */
+.carrinho .card-header {
+    /* Simulando o 'bg-warning text-dark fw-bold' do Bootstrap */
+    background-color: white; /* Amarelo Bootstrap */
+    color: #212529; /* Texto escuro */
+    font-weight: bold;
+    padding: 8px 10px;
+    border-bottom: 1px solid #e9ecef;
+    border-radius: 6px 6px 0 0; /* Arredonda apenas os cantos superiores */
+    
+    /* ORGANIZAÇÃO INTERNA: Flexbox para empilhar em 250px */
+    display: flex;
+    flex-direction: column; 
+    align-items: flex-start;
+    gap: 5px; /* Espaçamento entre o texto e os botões */
+    word-break: break-word; /* Garante que o texto longo quebre */
+}
+
+/* 5. Estilização e Layout dos Botões */
+.carrinho .btn-group {
+    display: flex;
+    width: 100%; /* Ocupa a largura total do cabeçalho */
+    justify-content: space-between;
+}
+
+.carrinho .card-header button {
+    /* Estilo base dos botões */
+    padding: 5px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    flex-grow: 1; /* Faz com que os botões dividam o espaço igualmente */
+    margin: 0 2px;
+}
+
+/* Botão Remover (simulando btn-outline-danger) */
+button[name="remover_item_por_posicao"] {
+    background-color: transparent;
+    color: #dc3545; /* Vermelho */
+}
+
+/* Botão Status (simulando btn-outline-primary) */
+button[name="atualizar_status"] {
+    background-color: transparent;
+    color: #0d6efd; /* Azul */
+}
+
+/* 6. Estilo da Lista de Itens */
+.carrinho .list-group-flush {
+    list-style: none; /* Remove marcadores */
+    padding: 0;
+    margin: 0;
+}
+
+.carrinho .list-group-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.carrinho .list-group-item:last-child {
+    border-bottom: none; /* Remove a borda do último item */
+}
+
+/* 7. Estilo da Nota e Preço */
+.carrinho .text-primary {
+    color: #0d6efd; /* Azul para a nota, se quiser */
+    font-size: 0.8rem;
+}
+
+.carrinho .badge {
+    /* Estilizando o preço */
+    background-color: #f8f9fa;
+    padding: 4px 6px;
+    border-radius: 4px;
+    font-weight: bold;
+}
 
 /* parte dos reportar problemas */
 .problemas {
-    width: 300px; 
+    width: 250px; 
     height: 100%;
     overflow-y: auto;
     background-color: #8F3A2A; 
@@ -370,60 +468,6 @@ body > p {
     max-height: 150px;
 }
 
-/* Estilo para o carrinho */
-.carrinho-container {
-    max-width: 800px;
-    margin: 20px auto;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.carrinho-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px;
-    border-bottom: 1px solid #eee;
-}
-
-.carrinho-item:last-child {
-    border-bottom: none;
-}
-
-.carrinho-item .item-info h3 {
-    margin: 0 0 5px 0;
-}
-
-.btn-adicionar-carrinho, .btn-remover {
-    padding: 8px 12px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-.btn-adicionar-carrinho {
-    background-color: #28a745;
-    color: white;
-}
-
-.btn-remover {
-    background-color: #dc3545;
-    color: white;
-}
-
-.carrinho-footer {
-    padding: 20px;
-    border-top: 1px solid #eee;
-    text-align: right;
-}
-
-.carrinho-vazio {
-    text-align: center;
-    padding: 50px;
-}
 
 /* Passo 2A: Centralização do Bloco (Flexbox) */
 .imagem-container {

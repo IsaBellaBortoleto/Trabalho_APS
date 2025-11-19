@@ -69,30 +69,8 @@
 
             </div>
             <div class="carrinho">
-                {% if itens_carrinho %}
-                <ul>
-                    {% for item in itens_carrinho %}
-                    <li>
-                        {{ item.nome }} - R$ {{ item.preco }}
-                        <form method="post" style="display: inline;">
-                            {% csrf_token %}
-                            <button type="submit" name="remover_item_por_posicao" value="{{ item.posicao }}">
-                                Remover
-                            </button>
-
-                            <button type="submit" name="atualizar_status" value="{{ item.posicao }}">
-                                Status
-                            </button>
-                        </form>
-                    </li>
-                    {% endfor %}
-                </ul>
-                <p>Total: R$ {{ total }}</p>
-                {% else %}
-                {% comment %} <p>Seu carrinho está vazio.</p> {% endcomment %}
-                {% endif %}
                 <hr class="my-5">
-                <h2 class="text-center mb-4 text-white">Pedidos Estáticos de Exemplo (Em Aberto)</h2>
+                <h2 class="text-center mb-4 text-white">Pedidos em aberto</h2>
 
                 {% for pedido in pedidos_realizados %}
                 <div class="card mb-4 shadow-sm">
@@ -100,15 +78,31 @@
                     <div
                         class="card-header bg-warning text-dark fw-bold d-flex justify-content-between align-items-center">
 
+                        <!--<span>
+                            Mesa {{ pedido.mesa }} - Total: <span class="text-success">R$ {{ pedido.total|floatformat:2
+                                }}
+                        </span> -->
                         <span>
-                            Mesa #{{ pedido.mesa }} - Total: <span class="text-success">R$ {{ pedido.total|floatformat:2
-                                }}</span>
+                            Mesa {{pedido.mesa}}
                         </span>
+
+                        <p class="nome-pedido">{{ pedido.pedido }}</p>
+
+                        {% if pedido.nota %}
+                            <p class="nota-pedido"> Nota : {{ pedido.nota }}</p>
+                        {% endif %}
+
+                        <p>
+                        Status Atual: 
+                            <span class="status-{{ pedido.status|slugify }}">
+                                {{ pedido.status }}
+                            </span>
+                        </p>
 
                         <div class="btn-group" role="group" aria-label="Ações do Pedido">
 
                             <form method="post" action="#" style="display:inline;"
-                                onsubmit="return confirm('Tem certeza que deseja remover este pedido estático?');">
+                                onsubmit="return confirm('Tem certeza que deseja remover este pedido?');">
                                 {% csrf_token %}
                                 <input type="hidden" name="remover_item_por_posicao" value="{{ forloop.counter0 }}">
 
@@ -119,7 +113,7 @@
 
                             <button type="button" name="atualizar_status" class="btn btn-sm btn-outline-primary "
                                 title="Avançar Status do Pedido">
-                                <i class="bi bi-arrow-clockwise"></i> Status
+                                <i class="bi bi-arrow-clockwise"></i> Avançar Status
                             </button>
                         </div>
                     </div>

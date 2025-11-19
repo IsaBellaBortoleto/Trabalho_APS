@@ -269,12 +269,14 @@ def pedidos(request):
     }
     
     return render(request, 'Pedidos.html', context)
+
 db_config = {
     "host": "localhost",
     "user": "usuario_python",
     "password": "senha123",
     "database": "cardapio_digital"
 }
+
 def pedidos_clientes(request):
     lista_de_pedidos = []
     connection = pymysql.connect(**db_config)
@@ -285,7 +287,7 @@ def pedidos_clientes(request):
             sql_query = """
                 SELECT id, mesa, pedido, nota, status 
                 FROM pedidos 
-                WHERE (status != status IS NULL)  /* 1. Primeiro, filtre os ativos */
+                WHERE status IS NOT NULL AND status != 'Entregue'
                 ORDER BY id DESC                      /* 2. Ordene "de baixo para cima" (pelo ID) */
                 LIMIT 10;                             /* 3. Pegue APENAS os 15 mais recentes */
             """
@@ -305,7 +307,13 @@ def pedidos_clientes(request):
 
     except Exception as e:
         print(f"Erro ao buscar pedidos na pagina_de_sucesso: {e}")
-    return (lista_de_pedidos)  
+
+    #contexto = { 'pedidos_realizados': lista_de_pedidos }
+    
+    # 2. Use a função 'render' para processar o template e retornar a resposta HTTP.
+    #    (Substitua 'seu_template.html' pelo nome real do arquivo.)
+    #return render(request, 'Pedidos.html', contexto)
+    return (lista_de_pedidos)
   
 #teste pro negócio de login
 def login_pedidos(request):
