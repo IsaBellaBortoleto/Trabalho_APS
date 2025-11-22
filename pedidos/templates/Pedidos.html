@@ -42,76 +42,44 @@
                     <h2> Problemas dos clientes </h2>
             </div>
             <div class="carrinho">
-                {% if itens_carrinho %}
-                <ul>
-                    {% for item in itens_carrinho %}
-                    <li>
-                        {{ item.nome }} - R$ {{ item.preco }}
-                        <form method="post" style="display: inline;">
-                            {% csrf_token %}
-                            <button type="submit" name="remover_item_por_posicao" value="{{ item.posicao }}">
-                                Remover
-                            </button>
+            <h2>Pedidos Estáticos de Exemplo (Em Aberto)</h2>
 
-                            <button type="submit" name="atualizar_status" value="{{ item.posicao }}">
-                                Status
-                            </button>
-                        </form>
-                    </li>
-                    {% endfor %}
-                </ul>
-                <p>Total: R$ {{ total }}</p>
-                {% else %}
-                {% comment %} <p>Seu carrinho está vazio.</p> {% endcomment %}
-                {% endif %}
-                <hr class="my-5">
-                <h2 class="text-center mb-4 text-white">Pedidos Estáticos de Exemplo (Em Aberto)</h2>
-
-                {% for pedido in pedidos_realizados %}
+            {% for pedido in pedidos_realizados %}
+            
                 <div class="card mb-4 shadow-sm">
-
-                    <div
-                        class="card-header bg-warning text-dark fw-bold d-flex justify-content-between align-items-center">
-
-                        <span>
-                            Mesa #{{ pedido.mesa }} - Total: <span class="text-success">R$ {{ pedido.total|floatformat:2
-                                }}</span>
-                        </span>
-
-                        <div class="btn-group" role="group" aria-label="Ações do Pedido">
-
-                            <form method="post" action="#" style="display:inline;"
-                                onsubmit="return confirm('Tem certeza que deseja remover este pedido estático?');">
-                                {% csrf_token %}
-                                <input type="hidden" name="remover_item_por_posicao" value="{{ forloop.counter0 }}">
-
-                                <button type="submit" name="remover_item_por_posicao" class="btn btn-sm btn-outline-danger me-2 " title="Remover Pedido">
-                                    <i class="bi bi-trash"></i> Remover
-                                </button>
-                            </form>
-
-                            <button type="button" name="atualizar_status" class="btn btn-sm btn-outline-primary "
-                                title="Avançar Status do Pedido">
-                                <i class="bi bi-arrow-clockwise"></i> Status
-                            </button>
-                        </div>
-                    </div>
-
                     <ul class="list-group list-group-flush">
-                        {% for item in pedido.itens %}
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             <div>
-                                <strong>{{ item.nome }}</strong>
-                                {% if item.nota %}
-                                <small class="text-muted ms-2 text-primary">({{ item.nota }})</small>
+                                <strong>{{ pedido.nome }}</strong>
+                                
+                                {% if pedido.nota %}
+                                <small class->({{ pedido.nota }})</small>
+                                <p>{{pedido.status}}</p>
                                 {% endif %}
+                                <form method="post" style="display: inline;">
+                                {% csrf_token %}
+                                <button type="submit" name="remover_item_por_posicao" value="{{ item.posicao }}">
+                                    Remover
+                                </button>
+                                <button type="submit" name="atualizar_status_finalizando" value="{{ item.id }}">
+                                    Finalizando
+                                </button>
+                                <button type="submit" name="atualizar_status_finalizado" value="{{ item.id }}">
+                                    Finalizado
+                                </button>
+                                <button type="submit" name="atualizar_status_entregue" value="{{ item.id }}">
+                                    Entregue
+                                </button>
+                            </form>
                             </div>
-                            <span class="badge bg-light text-dark">R$ {{ item.preco|floatformat:2 }}</span>
+                        
                         </li>
-                        {% endfor %}
-                    </ul>
+                        
+                        </ul>
                 </div>
-                {% endfor %}
+                
+            {% endfor %}
+
             </div>
         </div>
         <section id="Hamburguer" class="full-page Hamburguer">

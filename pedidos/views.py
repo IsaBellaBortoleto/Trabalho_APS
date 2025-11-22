@@ -99,10 +99,12 @@ def pedidos(request):
     # erro_validacao = None
     # valor_mesa_invalido = None
 
-    # ######### if request.method == 'POST':
-    #     # --- 1. Lógica de Adicionar/Remover Item (Ações de Carrinho) ---
-    #     carrinho = request.session.get('carrinho', [])
-        
+    if request.method == 'POST':
+        if 'atualizar_status' in request.POST:
+            
+            # 1. Pega o ID que o botão enviou (do 'value')
+            pedido_id = request.POST.get('atualizar_status')
+            SetFinalizando(pedido_id)
     #     if 'adicionar_item' in request.POST:
     #         nome_produto = request.POST.get('adicionar_item')
     #         if nome_produto in PRODUTOS_DISPONIVEIS:
@@ -174,12 +176,8 @@ def pedidos(request):
     pedidos_realizados = []
     pedidos_realizados = pedidos_clientes(request)
     
-    print(pedidos_realizados[0])
     context = {
         'produtos': PRODUTOS_DISPONIVEIS.items(),
-        #'itens_carrinho': itens_com_detalhes,
-        #'total': total,
-        # Adiciona o contexto de erro AQUI
         #'erro_mesa': erro_validacao, 
         #'valor_mesa_invalido': valor_mesa_invalido,
         'lista_de_bebidas': BEBIDAS_DISPONIVEIS,
@@ -214,21 +212,30 @@ def pedidos_clientes(request):
             sql_query = """
                 SELECT id, mesa, pedido, nota, status 
                 FROM pedidos 
-                WHERE (status != status IS NULL)  /* 1. Primeiro, filtre os ativos */
                 ORDER BY id DESC                      /* 2. Ordene "de baixo para cima" (pelo ID) */
                 LIMIT 10;                             /* 3. Pegue APENAS os 15 mais recentes */
             """
-        
+            #WHERE (status != status IS NULL)  /* 1. Primeiro, filtre os ativos */
+
             # Executa a consulta
             cursor.execute(sql_query)
             
             # 2. Pega o nome das colunas...
             colunas = [col[0] for col in cursor.description]
-        
-            # 3. Transforma os resultados em uma lista de dicionários
-            # (Este loop 'for' agora só vai rodar 10 vezes, no máximo)
             for row in cursor.fetchall():
-                lista_de_pedidos.append(dict(zip(colunas, row)))
+                pedido_do_banco= dict(zip(colunas, row))
+                #lista_de_pedidos.append(dict(zip(colunas, row)))
+                # Crie um NOVO dicionário "traduzido"
+                item_traduzido = {
+                    'nome': pedido_do_banco['pedido'],  # <-- AQUI: 'nome' (HTML) recebe 'pedido' (Banco)
+                    'nota': pedido_do_banco['nota'],
+                    'mesa': pedido_do_banco['mesa'],
+                    'status': pedido_do_banco['status'],
+                    'id': pedido_do_banco['id']
+                }
+                lista_de_pedidos.append(item_traduzido)
+    # Adicione o dicionário traduzido à sua lista
+    
             # Fecha a conexão (Só depois de fazer TUDO)
             connection.close()
 
@@ -258,3 +265,50 @@ def login_pedidos(request):
 def logout_pedidos(request):
     logout(request)
     return redirect('home')
+
+import pymysql;
+
+db_config = {
+    "host": "localhost",
+    "user": "usuario_python",
+    "password": "senha123",
+    "database": "cardapio_digital"
+}
+def SetFinalizando(id):
+    conn = pymysql.connect(**db_config)
+    cursor = conn.cursor() 
+
+    sql = "UPDATE pedidos SET status = %s WHERE id = %s"
+    values = ("Finalizando", id) 
+
+    cursor.execute(sql, values)
+
+    conn.commit()
+    conn.close()
+
+
+def SetFinalizado(self):
+    conn = pymysql.connect(**db_config)
+    cursor = conn.cursor() 
+
+    sql = "UPDATE pedidos SET status = %s WHERE id = %s"
+    values = ("Finalizado", self.id)
+
+    cursor.execute(sql, values)
+
+    conn.commit()
+    conn.close()
+
+
+def SetEntregue(self):
+    conn = pymysql.connect(**db_config)
+    cursor = conn.cursor() 
+
+    sql = "UPDATE pedidos SET status = %s WHERE id = %s"
+    values = ("Entregue", self.id)
+
+    cursor.execute(sql, values)
+
+    conn.commit()
+    conn.close()
+

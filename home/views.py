@@ -202,6 +202,7 @@ def pagina_de_sucesso(request):
     
     lista_de_pedidos = []
     lista_finalizados = []
+    lista_entregues = []
     connection = pymysql.connect(**db_config)
 
     try:
@@ -210,13 +211,13 @@ def pagina_de_sucesso(request):
             sql_query = """
                 SELECT id, mesa, pedido, nota, status 
                 FROM pedidos 
-                WHERE (status != %s OR status IS NULL)  /* 1. Primeiro, filtre os ativos */
+                WHERE ((status != %s AND status != %s) OR status IS NULL)  /* 1. Primeiro, filtre os ativos */
                 ORDER BY id DESC                      /* 2. Ordene "de baixo para cima" (pelo ID) */
                 LIMIT 10;                             /* 3. Pegue APENAS os 15 mais recentes */
             """
         
             # Executa a consulta
-            cursor.execute(sql_query, ['Finalizado'])
+            cursor.execute(sql_query, ['Finalizado', 'Entregue'])
             
             # 2. Pega o nome das colunas...
             colunas = [col[0] for col in cursor.description]
@@ -228,11 +229,26 @@ def pagina_de_sucesso(request):
             
            
         
-            #lista_finalizados = []
-            # 1. A Query:
-            #    - WHERE status = 'Finalizado'
-            #    - ORDER BY id DESC (Do maior ID para o menor = De baixo para cima)
-            #    - LIMIT 5 (Pega apenas 5)
+            # AGORA PEGA OS PEDIDOS ENTREGUES
+            sql_query_finalizados = """
+                SELECT mesa, pedido, nota, status 
+                FROM pedidos 
+                WHERE status = %s 
+                ORDER BY id DESC 
+                LIMIT 5;
+            """
+                
+            # 2. Executa usando o mesmo cursor
+            cursor.execute(sql_query_finalizados, ['Finalizado'])
+                
+            # 3. Pega os nomes das colunas novamente (caso sejam diferentes)
+            colunas_fin = [col[0] for col in cursor.description]
+                
+            # 4. Transforma em dicionário e coloca na lista
+            for row in cursor.fetchall():
+                lista_finalizados.append(dict(zip(colunas_fin, row)))
+            
+
             sql_query_finalizados = """
                 SELECT mesa, pedido, nota, status 
                 FROM pedidos 
@@ -261,6 +277,7 @@ def pagina_de_sucesso(request):
     context = {
         'pedidos_ativos': lista_de_pedidos,
         'pedidos_finalizados': lista_finalizados,
+        'pedidos_entregues': lista_entregues,
     }
     
     # 5. Renderiza o novo arquivo HTML
@@ -315,7 +332,7 @@ def finalizar_pedido_view(request):
         # 4. SUCESSO! Salva no banco de dados
         #try:
         conn = pymysql.connect(**db_config)
-        status_inicial = "Em preparo"
+        status_inicial = "Recebido pela cozinha"
         with conn.cursor() as cursor:
             for i, item_nome_chave in enumerate(carrinho_final):
                 item_nota = notas_finais[i] if i < len(notas_finais) else ''
@@ -376,12 +393,12 @@ def SetEmPreparo(self):
     conn.commit()
     conn.close()
 
-def SetFinalizando(self):
+def SetFinalizando(id):
     conn = pymysql.connect(**db_config)
     cursor = conn.cursor() 
 
     sql = "UPDATE pedidos SET status = %s WHERE id = %s"
-    values = ("Finalizando", self.id) 
+    values = ("Finalizando", id) 
 
     cursor.execute(sql, values)
 

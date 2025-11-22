@@ -1,0 +1,3 @@
+-- resetar as listas quando finalizar o pedido ou quando remover o item
+
+-- quando tira o itme do carrinho não está certo, tem erro, apaga os demais, sei lá
