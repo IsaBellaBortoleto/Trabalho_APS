@@ -61,6 +61,25 @@ class MilshakeKitKat(Milkshake):
 
 
         return resultado
+    
+    def getcapacidade(self):
+        conn = pymysql.connect(**self.db_config)
+        cursor = conn.cursor()
+
+        cursor.execute("SELECT capacidade from milkshake WHERE id = 3")
+        resultado = cursor.fetchone()
+
+        conn.close()
+
+        resultado=str(resultado)
+        resultado = resultado.replace('(', '').replace(')', '')
+
+        # 2. Remover aspas simples
+        resultado = resultado.replace("'", "")
+        #Remover as virgulas
+        resultado = resultado.replace(",", "")
+
+        return resultado
 
     #retorna a uma tupla com o caminho da imagem
     def getimagem(self):

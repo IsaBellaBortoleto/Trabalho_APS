@@ -38,6 +38,21 @@
                         {{ pedido.status }}
                     </span>
                 </p>
+
+                <form method="POST" action="{% url 'reportar_problema' %}" class="mt-3">
+                    {% csrf_token %}
+                    <!-- Campo oculto CRUCIAL: envia o ID do pedido para o banco -->
+                    <input type="hidden" name="pedido_id" value="{{ pedido.id }}"> 
+                    
+                    <div class="form-group">
+                        <textarea name="descricao_problema" class="form-control" rows="2" 
+                                placeholder="Descreva o problema (ex: item veio errado, chegou frio, etc.)"></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-sm btn-warning mt-2 w-100">
+                        <i class="bi bi-exclamation-triangle-fill"></i> Reportar Problema
+                    </button>
+                </form>
                 
             </div>
             

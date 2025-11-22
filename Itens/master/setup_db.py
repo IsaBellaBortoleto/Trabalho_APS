@@ -273,6 +273,8 @@ with connection :
         )
         cursor.executemany(sql, dados)
 
+        cursor.execute('DROP TABLE problemas')
+
         cursor.execute('DROP TABLE pedidos')
 
         sql = (
@@ -287,5 +289,27 @@ with connection :
         )
         cursor.execute(sql)
 
-        
+        sql = (
+            'CREATE TABLE IF NOT EXISTS logins ('
+            'id INT NOT NULL AUTO_INCREMENT, '
+            'nome VARCHAR(20) NOT NULL, '
+            'senha VARCHAR(8) NOT NULL, '
+            'PRIMARY KEY (id) '
+            ')'
+        )
+        cursor.execute(sql)
+
+    
+
+        sql = (
+            'CREATE TABLE IF NOT EXISTS problemas ('
+            'id INT NOT NULL AUTO_INCREMENT, '
+            'pedido_id INT NOT NULL, '
+            'problema VARCHAR(100), '
+            'PRIMARY KEY (id), '
+            'FOREIGN KEY(pedido_id) REFERENCES pedidos(id) ON DELETE CASCADE ON UPDATE CASCADE '
+            ')'
+        )
+        cursor.execute(sql)
+
     connection.commit()

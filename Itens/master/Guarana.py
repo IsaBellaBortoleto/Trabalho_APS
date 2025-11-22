@@ -62,6 +62,25 @@ class Guarana(Bebida):
         #Remover as virgulas
         resultado = resultado.replace(",", "")
         return resultado
+    
+    def getcapacidade(self):
+        conn = pymysql.connect(**self.db_config)
+        cursor = conn.cursor()
+
+        cursor.execute("SELECT capacidade from bebida WHERE id = 3")
+        resultado = cursor.fetchone()
+
+        conn.close()
+
+        resultado=str(resultado)
+        resultado = resultado.replace('(', '').replace(')', '')
+
+        # 2. Remover aspas simples
+        resultado = resultado.replace("'", "")
+        #Remover as virgulas
+        resultado = resultado.replace(",", "")
+
+        return resultado
 
     #altera o valor de alguma coluna
     def alteraritem(self, coluna, novovalor): #altera a coluna pra novovalor

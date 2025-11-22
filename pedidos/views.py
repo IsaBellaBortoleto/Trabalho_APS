@@ -96,6 +96,33 @@ def pedidos(request):
     Esta view lida com a exibição da página e com todas as
     ações de carrinho e finalização (POST).
     """
+
+    if request.method == 'POST':
+        acao = request.POST.get('acao')
+
+        # ----------------------------------------------------
+        # 2. Lógica para Processar a Edição do Produto
+        # ----------------------------------------------------
+        if acao == 'editar_produto_modal':
+            # Capturar os três valores enviados pelo formulário
+            nome_original = request.POST.get('original_product_name')
+            novo_nome = request.POST.get('new_product_name')
+            
+            # Converte o preço para float de forma segura
+            try:
+                novo_preco = float(request.POST.get('new_product_price'))
+            except (ValueError, TypeError):
+                # Tratar erro: se o preço não for válido, defina um valor padrão ou ignore
+                print("ERRO: Preço inválido recebido.")
+                novo_preco = 0.00 
+            
+            # Executa a função de salvamento no DB
+            salvar_edicao_produto_sql(nome_original, novo_nome, novo_preco)
+            
+            # Redireciona para evitar reenvio do formulário
+            return redirect('pedidos') 
+        
+
     # erro_validacao = None
     # valor_mesa_invalido = None
 
@@ -176,6 +203,7 @@ def pedidos(request):
     pedidos_realizados = []
     pedidos_realizados = pedidos_clientes(request)
     
+    print(pedidos_realizados[0])
     context = {
         'produtos': PRODUTOS_DISPONIVEIS.items(),
         #'erro_mesa': erro_validacao, 
@@ -192,16 +220,19 @@ def pedidos(request):
         # O novo conjunto de dados estáticos para exibir os pedidos
         #'pedidos_exemplo': PEDIDOS_ESTATICOS_EXEMPLO,
         'pedidos_realizados': pedidos_realizados,
+        'problemas_reportados': problemas_reportados,
 
     }
     
     return render(request, 'Pedidos.html', context)
+
 db_config = {
     "host": "localhost",
     "user": "usuario_python",
     "password": "senha123",
     "database": "cardapio_digital"
 }
+
 def pedidos_clientes(request):
     lista_de_pedidos = []
     connection = pymysql.connect(**db_config)
@@ -212,6 +243,7 @@ def pedidos_clientes(request):
             sql_query = """
                 SELECT id, mesa, pedido, nota, status 
                 FROM pedidos 
+                WHERE (status != status IS NULL)  /* 1. Primeiro, filtre os ativos */
                 ORDER BY id DESC                      /* 2. Ordene "de baixo para cima" (pelo ID) */
                 LIMIT 10;                             /* 3. Pegue APENAS os 15 mais recentes */
             """
@@ -241,7 +273,14 @@ def pedidos_clientes(request):
 
     except Exception as e:
         print(f"Erro ao buscar pedidos na pagina_de_sucesso: {e}")
-    return (lista_de_pedidos)    
+
+    #contexto = { 'pedidos_realizados': lista_de_pedidos }
+    
+    # 2. Use a função 'render' para processar o template e retornar a resposta HTTP.
+    #    (Substitua 'seu_template.html' pelo nome real do arquivo.)
+    #return render(request, 'Pedidos.html', contexto)
+    return (lista_de_pedidos)
+  
 #teste pro negócio de login
 def login_pedidos(request):
     # Se usuário JÁ ESTIVER LOGADO, redireciona direto para pedidos
@@ -265,6 +304,71 @@ def login_pedidos(request):
 def logout_pedidos(request):
     logout(request)
     return redirect('home')
+
+def salvar_edicao_produto_sql(nome_original, novo_nome, novo_preco):
+    conn = None
+    try:
+        conn = pymysql.connect(**db_config)
+        cursor = conn.cursor()
+        
+        # Comando SQL: Atualiza os campos na tabela 'sanduiche'
+        # IMPORTANTE: Se o nome da tabela no seu DB for diferente (ex: 'produtos'), MUDAR AQUI.
+        sql = """
+        UPDATE sanduiche 
+        SET nome = %s, preco = %s 
+        WHERE nome = %s
+        """
+        
+        # A tupla de valores DEVE seguir a ordem do SQL: (novo nome, novo preco, nome original)
+        valores = (novo_nome, novo_preco, nome_original)
+        
+        cursor.execute(sql, valores)
+        conn.commit()
+        
+    except Exception as e:
+        print(f"Erro no DB: {e}")
+        if conn:
+            conn.rollback() 
+    finally:
+        if conn:
+            conn.close()
+
+def reportar_problema_view(request):
+    """
+    Recebe o ID do pedido e a descrição do problema e atualiza o DB.
+    """
+    if request.method == 'POST':
+        pedido_id_str = request.POST.get('pedido_id')
+        descricao_problema = request.POST.get('descricao_problema', '').strip()
+
+        if not pedido_id_str or not descricao_problema:
+            messages.error(request, "ID do pedido ou descrição do problema não foram fornecidos.")
+            return redirect('pagina_de_sucesso') # Volte para a página de acompanhamento
+
+        try:
+            pedido_id = int(pedido_id_str)
+            
+            # Conexão e Atualização do Banco de Dados
+            conn = pymysql.connect(**db_config)
+
+            with conn.cursor() as cursor:
+                sql_update = "INSERT INTO problemas (pedido_id, problema) VALUES (%s, %s)"
+                cursor.execute(sql_update, [pedido_id, descricao_problema])
+            
+            conn.commit()
+            conn.close()
+            
+            messages.success(request, f"Problema reportado com sucesso para o Pedido ID: {pedido_id}!")
+            
+        except ValueError:
+            messages.error(request, "ID de pedido inválido.")
+        except Exception as e:
+            messages.error(request, f"Erro ao atualizar o banco de dados: {e}")
+            print(f"ERRO DE DB: {e}") # Log para debug
+
+    # Redireciona de volta para a página de onde veio
+    return redirect('pagina_de_sucesso')
+
 
 import pymysql;
 

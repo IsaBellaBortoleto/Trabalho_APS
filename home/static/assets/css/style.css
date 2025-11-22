@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Domine:wght@400;500;600;700&display=swap');
+
 * {
     margin: 0;
     padding: 0;
@@ -7,6 +9,13 @@
 html {
     scroll-behavior: smooth;
     background-color: rgb(129, 255, 192);
+}
+
+.full-page-content h1 {
+    /* Força o título a ocupar toda a largura disponível */
+    width: 100%; 
+    /* Garante que o elemento se comporte como um bloco padrão, forçando quebra de linha */
+    display: block; 
 }
 
 .grid {
@@ -50,13 +59,14 @@ html {
     align-items: top;    /* Centraliza o item verticalmente */
     width: 100%;
     height: 100%;
-    background-color: #f7c6c6;
+    background-color: white;
+    text-align: center;
     /* Para fazer que nem fillet de AUTOCAD - bordas arredondadas em elementos*/
     /* border-radius: 50px; */
     /* border-radius: 30px 100px 30px 100px; */
     /* Para fazer um círculo*/
     border-radius: 10%;
-    box-shadow: -8px   8px   10px    10px rgb(187, 186, 186, 0.4);
+    box-shadow: -8px   8px   10px    10px rgba(0, 0, 0, 0.15);
     padding: 20px;
     /*       direita  cima    blur   espalhamento (quase como um padding para a sombra  */
 /*   no elemtno da direita ( o primeiro parâmetro se colocar INSET A SOMBRA VAI PARA DENTRO DO OBJETO)
@@ -73,7 +83,7 @@ devem ser diferentes do que em telas de pc*/
 .menu {
     width: 100%;
     position: fixed;
-    background-color: rgb(27, 27, 27);
+    background-color: #5A3A28;
     overflow: auto;
     min-width: 0;
 }
@@ -95,7 +105,7 @@ devem ser diferentes do que em telas de pc*/
 }
 
 body {
-    font-family: Arial;
+    font-family: "Domine", serif;
     /*27 de setembro de 2025*/
 }
 .toda-pagina{
@@ -119,6 +129,7 @@ p{
 }
 .full-page {    
     max-width: 100%;
+    min-width: 100%;
     margin: 0 auto;
     /* fica centralizado*/
     width:calc(100vw-300px);
@@ -133,23 +144,22 @@ p{
     /*background-color: aqua;*/
 }
 #Bebidas-content{
-    background-color: rgb(160, 241, 79);
-
+    background-color: #E7B07A;
 }
 #Milkshake-content{
-    background-color:rgb(183, 117, 214);
+    background-color:#E7D3BE;
 
 }
 #Pizza-content{
-    background-color:rgb(235, 88, 52);
+    background-color:#E7B07A;
 
 }
 #Hamburguer-content{
-    background-color:rgb(234, 247, 119);
+    background-color: #E7B07A;
 
 }
 #HotDog-content{
-    background-color: #dc3545;
+    background-color: #F5E6D3;
 }
 @media all and (max-width:700px) {
     .grid .col {
@@ -187,10 +197,11 @@ p{
     top: 0;
     width: 300px;
     height: 100vh; /* 100vh significa 100% da altura da viewport (tela) */
-    background-color: #f0f0f0; /* Exemplo de cor de fundo */
-    border-left: 1px solid #ccc; /* Exemplo de borda */
-     margin-top: 63px;
-     overflow-y: auto;
+    background-color:#8F3A2A; /* Exemplo de cor de fundo */
+    /*border-left: 3px solid #F5E6D3; /* Exemplo de borda */
+    margin-top: 63px;
+    overflow-y: auto;
+    color: black;
 }
 
 hr {
@@ -210,7 +221,7 @@ ul {
 
 li {
     padding: 15px;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #5A3A28;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -233,16 +244,19 @@ button {
 }
 
 button[name="adicionar_item"] {
-    background-color: #28a745;
+    background-color: #8F3A2A;
     color: white;
+    width: 80%; /* Dê uma largura menor que 100% */
+    display: block; /* Ocupa a própria linha */
+    margin: 5px auto; /* Centraliza horizontalmente */
 }
 
 button[name="remover_item_por_posicao"] {
-    background-color: #dc3545;
+    background-color: #8F3A2A;
     color: white;
 }
 button[name="abrir_nota"] {
-    background-color: #870ff7;
+    background-color: #8F3A2A;
     color: white;
 }
 button{
@@ -276,7 +290,7 @@ body > p {
 .carrinho-container {
     max-width: 800px;
     margin: 20px auto;
-    background-color: #fff;
+    background-color: #E7B07A;
     border: 1px solid #ddd;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);

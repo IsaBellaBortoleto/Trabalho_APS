@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Domine:wght@400;500;600;700&display=swap');
 * {
     margin: 0;
     padding: 0;
@@ -7,6 +8,13 @@
 html {
     scroll-behavior: smooth;
     background-color: rgb(129, 255, 192);
+}
+
+.full-page-content h1 {
+    /* Força o título a ocupar toda a largura disponível */
+    width: 100%; 
+    /* Garante que o elemento se comporte como um bloco padrão, forçando quebra de linha */
+    display: block; 
 }
 
 .grid {
@@ -21,6 +29,7 @@ html {
     display: flex;        
       flex-wrap: wrap; 
       overflow: auto;
+    gap: 30px; /* ADICIONE ISTO */
       
 }
 
@@ -36,9 +45,8 @@ html {
     /*26/08/2025*/
     /*26/08/2025*/
     box-sizing: border-box;
-    width: 33.33%;
+    width: calc((100% - 60px) / 3);
     height: 330px;
-    float: left;
     padding: 15px;
 
 }
@@ -46,17 +54,19 @@ html {
 .grid .col-content {
     display: flex;
     flex-direction: column; 
-    justify-content: center; /* Centraliza o item horizontalmente */
-    align-items: top;    /* Centraliza o item verticalmente */
+    justify-content: flex-start; /* Centraliza o item horizontalmente */
+    align-items: stretch;    /* Centraliza o item verticalmente */
     width: 100%;
     height: 100%;
-    background-color: #62e6f0;
+    box-sizing: border-box;
+    min-width: 200px;
+    background-color: white;
     /* Para fazer que nem fillet de AUTOCAD - bordas arredondadas em elementos*/
     /* border-radius: 50px; */
     /* border-radius: 30px 100px 30px 100px; */
     /* Para fazer um círculo*/
     border-radius: 10%;
-    box-shadow: -8px   8px   10px    10px rgb(187, 186, 186, 0.4);
+    box-shadow: -8px   8px   10px    10px rgba(0, 0, 0, 0.15);
     padding: 20px;
     /*       direita  cima    blur   espalhamento (quase como um padding para a sombra  */
 /*   no elemtno da direita ( o primeiro parâmetro se colocar INSET A SOMBRA VAI PARA DENTRO DO OBJETO)
@@ -73,7 +83,7 @@ devem ser diferentes do que em telas de pc*/
 .menu {
     width: 100%;
     position: fixed;
-    background-color: rgb(27, 27, 27);
+    background-color: #5A3A28;
     overflow: auto;
     min-width: 0;
 }
@@ -95,13 +105,14 @@ devem ser diferentes do que em telas de pc*/
 }
 
 body {
-    font-family: Arial;
+    font-family: "Domine", serif;
     /*27 de setembro de 2025*/
 }
 .toda-pagina{
     display:grid;
     /*grid-template-columns: 1fr 300px; */
     max-width: calc(100vw - 500px); /* Ajusta a altura para caber na tela */
+    
     /*height: 100vh;*/
     grid-template-rows: auto 1fr;
     min-height: 100vh;
@@ -111,13 +122,14 @@ h1{
     padding-left: 50px;
 }
 p{
-    font-size: 20px;
+    font-size: 17px;
 }
 .descricao{
     padding:20px;
 }
 .full-page {    
     max-width: 100%;
+    min-width: 100%;
     margin: 0 auto;
     /* fica centralizado*/
     width:calc(100vw-300px);
@@ -132,23 +144,23 @@ p{
     /*background-color: aqua;*/
 }
 #Bebidas-content{
-    background-color: rgb(160, 241, 79);
+    background-color: #E7B07A
 
 }
 #Milkshake-content{
-    background-color:rgb(183, 117, 214);
+    background-color:#E7D3BE;
 
 }
 #Pizza-content{
-    background-color:rgb(235, 88, 52);
+    background-color:#E7B07A
 
 }
 #Hamburguer-content{
-    background-color:rgb(234, 247, 119);
+    background-color:#E7B07A
 
 }
 #HotDog-content{
-    background-color: #dc3545;
+    background-color:#E7D3BE;
 }
 @media all and (max-width:700px) {
     .grid .col {
@@ -222,10 +234,11 @@ p{
 
 .carrinho {
     /* Não precisa de posicionamento fixo/absoluto */
-    width: 300px;
-    background-color: #f0f0f0;
+    width: 250px;
+    background-color: #F5E6D3;
     border-left: 1px solid #ccc;
     overflow-y: auto;
+    padding: 10px;
     
     /* Ocupa a altura total do .separacao, que agora já tem altura definida */
     height: 100%; 
@@ -233,25 +246,150 @@ p{
     border-right: 1px solid #ccc;
 }
 
-.problemas {
-    /* Não precisa de posicionamento fixo/absoluto */
-    /* Colocado antes do .carrinho no HTML, ocupará a esquerda dos 500px */
-    width: 200px; 
-    
-    /* Removendo a borda de separação, pois a quebra entre os dois é o problema e o carrinho */
-    border-right: none; 
-    padding: 50px 20px;
-    
-    
-    overflow-y: auto;
-    height: 100%;
-    /* Adicionamos uma cor de fundo diferente para melhor visualização */
-    background-color: #e9e9e9; 
+.carrinho h2 {
+    color: #8F3A2A; 
+    margin-bottom: 15px;
+    word-wrap: break-word; 
 }
+
+/* 3. Estilo de Cada Pedido (substitui o 'card') */
+.carrinho .card {
+    /* Agora é apenas um div, vamos dar o visual de 'card' */
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #fff; /* Fundo do card claro */
+    color: #333; /* Texto do card escuro */
+}
+
+/* 4. Estilo do Cabeçalho do Pedido (FUNDO AMARELO) */
+.carrinho .card-header {
+    /* Simulando o 'bg-warning text-dark fw-bold' do Bootstrap */
+    background-color: white; /* Amarelo Bootstrap */
+    color: #212529; /* Texto escuro */
+    font-weight: bold;
+    padding: 8px 10px;
+    border-bottom: 1px solid #e9ecef;
+    border-radius: 6px 6px 0 0; /* Arredonda apenas os cantos superiores */
+    
+    /* ORGANIZAÇÃO INTERNA: Flexbox para empilhar em 250px */
+    display: flex;
+    flex-direction: column; 
+    align-items: flex-start;
+    gap: 5px; /* Espaçamento entre o texto e os botões */
+    word-break: break-word; /* Garante que o texto longo quebre */
+}
+
+/* 5. Estilização e Layout dos Botões */
+.carrinho .btn-group {
+    display: flex;
+    width: 100%; /* Ocupa a largura total do cabeçalho */
+    justify-content: space-between;
+}
+
+.carrinho .card-header button {
+    /* Estilo base dos botões */
+    padding: 5px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    flex-grow: 1; /* Faz com que os botões dividam o espaço igualmente */
+    margin: 0 2px;
+}
+
+/* Botão Remover (simulando btn-outline-danger) */
+button[name="remover_item_por_posicao"] {
+    background-color: transparent;
+    color: #dc3545; /* Vermelho */
+}
+
+/* Botão Status (simulando btn-outline-primary) */
+button[name="atualizar_status"] {
+    background-color: transparent;
+    color: #0d6efd; /* Azul */
+}
+
+/* 6. Estilo da Lista de Itens */
+.carrinho .list-group-flush {
+    list-style: none; /* Remove marcadores */
+    padding: 0;
+    margin: 0;
+}
+
+.carrinho .list-group-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.carrinho .list-group-item:last-child {
+    border-bottom: none; /* Remove a borda do último item */
+}
+
+/* 7. Estilo da Nota e Preço */
+.carrinho .text-primary {
+    color: #0d6efd; /* Azul para a nota, se quiser */
+    font-size: 0.8rem;
+}
+
+.carrinho .badge {
+    /* Estilizando o preço */
+    background-color: #f8f9fa;
+    padding: 4px 6px;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+/* parte dos reportar problemas */
+.problemas {
+    width: 250px; 
+    height: 100%;
+    overflow-y: auto;
+    background-color: #8F3A2A; 
+    border-right: none;
+    padding: 50px 20px; 
+    
+    /* Outras configurações */
+    border: 2px solid #E7D3BE; 
+    box-sizing: border-box; 
+}
+
+.problemas h2 {
+    color: #E7D3BE; 
+    margin-bottom: 15px;
+    word-wrap: break-word; /* Garante que o título 'Problemas dos clientes' não estoure */
+}
+
+.container-problemas {
+    display: flex;
+    flex-direction: column; 
+    gap: 15px; 
+}
+
+.card-problema {
+    background-color: white;
+    padding: 10px;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 200px; /* Largura fixa para a caixinha */
+}
+.card-problema strong {
+    color: #dc3545; /* Cor vermelha para a mesa/item */
+}
+.descricao-problema {
+    margin-top: 10px;
+    font-style: italic;
+    color: #333;
+}
+
 hr {
     border: 0;
-    height: 1px;
-    background-color: #ddd;
+    height: 0.5px;
+    background-color: #E7D3BE;
     margin: 20px 0;
 }
 
@@ -265,7 +403,7 @@ ul {
 
 li {
     padding: 15px;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #5A3A28;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -288,19 +426,19 @@ button {
 }
 
 button[name="adicionar_item"] {
-    background-color: #28a745;
+    background-color: #8F3A2A;
     color: white;
 }
 button[name="editar_item"] {
-    background-color: #4e28a7;
+    background-color: #8F3A2A;
     color: white;
 }
 button[name="remover_item_por_posicao"] {
-    background-color: #36eedf;
+    background-color: #8F3A2A;
     color: white;
 }
 button[name="atualizar_status"] {
-    background-color: #f70f55;
+    background-color: #8F3A2A;
     color: white;
 }
 button{
@@ -330,60 +468,6 @@ body > p {
     max-height: 150px;
 }
 
-/* Estilo para o carrinho */
-.carrinho-container {
-    max-width: 800px;
-    margin: 20px auto;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.carrinho-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px;
-    border-bottom: 1px solid #eee;
-}
-
-.carrinho-item:last-child {
-    border-bottom: none;
-}
-
-.carrinho-item .item-info h3 {
-    margin: 0 0 5px 0;
-}
-
-.btn-adicionar-carrinho, .btn-remover {
-    padding: 8px 12px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-.btn-adicionar-carrinho {
-    background-color: #28a745;
-    color: white;
-}
-
-.btn-remover {
-    background-color: #dc3545;
-    color: white;
-}
-
-.carrinho-footer {
-    padding: 20px;
-    border-top: 1px solid #eee;
-    text-align: right;
-}
-
-.carrinho-vazio {
-    text-align: center;
-    padding: 50px;
-}
 
 /* Passo 2A: Centralização do Bloco (Flexbox) */
 .imagem-container {
@@ -413,4 +497,100 @@ body > p {
     /* 3. Estética (Opcional) */
     border-radius: 5px; /* Bordas arredondadas */
     display: block; /* Remove possíveis margens de linha */
+}
+
+/* Estilos para o Modal (pop-up) */
+.modal {
+    display: none; /* Escondido por padrão */
+    position: fixed; /* Fica no topo da página */
+    z-index: 1000; /* Fica na frente de todo o resto */
+    left: 0;
+    top: 0;
+    width: 100%; /* Largura total */
+    height: 100%; /* Altura total */
+    background-color: rgba(0,0,0,0.6); /* Fundo semi-transparente escuro */
+    
+    /* Para centralizar o modal */
+    justify-content: center; 
+    align-items: center; 
+}
+
+.modal-content {
+    background-color: #F5E6D3;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 90%; 
+    max-width: 500px; /* Largura máxima, bom para mobile */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    border-radius: 8px;
+    position: relative; 
+}
+
+.close-button {
+    color: #8F3A2A;
+    font-size: 30px;
+    font-weight: bold;
+    position: absolute; 
+    right: 15px;
+    top: 5px;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Estilos para o formulário */
+#editProductForm label {
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+#editProductForm input[type="text"],
+#editProductForm input[type="number"] {
+    width: calc(100% - 22px); 
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box; /* Garante que o padding e border fiquem dentro da largura */
+}
+
+#editProductForm button[type="submit"] {
+    background-color: #8F3A2A; /* Cor primária do botão */
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+#editProductForm button[type="submit"]:hover {
+    background-color: #8F3A2A;
+}
+
+/* Estilos para o botão "Editar produto" que abre o modal */
+.btn-editar-produto {
+    /* Cor de fundo principal do botão */
+    background-color: #8F3A2A; 
+    
+    /* Cor do texto do botão */
+    color: white; 
+    
+    /* Outros estilos para consistência */
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px; /* Use 5px para combinar com outros botões */
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+    margin-top: 3px;
+    margin-bottom: 3px;
+    width: 100%; /* Para ocupar a largura do card, se desejar */
 }
