@@ -397,7 +397,7 @@ def login_pedidos(request):
         else:
             messages.error(request, 'Usuário ou senha inválidos')
     
-    return render(request, 'login.html')
+    return render(request, 'pedidos/login.html')
 
 def logout_pedidos(request):
     logout(request)
