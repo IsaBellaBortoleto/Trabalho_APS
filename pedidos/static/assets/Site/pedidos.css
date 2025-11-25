@@ -594,3 +594,33 @@ body > p {
     margin-bottom: 3px;
     width: 100%; /* Para ocupar a largura do card, se desejar */
 }
+
+/* Cores de status */
+.status-recebido {
+    background-color: #fce652; /* Amarelo */
+    color: #333;
+    font-weight: bold;
+}
+
+.status-preparo {
+    background-color: #ff9900; /* Laranja */
+    color: white;
+}
+
+.status-finalizando {
+    background-color: #55a8ff; /* Azul Claro */
+    color: white;
+}
+
+.status-finalizado {
+    background-color: #4CAF50; /* Verde */
+    color: white;
+    font-weight: bold;
+}
+
+.status-entregue {
+    background-color: #333; /* Cinza Escuro */
+    color: white;
+    text-decoration: line-through;
+    
+}

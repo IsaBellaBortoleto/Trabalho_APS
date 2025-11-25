@@ -87,7 +87,7 @@
             {% else %}
             <p>Seu carrinho está vazio.</p>
             {% endif %}
-            <form id="meuFormulario" action="{% url 'finalizar_pedido' %}" method="post">
+            <form id="meuFormulario" action="" method="post" onsubmit="return confirm('Tem certeza?');">
                 {% csrf_token %}
 
                 <label for="numeroMesa">Número da Mesa:</label>
@@ -114,13 +114,13 @@
                         <p style="color: red; font-weight: bold;">{{ erro_cliente }}</p>
                     {% endif %}
 
-
-
-
-                <form method="POST" action="{% url 'confirmar_pedido' %}">
+                {% comment %} <form method="POST" action="{% url 'confirmar_pedido' %}">
                     {% csrf_token %} 
                     <button type="submit" name="finalizar_pedido">Finalizar Pedido</button>
-                 </form> 
+                 </form>  {% endcomment %}
+  
+                <button type="submit">Finalizar</button>
+                
             </form>
 
         </div>

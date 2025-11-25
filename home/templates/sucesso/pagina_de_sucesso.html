@@ -89,6 +89,35 @@
             <p>Nenhum pedido finalizado no momento.</p>
         {% endfor %}
     </div>
+
+    <div class="entregues">
+        {% for pedido in pedidos_entregues %}
+            
+            <div class="caixa-entregues">
+                
+                <h3>Mesa: {{ pedido.mesa }}</h3>
+                
+                <hr>
+                <div class="card-entregue">
+                <p class="nome-pedido">{{ pedido.pedido }}</p>
+                
+                {% if pedido.notas %}
+                    <p class="nota-pedido"><em>{{ pedido.nota }}</em></p>
+                {% endif %}
+                
+                <p>
+                    Status: 
+                    <span class="status-{{ pedido.status|slugify }}">
+                        {{ pedido.status }}
+                    </span>
+                </p>
+                </div>
+            </div>
+            
+        {% empty %}
+            <p>Nenhum pedido entregue no momento.</p>
+        {% endfor %}
+    </div>
 </body>
 
 </html>

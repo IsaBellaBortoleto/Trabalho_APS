@@ -122,9 +122,9 @@ def home(request):
             # Também não faz nada, apenas recarrega a página
             # sem a variável de contexto 'posicao_para_editar'.
             pass
-        elif request.method == 'POST' and 'finalizar_real' in request.POST:
-            # Chama sua função auxiliar passando o request
-            return redirect('pagina_de_sucesso') 
+        # elif request.method == 'POST' and 'finalizar_real' in request.POST:
+        #     # Chama sua função auxiliar passando o request
+        #     return redirect('pagina_de_sucesso') 
         else:
             pass
          # --- 2. Lógica de Finalizar Pedido (Validação do Número da Mesa) ---
@@ -148,25 +148,41 @@ def home(request):
         #- PROCESSAMENTO / RE-RENDERIZAÇÃO ---
         if not erro_validacao:
             # SUCESSO! Lógica para processar o pedido final, salvar no DB, limpar carrinho, etc.
-            if not numero_mesa_str:
-                erro_validacao = "O número da mesa é obrigatório."
-            else:
-                try:
-                    numero_mesa = int(numero_mesa_str)
-                    if not (1 <= numero_mesa <= 20):
-                        erro_validacao = "O número da mesa deve ser entre 1 e 20."
-                except ValueError:
-                    erro_validacao = "Formato de número de mesa inválido."
+            # if not numero_mesa_str:
+            #     erro_validacao = "O número da mesa é obrigatório."
+            # else:
+            #     try:
+            #         numero_mesa = int(numero_mesa_str)
+            #         if not (1 <= numero_mesa <= 20):
+            #             erro_validacao = "O número da mesa deve ser entre 1 e 20."
+            #     except ValueError:
+            #         erro_validacao = "Formato de número de mesa inválido."
             if not nome:
-                erro_validacao = "O nome do produto é obrigatório."
+                erro_validacao = "O nome do cliente é obrigatório."
             if len(nome) > 50:
-                erro_validacao = "O nome do produto deve ter no máximo 50 caracteres."
+                erro_validacao = "O nome do cliente deve ter no máximo 50 caracteres."
             # 3. Se a validação FALHAR, volte para home
             # (Idealmente, você enviaria o erro de volta, mas vamos simplificar)
             if erro_validacao:
                 # Você pode usar o sistema de 'messages' do Django para mostrar o erro
                 # messages.error(request, erro_validacao) 
-                return redirect('home')
+                context = {
+                    'produtos': PRODUTOS_DISPONIVEIS.items(),
+                    'itens_carrinho': itens_com_detalhes,
+                    'total': total,
+                    # Adiciona o contexto de erro AQUI
+                    'erro_mesa': erro_validacao, 
+                    'valor_mesa_invalido': valor_mesa_invalido,
+                    'lista_de_bebidas': BEBIDAS_DISPONIVEIS,
+                    'lista_de_pizzas': PIZZAS_DISPONIVEIS,
+                    'lista_de_hotdogs' : HOTDOG_DISPONIVEIS,
+                    'lista_de_milkshakes' : MILKSHAKES_DISPONIVEIS,
+                    'lista_de_sanduiches' : SANDUICHES_DISPONIVEIS,
+
+                    'posicao_para_editar': request.POST.get('posicao_para_editar'), # Envia o valor do último POST de edição
+                }
+                
+                return render(request, 'Aula21.html', context)
 
             # 4. SUCESSO! Salva no banco de dados
             try:
@@ -176,8 +192,10 @@ def home(request):
                     for i, item_nome_chave in enumerate(carrinho):
                         item_nota = carrinho_notas[i] if i < len(carrinho_notas) else ''
                         nome_real_produto = PRODUTOS_DISPONIVEIS[item_nome_chave]['nome']
-                            
-                        sql_insert = "INSERT INTO pedidos (mesa, cliente,  pedido, nota, status) VALUES (%s, %s, %s, %s);"
+                        print("DEBUG PRODUTO =", repr(nome_real_produto))
+                        print("DEBUG NOTA =", repr(item_nota))
+                        print("DEBUG CLIENTE =", repr(nome))
+                        sql_insert = "INSERT INTO pedidos (mesa, cliente,  pedido, nota, status) VALUES (%s, %s, %s, %s, %s);"
                         cursor.execute(sql_insert, [numero_mesa,nome, nome_real_produto, item_nota, status_inicial])
                 conn.commit() 
                 print("--- DEBUG: Commit realizado! ---")
@@ -216,8 +234,9 @@ def home(request):
             # 6. Redireciona para uma página de sucesso
             if 'carrinho' in request.session:
                  del request.session['carrinho']
-            #return redirect('pagina_de_sucesso') # Você precisa criar essa página/URL
-            return render(request, 'confirmando/carrinho/confirmacao_carrinho.html', context)
+            return redirect('pagina_de_sucesso')
+            #return redirect('confirmar_carrinho') # Você precisa criar essa página/URL
+           # return render(request, 'confirmando/carrinho/confirmacao_carrinho.html', context)
             # Limpa o carrinho após o sucesso:
             # if 'carrinho' in request.session:
             #      del request.session['carrinho']
@@ -265,9 +284,12 @@ def home(request):
     }
     
     return render(request, 'Aula21.html', context)
-def confirmar_pedido(request):
+def confirmar_carrinho(request):
         
         finalizar_real = request.POST.get('finalizar_real') == "true"
+        if finalizar_real:
+            return redirect('pagina_de_sucesso')
+        return render(request, 'confirmar_carrinho', context={})
         erro_validacao = None
         lista_detalhada = []
         numero_mesa_str = request.POST.get('numero_mesa')
@@ -414,7 +436,7 @@ def confirmar_pedido(request):
             request.session.pop('carrinho', None)
             request.session.pop('carrinho_notas', None)
             
-            return render(request, 'confirmar_pedido', context={})
+            #return render(request, 'confirmar_carrinho', context={})
          
 def pagina_de_sucesso(request):
     """
@@ -479,7 +501,7 @@ def pagina_de_sucesso(request):
                 lista_finalizados.append(dict(zip(colunas_fin, row)))
             
 
-            sql_query_finalizados = """
+            sql_query_entregues = """
                 SELECT mesa, pedido, nota, status 
                 FROM pedidos 
                 WHERE status = %s 
@@ -488,14 +510,14 @@ def pagina_de_sucesso(request):
             """
                 
             # 2. Executa usando o mesmo cursor
-            cursor.execute(sql_query_finalizados, ['Finalizado'])
+            cursor.execute(sql_query_entregues, ['Entregue'])
                 
             # 3. Pega os nomes das colunas novamente (caso sejam diferentes)
             colunas_fin = [col[0] for col in cursor.description]
                 
             # 4. Transforma em dicionário e coloca na lista
             for row in cursor.fetchall():
-                lista_finalizados.append(dict(zip(colunas_fin, row)))
+                lista_entregues.append(dict(zip(colunas_fin, row)))
 
             # Fecha a conexão (Só depois de fazer TUDO)
             connection.close()

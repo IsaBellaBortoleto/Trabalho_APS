@@ -92,23 +92,13 @@ PRODUTOS_DISPONIVEIS = {
 
 import traceback
 def pedidos(request):
-    """
-    Esta view lida com a exibição da página e com todas as
-    ações de carrinho e finalização (POST).
-    """
-    print("═" * 50)
-    print(f"📨 REQUISIÇÃO /pedidos/ RECEBIDA")
-    print(f"📎 Referer: {request.META.get('HTTP_REFERER', 'Direto/Nenhum')}")
-    
-    # 🎯 NOVO: STACK TRACE COMPLETO
-    print("🔍 STACK TRACE (onde foi chamado):")
-    stack = traceback.extract_stack()
-    for frame in stack[:-3]:  # Remove os frames internos do Django
-        if 'your_project_name' in frame.filename:  # Filtra apenas seu código
-            print(f"   📄 {frame.filename}:{frame.lineno} in {frame.name}")
-            print(f"   📝 {frame.line}")
-    
-    print("═" * 50)
+    ordem_status = [
+                "Recebido pela cozinha",
+                "Em preparo",
+                "Finalizando",
+                "Finalizado",
+                "Entregue",
+            ]
     if request.method == 'POST':
         acao = request.POST.get('acao')
 
@@ -133,7 +123,52 @@ def pedidos(request):
             
             # Redireciona para evitar reenvio do formulário
             return redirect('pedidos') 
-        
+        elif 'atualizar_status' in request.POST:
+            pedido_id, status_atual = [s.strip() for s in request.POST.get('atualizar_status').split(',')]
+            try:
+                conn = pymysql.connect(**db_config)
+                with conn.cursor() as cursor:
+
+                    # Buscar status atual
+                    # cursor.execute("SELECT status FROM pedidos WHERE id = %s", (pedido_id,))
+                    # resultado = cursor.fetchone()
+
+                    # if not resultado:
+                    #     print("Pedido não encontrado.")
+                    #     return redirect('pedidos')
+
+                    # status_atual = resultado[0]
+
+                    # Ache o status seguinte
+                    print("Status recebido do POST:", status_atual)
+                    if status_atual in ordem_status:
+                        idx = ordem_status.index(status_atual)
+                        # Só avança se não for o último
+                        if idx < len(ordem_status) - 1:
+                            novo_status = ordem_status[idx + 1]
+                        else:
+                            # Já está no último status
+                            novo_status = status_atual
+                    else:
+                        # Se o status atual não estiver na lista, defina o inicial
+                        novo_status = ordem_status[0]
+
+                    # Atualizar no banco
+                    
+                    cursor.execute(
+                        "UPDATE pedidos SET status = %s WHERE id = %s",
+                        (novo_status, pedido_id)
+                    )
+                    print("==============================================================")
+                    print("Atualizado para:", novo_status)
+                    print("==============================================================")
+
+                    conn.commit()
+
+            except Exception as e:
+                print("ERRO AO ATUALIZAR STATUS:", e)
+
+
 
     # erro_validacao = None
     # valor_mesa_invalido = None
@@ -414,3 +449,24 @@ def reportar_problema_view(request):
 
     # Redireciona de volta para a página de onde veio
     return redirect('pagina_de_sucesso')
+
+# Mapeamento do status do banco de dados para a classe CSS
+def obter_classe_status(status_do_pedido):
+    # Simplificamos o status removendo espaços e convertendo para minúsculas
+    status_limpo = status_do_pedido.lower().replace(' ', '-')
+    
+    # Exemplo de mapeamento, ou apenas retorno direto
+    if 'recebido-pela-cozinha' in status_limpo:
+        return 'status-recebido'
+    elif 'em-preparo' in status_limpo:
+        return 'status-preparo'
+    elif 'finalizado' in status_limpo:
+        return 'status-finalizado'
+    # ... adicione o restante
+    
+    # Se quiser que a classe seja o próprio status limpo:
+    # return 'status-' + status_limpo
+
+    # Se quiser retornar diretamente a classe limpa, garantindo que
+    # os nomes batam com o CSS:
+    return 'status-' + status_limpo

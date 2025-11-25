@@ -37,7 +37,7 @@ urlpatterns = [
     path('sucesso/', homeViwes.pagina_de_sucesso, name='pagina_de_sucesso'),
     path('', include('pedidos.urls')),
     path('finalizar-pedido/', homeViwes.finalizar_pedido_view, name='finalizar_pedido'),
-    path('confirmar-pedido/', homeViwes.confirmar_pedido, name='confirmar_pedido'),    
+    path('confirma-carrinho/', homeViwes.confirmar_carrinho, name='confirmar_carrinho'),    
 ]
 # Adiciona o serviço de arquivos de mídia se estiver em modo de desenvolvimento
 if settings.DEBUG:
