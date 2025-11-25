@@ -348,12 +348,29 @@ def pedidos_clientes(request):
             # 3. Transforma os resultados em uma lista de dicionários
             # (Este loop 'for' agora só vai rodar 10 vezes, no máximo)
             for row in cursor.fetchall():
-                lista_de_pedidos.append(dict(zip(colunas, row)))
+                pedido_dict = dict(zip(colunas, row))
+            
+                # 2. ADICIONA A LÓGICA DO STATUS LIMPO
+                status_do_pedido = pedido_dict.get('status')
+                if status_do_pedido and status_do_pedido is not None:
+                    
+                    # Sequência de Limpeza Definitiva: strip() -> lower() -> replace()
+                    status_limpo = status_do_pedido.strip()  # Remove espaços extras nas bordas
+                    status_limpo = status_limpo.lower()       # Tudo minúsculo
+                    status_limpo = status_limpo.replace(' ', '-') # Substitui espaços internos por hífens
+                    
+                    # Adiciona a nova chave 'classe_css' ao dicionário
+                    pedido_dict['classe_css'] = 'status-' + status_limpo
+                else:
+                    # Define uma classe padrão para status nulos/desconhecidos
+                    pedido_dict['classe_css'] = 'status-desconhecido'
+                    # 3. Adiciona o dicionário processado à lista final
+                lista_de_pedidos.append(pedido_dict)
             # Fecha a conexão (Só depois de fazer TUDO)
             connection.close()
 
     except Exception as e:
-        print(f"Erro ao buscar pedidos na pagina_de_sucesso: {e}")
+        print(f" = = = = = = = = = = =Erro ao buscar pedidos na PEDIDOS: {e}")
 
     #contexto = { 'pedidos_realizados': lista_de_pedidos }
     

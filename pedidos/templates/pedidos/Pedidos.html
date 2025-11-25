@@ -93,10 +93,14 @@
                         {% endif %}
 
                         <p>
-                        Status Atual: 
-                            <span class="status-{{ pedido.status|slugify }}">
-                                {{ pedido.status }}
-                            </span>
+                        <tr>
+                            <td>
+                                <span class="status-badge {{ pedido.classe_css }}"> 
+                                    {{ pedido.status }}
+                                </span>
+                            </td>
+                            
+                            </tr>
                         </p>
 
                         <div class="btn-group" role="group" aria-label="Ações do Pedido">

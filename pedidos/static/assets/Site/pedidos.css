@@ -596,24 +596,24 @@ body > p {
 }
 
 /* Cores de status */
-.status-recebido {
-    background-color: #fce652; /* Amarelo */
-    color: #333;
+.status-recebido-pela-cozinha {
+    background-color: #9e3b0d; 
+    color: #e9e8e8;
     font-weight: bold;
 }
 
-.status-preparo {
-    background-color: #ff9900; /* Laranja */
-    color: white;
+.status-em-preparo {
+    background-color: #f599f8; 
+    color: rgba(252, 252, 252, 1);
 }
 
 .status-finalizando {
-    background-color: #55a8ff; /* Azul Claro */
+    background-color: #f57c44; 
     color: white;
 }
 
 .status-finalizado {
-    background-color: #4CAF50; /* Verde */
+    background-color: #ca2f00; 
     color: white;
     font-weight: bold;
 }
@@ -622,5 +622,5 @@ body > p {
     background-color: #333; /* Cinza Escuro */
     color: white;
     text-decoration: line-through;
-    
+
 }
