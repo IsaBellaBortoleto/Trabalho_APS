@@ -105,15 +105,6 @@
 
                         <div class="btn-group" role="group" aria-label="Ações do Pedido">
 
-                            <form method="post" action="#" style="display:inline;"
-                                onsubmit="return confirm('Tem certeza que deseja remover este pedido?');">
-                                {% csrf_token %}
-                                <input type="hidden" name="remover_item_por_posicao" value="{{ forloop.counter0 }}">
-
-                                <button type="submit" name="remover_item_por_posicao" class="btn btn-sm btn-outline-danger me-2 " title="Remover Pedido">
-                                    <i class="bi bi-trash"></i> Remover
-                                </button>
-                            </form>
 
                             <form method="post" style="display:inline;">
                                 {% csrf_token %}
