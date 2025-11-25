@@ -306,10 +306,10 @@ button[name="remover_item_por_posicao"] {
 }
 
 /* Botão Status (simulando btn-outline-primary) */
-button[name="atualizar_status"] {
+/*button[name="atualizar_status"] {
     background-color: transparent;
     color: #0d6efd; /* Azul */
-}
+/*}
 
 /* 6. Estilo da Lista de Itens */
 .carrinho .list-group-flush {
@@ -437,7 +437,7 @@ button[name="remover_item_por_posicao"] {
     background-color: #8F3A2A;
     color: white;
 }
-button[name="atualizar_status"] {
+.carrinho button[name="atualizar_status"] {
     background-color: #8F3A2A;
     color: white;
 }
@@ -573,6 +573,12 @@ body > p {
 
 #editProductForm button[type="submit"]:hover {
     background-color: #8F3A2A;
+}
+
+.btn.btn-outline-primary {
+    background-color: #8F3A2A; /* Sua cor Marrom */
+    color: white;
+    border-color: #8F3A2A;
 }
 
 /* Estilos para o botão "Editar produto" que abre o modal */
