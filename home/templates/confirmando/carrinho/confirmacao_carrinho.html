@@ -1,0 +1,57 @@
+PRODUTOS_DISPONIVEIS = {
+    "camiseta": {"nome": "Camiseta Básica", "preco": 49.90},
+    "calca": {"nome": "Calça Jeans", "preco": 129.50},
+    "tenis": {"nome": "Tênis Esportivo", "preco": 250.00},
+    produto_guarana.getnome(): {"nome": produto_guarana.getnome(), "preco":produto_guarana.getpreco() },
+    produto_cocacola.getnome(): {"nome": produto_cocacola.getnome(), "preco":produto_cocacola.getpreco() },
+    produto_sucovale.getnome(): {"nome": produto_sucovale.getnome(), "preco":produto_sucovale.getpreco() },
+    produto_hotdogfrango.getnome(): {"nome": produto_hotdogfrango.getnome(), "preco":produto_hotdogfrango.getpreco() },
+    produto_hotdognaotradicional.getnome(): {"nome": produto_hotdognaotradicional.getnome(), "preco":produto_hotdognaotradicional.getpreco() },
+    produto_hotdogtradicional.getnome(): {"nome": produto_hotdogtradicional.getnome(), "preco":produto_hotdogtradicional.getpreco() },
+    produto_milkshakechocolatudo.getnome(): {"nome": produto_milkshakechocolatudo.getnome(), "preco":produto_milkshakechocolatudo.getpreco() },
+    produto_milkshakekitkat.getnome(): {"nome": produto_milkshakekitkat.getnome(), "preco":produto_milkshakekitkat.getpreco() },
+    produto_milkshakemoranguete.getnome(): {"nome": produto_milkshakemoranguete.getnome(), "preco":produto_milkshakemoranguete.getpreco() },
+    produto_pizzacalabreza.getnome(): {"nome": produto_pizzacalabreza.getnome(), "preco":produto_pizzacalabreza.getpreco() },
+    produto_pizzafrango.getnome(): {"nome": produto_pizzafrango.getnome(), "preco":produto_pizzafrango.getpreco() },
+    produto_pizzaricota.getnome(): {"nome": produto_pizzaricota.getnome(), "preco":produto_pizzaricota.getpreco() },
+    produto_sanduichechicken.getnome(): {"nome": produto_sanduichechicken.getnome(), "preco":produto_sanduichechicken.getpreco() },
+    produto_sanduichetradicional.getnome(): {"nome": produto_sanduichetradicional.getnome(), "preco":produto_sanduichetradicional.getpreco() },
+    produto_sanduichefish.getnome(): {"nome": produto_sanduichefish.getnome(), "preco":produto_sanduichefish.getpreco() },
+
+}
+
+{% block content %}
+<div class="container">
+    <h2>Confirmação de Pedido</h2>
+    
+    {% comment %} <div class="alert alert-info">
+        <p>Você tem <strong>{{ total_itens }}</strong> itens no carrinho.</p>
+    </div> {% endcomment %}
+
+    <ul>
+        {% for item in lista_detalhada %}
+            <li>
+                Mesa: {{ numero_mesa }} - 
+                Produto: <strong>{{ item.nome }}</strong>
+                
+                {% if item.nota %}
+                    <span style="color: red;">(Obs: {{ item.nota }})</span>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+
+    <h3>Tem certeza que deseja finalizar tudo?</h3>
+
+    <div style="display: flex; gap: 10px;">
+        <a href="{% url 'home' %}" class="btn btn-secondary">Voltar / Continuar Comprando</a>
+
+        <form method="POST" action="">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-success" name="finalizar_real" value="true">
+                SIM, Finalizar Compra
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}

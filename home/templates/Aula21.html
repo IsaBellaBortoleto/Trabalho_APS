@@ -98,10 +98,29 @@
                 {% if erro_mesa %}
                 <p style="color: red; font-weight: bold;">{{ erro_mesa }}</p>
                 {% endif %}
-                {% comment %} <form method="POST" action="{% url 'finalizar_pedido' %}">
-                    {% csrf_token %} {% endcomment %}
+                
+                <label for="nomeCliente">Nome do Cliente:</label>
+
+                    <input type="text" 
+                        id="nomeCliente" 
+                        name="nome_cliente" 
+                        required
+                        maxlength="50"
+                        placeholder="Digite o nome do cliente" 
+                        class="form-control"
+                        value="{{ valor_cliente|default:'' }}">
+
+                    {% if erro_cliente %}
+                        <p style="color: red; font-weight: bold;">{{ erro_cliente }}</p>
+                    {% endif %}
+
+
+
+
+                <form method="POST" action="{% url 'confirmar_pedido' %}">
+                    {% csrf_token %} 
                     <button type="submit" name="finalizar_pedido">Finalizar Pedido</button>
-                {% comment %} </form> {% endcomment %}
+                 </form> 
             </form>
 
         </div>

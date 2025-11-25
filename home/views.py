@@ -61,7 +61,7 @@ def home(request):
     """
     erro_validacao = None
     valor_mesa_invalido = None
-
+    lista_detalhada = []
     if request.method == 'POST':
         # --- CARREGANDO AS DUAS LISTAS ---
         carrinho = request.session.get('carrinho', [])
@@ -122,7 +122,9 @@ def home(request):
             # Também não faz nada, apenas recarrega a página
             # sem a variável de contexto 'posicao_para_editar'.
             pass
-
+        elif request.method == 'POST' and 'finalizar_real' in request.POST:
+            # Chama sua função auxiliar passando o request
+            return redirect('pagina_de_sucesso') 
         else:
             pass
          # --- 2. Lógica de Finalizar Pedido (Validação do Número da Mesa) ---
@@ -130,7 +132,7 @@ def home(request):
         # Assumimos que é o formulário de finalização.
         
         numero_mesa_str = request.POST.get('numero_mesa')
-        
+        nome = request.POST.get('nome_cliente', '').strip()
         # --- VALIDAÇÃO DE BACKEND ---
         if not numero_mesa_str:
             erro_validacao = "O número da mesa é obrigatório."
@@ -142,20 +144,90 @@ def home(request):
             except ValueError:
                 erro_validacao = "Formato de número de mesa inválido."
 
-        # --- PROCESSAMENTO / RE-RENDERIZAÇÃO ---
+        #confirmar_pedido(request)
+        #- PROCESSAMENTO / RE-RENDERIZAÇÃO ---
         if not erro_validacao:
             # SUCESSO! Lógica para processar o pedido final, salvar no DB, limpar carrinho, etc.
-            # ...
-            # Limpa o carrinho após o sucesso:
+            if not numero_mesa_str:
+                erro_validacao = "O número da mesa é obrigatório."
+            else:
+                try:
+                    numero_mesa = int(numero_mesa_str)
+                    if not (1 <= numero_mesa <= 20):
+                        erro_validacao = "O número da mesa deve ser entre 1 e 20."
+                except ValueError:
+                    erro_validacao = "Formato de número de mesa inválido."
+            if not nome:
+                erro_validacao = "O nome do produto é obrigatório."
+            if len(nome) > 50:
+                erro_validacao = "O nome do produto deve ter no máximo 50 caracteres."
+            # 3. Se a validação FALHAR, volte para home
+            # (Idealmente, você enviaria o erro de volta, mas vamos simplificar)
+            if erro_validacao:
+                # Você pode usar o sistema de 'messages' do Django para mostrar o erro
+                # messages.error(request, erro_validacao) 
+                return redirect('home')
+
+            # 4. SUCESSO! Salva no banco de dados
+            try:
+                conn = pymysql.connect(**db_config)
+                status_inicial = "Recebido pela cozinha"
+                with conn.cursor() as cursor:
+                    for i, item_nome_chave in enumerate(carrinho):
+                        item_nota = carrinho_notas[i] if i < len(carrinho_notas) else ''
+                        nome_real_produto = PRODUTOS_DISPONIVEIS[item_nome_chave]['nome']
+                            
+                        sql_insert = "INSERT INTO pedidos (mesa, cliente,  pedido, nota, status) VALUES (%s, %s, %s, %s);"
+                        cursor.execute(sql_insert, [numero_mesa,nome, nome_real_produto, item_nota, status_inicial])
+                conn.commit() 
+                print("--- DEBUG: Commit realizado! ---")
+            except Exception as e:
+                print(f"--- DEBUG: ERRO NO BANCO! {e} ---")
+                return redirect('home')
+
+                # Fazemos o loop e a lógica AQUI no Python, onde é fácil
+            for i, chave_produto in enumerate(carrinho):
+                # Pega o nome real do dicionário
+                dados_produto = PRODUTOS_DISPONIVEIS.get(chave_produto, {'nome': 'Produto Desconhecido'})
+                nome_real = dados_produto['nome']
+                
+                # Pega a nota (com segurança para não dar erro de índice)
+                nota_texto = carrinho_notas[i] if i < len(carrinho_notas) else ''
+
+                # Adiciona na lista um dicionário simples
+                lista_detalhada.append({
+                    'nome': nome_real,
+                    'nota': nota_texto
+                })
+
+            context = {
+                'lista_detalhada': lista_detalhada, # Mandamos a lista pronta
+                'mesa': numero_mesa,
+                'notas': carrinho_notas,
+                # ... outros dados
+            }
+            
+            # 5. Limpa a sessão
+            if 'carrinho' in request.session:
+                del request.session['carrinho']
+            if 'carrinho_notas' in request.session:
+                del request.session['carrinho_notas']
+                
+            # 6. Redireciona para uma página de sucesso
             if 'carrinho' in request.session:
                  del request.session['carrinho']
+            #return redirect('pagina_de_sucesso') # Você precisa criar essa página/URL
+            return render(request, 'confirmando/carrinho/confirmacao_carrinho.html', context)
+            # Limpa o carrinho após o sucesso:
+            # if 'carrinho' in request.session:
+            #      del request.session['carrinho']
             
-            return redirect('pagina_de_sucesso')
+            # return redirect('pagina_de_sucesso')
         else:
             # ERRO! Guarda o valor digitado para preencher o formulário novamente
             valor_mesa_invalido = numero_mesa_str
 
-    # --- Lógica de Requisição GET (e exibição) ---
+    #- Lógica de Requisição GET (e exibição) ---
     carrinho_atual = request.session.get('carrinho', [])
     carrinho_notas = request.session.get('carrinho_notas', []) # Carrega a lista de notas
     
@@ -193,12 +265,170 @@ def home(request):
     }
     
     return render(request, 'Aula21.html', context)
+def confirmar_pedido(request):
+        
+        finalizar_real = request.POST.get('finalizar_real') == "true"
+        erro_validacao = None
+        lista_detalhada = []
+        numero_mesa_str = request.POST.get('numero_mesa')
+        nome = request.POST.get('nome_cliente', '').strip()
 
+        carrinho = request.session.get('carrinho', [])
+        carrinho_notas = request.session.get('carrinho_notas', [])
+
+        # --- VALIDAÇÃO DE BACKEND ---
+        if not numero_mesa_str:
+            erro_validacao = "O número da mesa é obrigatório."
+        else:
+            try:
+                numero_mesa = int(numero_mesa_str)
+                if not (1 <= numero_mesa <= 20):
+                    erro_validacao = "O número da mesa deve ser entre 1 e 20."
+            except ValueError:
+                erro_validacao = "Formato de número de mesa inválido."
+
+        # --- PROCESSAMENTO / RE-RENDERIZAÇÃO ---
+        if not erro_validacao:
+             # SUCESSO! Lógica para processar o pedido final, salvar no DB, limpar carrinho, etc.
+            if not numero_mesa_str:
+                 erro_validacao = "O número da mesa é obrigatório."
+            else:
+                try:
+                     numero_mesa = int(numero_mesa_str)
+                     if not (1 <= numero_mesa <= 20):
+                         erro_validacao = "O número da mesa deve ser entre 1 e 20."
+                except ValueError:
+                     erro_validacao = "Formato de número de mesa inválido."
+            if not nome:
+                 erro_validacao = "O nome do produto é obrigatório."
+            if len(nome) > 50:
+                 erro_validacao = "O nome do produto deve ter no máximo 50 caracteres."
+            # 3. Se a validação FALHAR, volte para home
+            # (Idealmente, você enviaria o erro de volta, mas vamos simplificar)
+            if erro_validacao:
+                 # Você pode usar o sistema de 'messages' do Django para mostrar o erro
+                 # messages.error(request, erro_validacao) 
+                 return redirect('home')
+            #  # 4. SUCESSO! Salva no banco de dados
+            #  try:
+            #      conn = pymysql.connect(**db_config)
+            #      status_inicial = "Recebido pela cozinha"
+            #      with conn.cursor() as cursor:
+            #          for i, item_nome_chave in enumerate(carrinho):
+            #              item_nota = carrinho_notas[i] if i < len(carrinho_notas) else ''
+            #              nome_real_produto = PRODUTOS_DISPONIVEIS[item_nome_chave]['nome']
+                           
+            #              sql_insert = "INSERT INTO pedidos (mesa, cliente,  pedido, nota, status) VALUES (%s, %s, %s, %s, %s);"
+            #              cursor.execute(sql_insert, [numero_mesa,nome, nome_real_produto, item_nota, status_inicial])
+            #      conn.commit() 
+            #      print("--- DEBUG: Commit realizado! ---")
+            #  except Exception as e:
+            #      print(f"--- DEBUG: ERRO NO BANCO! {e} ---")
+            #      return redirect('home')
+            #      # Fazemos o loop e a lógica AQUI no Python, onde é fácil
+            #  for i, chave_produto in enumerate(carrinho):
+            #      # Pega o nome real do dicionário
+            #      dados_produto = PRODUTOS_DISPONIVEIS.get(chave_produto, {'nome': 'Produto Desconhecido'})
+            #      nome_real = dados_produto['nome']
+                
+            #      # Pega a nota (com segurança para não dar erro de índice)
+            #      nota_texto = carrinho_notas[i] if i < len(carrinho_notas) else ''
+            #      total += dados_produto['preco']
+            #      # Adiciona na lista um dicionário simples
+            #      lista_detalhada.append({
+            #          'nome': nome_real,
+            #          'nota': nota_texto,
+            #          'total': total,
+            #      })
+
+            #  context = {
+            #      'lista_detalhada': lista_detalhada, # Mandamos a lista pronta
+            #      'mesa': numero_mesa,
+            #      'notas': carrinho_notas,
+            #      # ... outros dados
+            #  }
+            
+            #  # 5. Limpa a sessão
+            #  if 'carrinho' in request.session:
+            #      del request.session['carrinho']
+            #  if 'carrinho_notas' in request.session:
+            #      del request.session['carrinho_notas']
+                
+            #  # 6. Redireciona para uma página de sucesso
+            #  if 'carrinho' in request.session:
+            #       del request.session['carrinho']
+            #  #return redirect('pagina_de_sucesso') # Você precisa criar essa página/URL
+            #  return render(request, 'confirmando/carrinho/confirmacao_carrinho.html', context)
+            # --- SE O USUÁRIO AINDA NÃO CONFIRMOU ---
+            if finalizar_real:
+                return redirect('pagina_de_sucesso')
+            if not finalizar_real:
+
+                # construir lista para mostrar na tela
+                total = 0
+                for i, chave_produto in enumerate(carrinho):
+                    dados = PRODUTOS_DISPONIVEIS[chave_produto]
+                    total += dados['preco']
+
+                    lista_detalhada.append({
+                        'nome': dados['nome'],
+                        'nota': carrinho_notas[i] if i < len(carrinho_notas) else '',
+                        'total': total,
+                    })
+
+                context = {
+                    'mesa': numero_mesa,
+                    'nome': nome,
+                    'lista_detalhada': lista_detalhada,
+                }
+
+                return redirect('home')
+
+
+            # --- SE O USUÁRIO CLICOU EM "SIM, FINALIZAR COMPRA" ---
+            try:
+                conn = pymysql.connect(**db_config)
+                with conn.cursor() as cursor:
+                    for i, item_nome_chave in enumerate(carrinho):
+                        sql = """
+                        INSERT INTO pedidos (mesa, cliente, pedido, nota, status)
+                        VALUES (%s, %s, %s, %s, %s)
+                        """
+
+                        cursor.execute(sql, [
+                            numero_mesa,
+                            nome,
+                            PRODUTOS_DISPONIVEIS[item_nome_chave]['nome'],
+                            carrinho_notas[i] if i < len(carrinho_notas) else '',
+                            "Recebido pela cozinha"
+                        ])
+
+                conn.commit()
+
+            except Exception as e:
+                print("ERRO NO BANCO:", e)
+                return redirect('home')
+
+
+            # limpa sessão
+            request.session.pop('carrinho', None)
+            request.session.pop('carrinho_notas', None)
+            
+            return render(request, 'confirmar_pedido', context={})
+         
 def pagina_de_sucesso(request):
     """
     Busca todos os pedidos no banco de dados que 
     não estão com o status 'Finalizado' e os exibe.
     """
+    print("═" * 50)
+    print(f"📨 REQUISIÇÃO /pedidos/ RECEBIDA")
+    print(f"📎 Referer: {request.META.get('HTTP_REFERER', 'Direto/Nenhum')}")
+    print(f"🖥️ User-Agent: {request.META.get('HTTP_USER_AGENT', 'N/A')}")
+    print(f"🔗 Método: {request.method}")
+    print(f"🌐 IP: {request.META.get('REMOTE_ADDR')}")
+    print(f"🔍 Caminho: {request.path}")
+    print("═" * 50)
     
     lista_de_pedidos = []
     lista_finalizados = []
@@ -296,7 +526,7 @@ def finalizar_pedido_view(request):
     Esta view tem UMA responsabilidade: validar a mesa,
     salvar o carrinho no banco e limpar a sessão.
     """
-    
+    lista_detalhada = []
     # Esta view SÓ deve aceitar POST
     if request.method == 'POST':
         
@@ -310,6 +540,7 @@ def finalizar_pedido_view(request):
 
         # 2. Pega e Valida o número da mesa
         numero_mesa_str = request.POST.get('numero_mesa')
+        nome = request.POST.get('nome_cliente', '').strip()
         erro_validacao = None
         
         if not numero_mesa_str:
@@ -321,7 +552,10 @@ def finalizar_pedido_view(request):
                     erro_validacao = "O número da mesa deve ser entre 1 e 20."
             except ValueError:
                 erro_validacao = "Formato de número de mesa inválido."
-        
+        if not nome:
+            erro_validacao = "O nome do produto é obrigatório."
+        if len(nome) > 50:
+            erro_validacao = "O nome do produto deve ter no máximo 50 caracteres."
         # 3. Se a validação FALHAR, volte para home
         # (Idealmente, você enviaria o erro de volta, mas vamos simplificar)
         if erro_validacao:
@@ -330,22 +564,47 @@ def finalizar_pedido_view(request):
             return redirect('home')
 
         # 4. SUCESSO! Salva no banco de dados
-        #try:
-        conn = pymysql.connect(**db_config)
-        status_inicial = "Recebido pela cozinha"
-        with conn.cursor() as cursor:
-            for i, item_nome_chave in enumerate(carrinho_final):
-                item_nota = notas_finais[i] if i < len(notas_finais) else ''
-                nome_real_produto = PRODUTOS_DISPONIVEIS[item_nome_chave]['nome']
-                    
-                sql_insert = "INSERT INTO pedidos (mesa, pedido, nota, status) VALUES (%s, %s, %s, %s);"
-                cursor.execute(sql_insert, [numero_mesa, nome_real_produto, item_nota, status_inicial])
-        conn.commit() 
-        print("--- DEBUG: Commit realizado! ---")
-        #except Exception as e:
-            #print(f"--- DEBUG: ERRO NO BANCO! {e} ---")
+        try:
+            conn = pymysql.connect(**db_config)
+            status_inicial = "Recebido pela cozinha"
+            with conn.cursor() as cursor:
+                for i, item_nome_chave in enumerate(carrinho_final):
+                    item_nota = notas_finais[i] if i < len(notas_finais) else ''
+                    nome_real_produto = PRODUTOS_DISPONIVEIS[item_nome_chave]['nome']
+                        
+                    sql_insert = "INSERT INTO pedidos (mesa, cliente,  pedido, nota, status) VALUES (%s, %s, %s, %s, %s);"
+                    cursor.execute(sql_insert, [numero_mesa,nome, nome_real_produto, item_nota, status_inicial])
+            conn.commit() 
+            print("--- DEBUG: Commit realizado! ---")
+        except Exception as e:
+            print(f"--- DEBUG: ERRO NO BANCO! {e} ---")
             #return redirect('home')
 
+            # Fazemos o loop e a lógica AQUI no Python, onde é fácil
+        for i, chave_produto in enumerate(carrinho_final):
+            # Pega o nome real do dicionário
+            dados_produto = PRODUTOS_DISPONIVEIS.get(chave_produto, {'nome': 'Produto Desconhecido'})
+            nome_real = dados_produto['nome']
+            
+            # Pega a nota (com segurança para não dar erro de índice)
+            nota_texto = notas_finais[i] if i < len(notas_finais) else ''
+
+            # Adiciona na lista um dicionário simples
+            lista_detalhada.append({
+                'nome': nome_real,
+                'nota': nota_texto
+            })
+
+        context = {
+            'lista_detalhada': lista_detalhada, # Mandamos a lista pronta
+            'numero_mesa': numero_mesa,
+            # ... outros dados
+        }
+        context = {
+        'itens': carrinho_final,
+        'notas': notas_finais,
+        'mesa' : numero_mesa,
+        }
         # 5. Limpa a sessão
         if 'carrinho' in request.session:
             del request.session['carrinho']
@@ -353,7 +612,9 @@ def finalizar_pedido_view(request):
             del request.session['carrinho_notas']
             
         # 6. Redireciona para uma página de sucesso
-        return redirect('pagina_de_sucesso') # Você precisa criar essa página/URL
+        
+        #return redirect('pagina_de_sucesso') # Você precisa criar essa página/URL
+        return render(request, 'confirmando/carrinho/confirmacao_carrinho.html', context)
 
     # Se alguém tentar acessar /finalizar-pedido/ com GET, apenas volte para casa
     return redirect('home')

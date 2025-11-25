@@ -90,13 +90,25 @@ PRODUTOS_DISPONIVEIS = {
 #     },
 # ]
 
-
+import traceback
 def pedidos(request):
     """
     Esta view lida com a exibição da página e com todas as
     ações de carrinho e finalização (POST).
     """
-
+    print("═" * 50)
+    print(f"📨 REQUISIÇÃO /pedidos/ RECEBIDA")
+    print(f"📎 Referer: {request.META.get('HTTP_REFERER', 'Direto/Nenhum')}")
+    
+    # 🎯 NOVO: STACK TRACE COMPLETO
+    print("🔍 STACK TRACE (onde foi chamado):")
+    stack = traceback.extract_stack()
+    for frame in stack[:-3]:  # Remove os frames internos do Django
+        if 'your_project_name' in frame.filename:  # Filtra apenas seu código
+            print(f"   📄 {frame.filename}:{frame.lineno} in {frame.name}")
+            print(f"   📝 {frame.line}")
+    
+    print("═" * 50)
     if request.method == 'POST':
         acao = request.POST.get('acao')
 
@@ -268,7 +280,7 @@ def pedidos(request):
 
     }
     
-    return render(request, 'Pedidos.html', context)
+    return render(request, 'pedidos/Pedidos.html', context)
 
 db_config = {
     "host": "localhost",
