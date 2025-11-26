@@ -30,67 +30,7 @@ PRODUTOS_DISPONIVEIS = {
     produto_sanduichefish.getnome(): {"nome": produto_sanduichefish.getnome(), "preco":produto_sanduichefish.getpreco() },
 
 }
-# PEDIDOS_ESTATICOS_EXEMPLO = [
-#     {
-#         "mesa": 5,
-#         "itens": [
-#             {"nome_chave": "pizzacalabreza", "nome": "Pizza Calabresa", "preco": 10.00, "nota": "Sem cebola."},
-#             {"nome_chave": "cocacola", "nome": "Coca-Cola", "preco": 6.00, "nota": "Com gelo e limão."},
-#         ],
-#         "total": 16.00
-#     },
-#     {
-#         "mesa": 14,
-#         "itens": [
-#             {"nome_chave": "sanduichechicken", "nome": "Sanduíche Chicken Crispy", "preco": 22.00, "nota": "Pão integral, por favor."},
-#             {"nome_chave": "sucovale", "nome": "Suco Del Valle", "preco": 7.50, "nota": ""},
-#             {"nome_chave": "hotdogtradicional", "nome": "Hot Dog Tradicional", "preco": 12.00, "nota": "Muito catchup!"},
-#         ],
-#         "total": 41.50
-#     },
-#     {
-#         "mesa": 2,
-#         "itens": [
-#             {"nome_chave": "milkshakechoc", "nome": "Milkshake Chocolatudo", "preco": 18.00, "nota": "Extra chantilly."},
-#             {"nome_chave": "milkshakechoc", "nome": "Milkshake Chocolatudo", "preco": 18.00, "nota": ""},
-#         ],
-#         "total": 36.00
-#     },
-#     {
-#         "mesa": 9,
-#         "itens": [
-#             {"nome_chave": "pizzafrango", "nome": "Pizza Frango c/ Catupiry", "preco": 11.50, "nota": "Retirar o Catupiry."},
-#         ],
-#         "total": 11.50
-#     },
-#     {
-#         "mesa": 19,
-#         "itens": [
-#             {"nome_chave": "guarana", "nome": "Guaraná Antarctica", "preco": 5.00, "nota": ""},
-#             {"nome_chave": "hotdogfrango", "nome": "Hot Dog de Frango", "preco": 15.00, "nota": "Maionese à parte."},
-#             {"nome_chave": "cocacola", "nome": "Coca-Cola", "preco": 6.00, "nota": "Sem gelo."},
-#         ],
-#         "total": 26.00
-#     },
-#     {
-#         "mesa": 8,
-#         "itens": [
-#             {"nome_chave": "sanduichetrad", "nome": "Sanduíche Tradicional", "preco": 19.00, "nota": "Queijo extra."},
-#             {"nome_chave": "sucovale", "nome": "Suco Del Valle", "preco": 7.50, "nota": ""},
-#         ],
-#         "total": 26.50
-#     },
-#     {
-#         "mesa": 1,
-#         "itens": [
-#             {"nome_chave": "pizzacalabreza", "nome": "Pizza Calabresa", "preco": 10.00, "nota": ""},
-#             {"nome_chave": "milkshakechoc", "nome": "Milkshake Chocolatudo", "preco": 18.00, "nota": "Para viagem."},
-#         ],
-#         "total": 28.00
-#     },
-# ]
 
-import traceback
 def pedidos(request):
     ordem_status = [
                 "Recebido pela cozinha",
@@ -102,16 +42,10 @@ def pedidos(request):
             ]
     if request.method == 'POST':
         acao = request.POST.get('acao')
-
-        # ----------------------------------------------------
-        # 2. Lógica para Processar a Edição do Produto
-        # ----------------------------------------------------
         if acao == 'editar_produto_modal':
-            # Capturar os três valores enviados pelo formulário
             nome_original = request.POST.get('original_product_name')
             novo_nome = request.POST.get('new_product_name')
-            
-            # Converte o preço para float de forma segura
+
             try:
                 novo_preco = float(request.POST.get('new_product_price'))
             except (ValueError, TypeError):
@@ -119,7 +53,7 @@ def pedidos(request):
                 print("ERRO: Preço inválido recebido.")
                 novo_preco = 0.00 
             
-            # Executa a função de salvamento no DB
+
             salvar_edicao_produto_sql(nome_original, novo_nome, novo_preco)
             
             # Redireciona para evitar reenvio do formulário
@@ -129,18 +63,6 @@ def pedidos(request):
             try:
                 conn = pymysql.connect(**db_config)
                 with conn.cursor() as cursor:
-
-                    # Buscar status atual
-                    # cursor.execute("SELECT status FROM pedidos WHERE id = %s", (pedido_id,))
-                    # resultado = cursor.fetchone()
-
-                    # if not resultado:
-                    #     print("Pedido não encontrado.")
-                    #     return redirect('pedidos')
-
-                    # status_atual = resultado[0]
-
-                    # Ache o status seguinte
                     print("Status recebido do POST:", status_atual)
                     if status_atual in ordem_status:
                         idx = ordem_status.index(status_atual)
@@ -154,15 +76,10 @@ def pedidos(request):
                         # Se o status atual não estiver na lista, defina o inicial
                         novo_status = ordem_status[0]
 
-                    # Atualizar no banco
-                    
                     cursor.execute(
                         "UPDATE pedidos SET status = %s WHERE id = %s",
                         (novo_status, pedido_id)
                     )
-                    print("==============================================================")
-                    print("Atualizado para:", novo_status)
-                    print("==============================================================")
 
                     conn.commit()
             except Exception as e:
@@ -173,19 +90,6 @@ def pedidos(request):
                     conn = pymysql.connect(**db_config)
                     with conn.cursor() as cursor:
 
-                        # Buscar status atual
-                        # cursor.execute("SELECT status FROM pedidos WHERE id = %s", (pedido_id,))
-                        # resultado = cursor.fetchone()
-
-                        # if not resultado:
-                        #     print("Pedido não encontrado.")
-                        #     return redirect('pedidos')
-
-                        # status_atual = resultado[0]
-
-                        # Ache o status seguinte
-                        print("Status recebido do POST: PARA ATRASAR", status_atual)
-                       
                         novo_status = ordem_status[ - 1]
                         # Atualizar no banco
                         
@@ -193,101 +97,16 @@ def pedidos(request):
                             "UPDATE pedidos SET status = %s WHERE id = %s",
                             (novo_status, pedido_id)
                         )
-                        print("==============================================================")
-                        print("Atualizado ATRASADOOOOO para:", novo_status)
-                        print("==============================================================")
+
                         conn.commit()
                 except Exception as e:
                     print("ERRO AO ATUALIZAR STATUS 2 2 2 2 2 2 22 :", e)   
 
-            
-
-            
-
-
-
-    # erro_validacao = None
-    # valor_mesa_invalido = None
-
-    # ######### if request.method == 'POST':
-    #     # --- 1. Lógica de Adicionar/Remover Item (Ações de Carrinho) ---
-    #     carrinho = request.session.get('carrinho', [])
-        
-    #     if 'adicionar_item' in request.POST:
-    #         nome_produto = request.POST.get('adicionar_item')
-    #         if nome_produto in PRODUTOS_DISPONIVEIS:
-    #             carrinho.append(nome_produto)
-    #             request.session['carrinho'] = carrinho
-    #         # Sempre redirecione após uma ação de carrinho para evitar reenvio do form
-    #         return redirect('home')
-            
-    #     elif 'remover_item_por_posicao' in request.POST:
-    #         posicao = request.POST.get('remover_item_por_posicao')
-    #         try:
-    #             posicao = int(posicao)
-    #             if 0 <= posicao < len(carrinho):
-    #                 carrinho.pop(posicao)
-    #                 request.session['carrinho'] = carrinho
-    #         except (ValueError, IndexError):
-    #             pass
-    #         # Sempre redirecione após uma ação de carrinho
-    #         return redirect('home')
-
-    #     # --- 2. Lógica de Finalizar Pedido (Validação do Número da Mesa) ---
-    #     # Se chegamos aqui, é porque nenhum botão de carrinho foi apertado. 
-    #     # Assumimos que é o formulário de finalização.
-        
-    #     numero_mesa_str = request.POST.get('numero_mesa')
-        
-    #     # --- VALIDAÇÃO DE BACKEND ---
-    #     if not numero_mesa_str:
-    #         erro_validacao = "O número da mesa é obrigatório."
-    #     else:
-    #         try:
-    #             numero_mesa = int(numero_mesa_str)
-    #             if not (1 <= numero_mesa <= 20):
-    #                 erro_validacao = "O número da mesa deve ser entre 1 e 20."
-    #         except ValueError:
-    #             erro_validacao = "Formato de número de mesa inválido."
-
-    #     # --- PROCESSAMENTO / RE-RENDERIZAÇÃO ---
-    #     if not erro_validacao:
-    #         # SUCESSO! Lógica para processar o pedido final, salvar no DB, limpar carrinho, etc.
-    #         # ...
-    #         # Limpa o carrinho após o sucesso:
-    #         if 'carrinho' in request.session:
-    #              del request.session['carrinho']
-            
-    #         return redirect('pagina_de_sucesso')
-    #     else:
-    #         # ERRO! Guarda o valor digitado para preencher o formulário novamente
-    #         valor_mesa_invalido = numero_mesa_str
-
-    # # --- Lógica de Requisição GET (ou re-renderização pós-erro POST) ---
-    
-    # # Carrega o carrinho para exibir na página (GET ou erro POST)
-    # carrinho_atual = request.session.get('carrinho', [])
-    
-    # # Prepara os dados para o template
-    # itens_com_detalhes = []
-    # total = 0
-    
-    # for i, item_nome in enumerate(carrinho_atual):
-    #     if item_nome in PRODUTOS_DISPONIVEIS:
-    #         detalhes = PRODUTOS_DISPONIVEIS[item_nome]
-    #         total += detalhes['preco']
-    #         itens_com_detalhes.append({
-    #             'nome': detalhes['nome'], 
-    #             'preco': detalhes['preco'], 
-    #             'posicao': i
-    #         })
+                      
     pedidos_realizados = []
     pedidos_realizados = pedidos_clientes(request)
-    # ----------------------------------------------------
-    # 3. Lógica para Carregar Dados (GET)
-    # ----------------------------------------------------
 
-    problemas_reportados = [] # Inicializa a lista de problemas
+    problemas_reportados = [] 
     conn = None
 
     try:
@@ -330,22 +149,12 @@ def pedidos(request):
 
     context = {
         'produtos': PRODUTOS_DISPONIVEIS.items(),
-        #'itens_carrinho': itens_com_detalhes,
-        #'total': total,
-        # Adiciona o contexto de erro AQUI
-        #'erro_mesa': erro_validacao, 
-        #'valor_mesa_invalido': valor_mesa_invalido,
         'lista_de_bebidas': BEBIDAS_DISPONIVEIS,
         'lista_de_pizzas': PIZZAS_DISPONIVEIS,
         'lista_de_hotdogs' : HOTDOG_DISPONIVEIS,
         'lista_de_milkshakes' : MILKSHAKES_DISPONIVEIS,
         'lista_de_sanduiches' : SANDUICHES_DISPONIVEIS,
-
-        # Para mostrar a lista completa de produtos (PRODUTOS_DISPONIVEIS)
         'produtos_disponiveis': PRODUTOS_DISPONIVEIS.items(),
-        
-        # O novo conjunto de dados estáticos para exibir os pedidos
-        #'pedidos_exemplo': PEDIDOS_ESTATICOS_EXEMPLO,
         'pedidos_realizados': pedidos_realizados,
         'problemas_reportados': problemas_reportados,
 
@@ -374,20 +183,15 @@ def pedidos_clientes(request):
                 ORDER BY id DESC                      /* 2. Ordene "de baixo para cima" (pelo ID) */
                 LIMIT 10;                             /* 3. Pegue APENAS os 15 mais recentes */
             """
-        
-            # Executa a consulta
+
             cursor.execute(sql_query)
-            
-            # 2. Pega o nome das colunas...
+
             colunas = [col[0] for col in cursor.description]
-        
-            # 3. Transforma os resultados em uma lista de dicionários
-            # (Este loop 'for' agora só vai rodar 10 vezes, no máximo)
+            
             for row in cursor.fetchall():
                 pedido_dict = dict(zip(colunas, row))
-            
-                # 2. ADICIONA A LÓGICA DO STATUS LIMPO
                 status_do_pedido = pedido_dict.get('status')
+
                 if status_do_pedido and status_do_pedido is not None:
                     
                     # Sequência de Limpeza Definitiva: strip() -> lower() -> replace()
@@ -402,17 +206,12 @@ def pedidos_clientes(request):
                     pedido_dict['classe_css'] = 'status-desconhecido'
                     # 3. Adiciona o dicionário processado à lista final
                 lista_de_pedidos.append(pedido_dict)
-            # Fecha a conexão (Só depois de fazer TUDO)
+            
             connection.close()
 
     except Exception as e:
         print(f" = = = = = = = = = = =Erro ao buscar pedidos na PEDIDOS: {e}")
 
-    #contexto = { 'pedidos_realizados': lista_de_pedidos }
-    
-    # 2. Use a função 'render' para processar o template e retornar a resposta HTTP.
-    #    (Substitua 'seu_template.html' pelo nome real do arquivo.)
-    #return render(request, 'Pedidos.html', contexto)
     return (lista_de_pedidos)
   
 #teste pro negócio de login
@@ -452,7 +251,6 @@ def salvar_edicao_produto_sql(nome_original, novo_nome, novo_preco):
         SET nome = %s, preco = %s 
         WHERE nome = %s
         """
-        
         # A tupla de valores DEVE seguir a ordem do SQL: (novo nome, novo preco, nome original)
         valores = (novo_nome, novo_preco, nome_original)
         
