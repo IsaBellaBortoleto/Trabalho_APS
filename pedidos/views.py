@@ -98,6 +98,7 @@ def pedidos(request):
                 "Finalizando",
                 "Finalizado",
                 "Entregue",
+                "Atrasado em 30 minutos"
             ]
     if request.method == 'POST':
         acao = request.POST.get('acao')
@@ -144,11 +145,11 @@ def pedidos(request):
                     if status_atual in ordem_status:
                         idx = ordem_status.index(status_atual)
                         # Só avança se não for o último
-                        if idx < len(ordem_status) - 1:
+                        if idx < len(ordem_status) - 2:
                             novo_status = ordem_status[idx + 1]
                         else:
                             # Já está no último status
-                            novo_status = status_atual
+                            novo_status = ordem_status[2]
                     else:
                         # Se o status atual não estiver na lista, defina o inicial
                         novo_status = ordem_status[0]
@@ -164,9 +165,44 @@ def pedidos(request):
                     print("==============================================================")
 
                     conn.commit()
-
             except Exception as e:
                 print("ERRO AO ATUALIZAR STATUS:", e)
+        elif 'set_atraso' in request.POST:
+                pedido_id, status_atual = [s.strip() for s in request.POST.get('set_atraso').split(',')]
+                try:
+                    conn = pymysql.connect(**db_config)
+                    with conn.cursor() as cursor:
+
+                        # Buscar status atual
+                        # cursor.execute("SELECT status FROM pedidos WHERE id = %s", (pedido_id,))
+                        # resultado = cursor.fetchone()
+
+                        # if not resultado:
+                        #     print("Pedido não encontrado.")
+                        #     return redirect('pedidos')
+
+                        # status_atual = resultado[0]
+
+                        # Ache o status seguinte
+                        print("Status recebido do POST: PARA ATRASAR", status_atual)
+                       
+                        novo_status = ordem_status[ - 1]
+                        # Atualizar no banco
+                        
+                        cursor.execute(
+                            "UPDATE pedidos SET status = %s WHERE id = %s",
+                            (novo_status, pedido_id)
+                        )
+                        print("==============================================================")
+                        print("Atualizado ATRASADOOOOO para:", novo_status)
+                        print("==============================================================")
+                        conn.commit()
+                except Exception as e:
+                    print("ERRO AO ATUALIZAR STATUS 2 2 2 2 2 2 22 :", e)   
+
+            
+
+            
 
 
 

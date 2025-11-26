@@ -113,6 +113,13 @@
                                     <i class="bi bi-arrow-clockwise"></i> Avançar Status
                                 </button>
                             </form>
+                             <form method="post" style="display:inline;">
+                                {% csrf_token %}
+                                <input type="hidden" name="set_atraso" value="{{ pedido.id }}, {{pedido.status}}">
+                                <button type="submit" class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-arrow-clockwise"></i> Atraso
+                                </button>
+                            </form>
                         </div>
                     </div>
 
@@ -135,7 +142,7 @@
         </div>
         <section id="Hamburguer" class="full-page Hamburguer">
             <!-- o ID será usado como target-->
-            <div id="Hamburguer-content" class="grid full-page-content">
+            <div id="Hamburguer-content" class="full-page-content">
                 <h1>Sanduíches</h1>
                 <p class="descricao"></p>
 
@@ -260,11 +267,11 @@
         </section>
         <section id="Pizzas" class="full-page Pizzas">
             <!-- o ID será usado como target-->
-            <div id="Pizza-content" class="full-page-content grid">
+            <div id="Pizza-content" class="full-page-content ">
                 <h1>Pizzas</h1>
                 <p class="descricao"></p>
 
-                <!-- <div class="grid">-->
+                <div class="grid">
                 <div class="col">
                     <div class="col-content">
                         <h3>{{ lista_de_pizzas.0.getnome}}<br></h3>
@@ -314,7 +321,7 @@
                     </div>
                 </div>
             </div>
-            <!--</div>-->
+            </div>
         </section>
         <section id="Milkshakes" class="full-page Milkshakes">
             <!-- o ID será usado como target-->

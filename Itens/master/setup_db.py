@@ -281,12 +281,14 @@ with connection :
             'CREATE TABLE IF NOT EXISTS pedidos ('
             'id INT NOT NULL AUTO_INCREMENT, '
             'mesa VARCHAR(50) NOT NULL, '
+            'cliente VARCHAR(50) NOT NULL,'
             'pedido VARCHAR(50), '
             'nota VARCHAR(100), '
-            'status ENUM("Recebido pela cozinha", "Em preparo", "Finalizando", "Finalizado", "Entregue"), '
+            'status ENUM("Recebido pela cozinha", "Em preparo", "Finalizando", "Finalizado", "Entregue","Atrasado em 30 minutos"), '
             'PRIMARY KEY (id) '
             ')'
-        )
+        )           
+       
         cursor.execute(sql)
 
         sql = (

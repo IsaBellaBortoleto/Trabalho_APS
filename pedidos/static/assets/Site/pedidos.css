@@ -10,25 +10,25 @@ html {
     background-color: rgb(129, 255, 192);
 }
 
-.full-page-content h1 {
+/* .full-page-content h1 {
     /* Força o título a ocupar toda a largura disponível */
-    width: 100%; 
+    /*width: 100%; 
     /* Garante que o elemento se comporte como um bloco padrão, forçando quebra de linha */
-    display: block; 
-}
+    /*display: block; 
+} */
 
 .grid {
     padding: 30px;
     padding-bottom: 40px;
-    max-width: 1400px;
+    max-width: 1000px;
     margin: 0 auto ;
     /*margin: top right bottom left;*/
     /* fica centralizado*/
     
     /* 26/08/2025*/
     display: flex;        
-      flex-wrap: wrap; 
-      overflow: auto;
+    flex-wrap: nowrap; /* ⬅️ Garante que os itens NUNCA quebrem para a próxima linha (conforme solicitado) */
+    justify-content: space-between;
     gap: 30px; /* ADICIONE ISTO */
       
 }
@@ -45,9 +45,10 @@ html {
     /*26/08/2025*/
     /*26/08/2025*/
     box-sizing: border-box;
-    width: calc((100% - 60px) / 3);
-    height: 330px;
+    /* width: calc((100% - 60px) / 3); */
+    height: 300px;
     padding: 15px;
+    
 
 }
 
@@ -120,6 +121,7 @@ body {
 h1{
     font-size:35px;
     padding-left: 50px;
+    width: 100%;
 }
 p{
     font-size: 17px;
@@ -629,4 +631,8 @@ body > p {
     color: white;
     text-decoration: line-through;
 
+}
+.status-atrasado-em-30-minutos {
+    background-color: #796de9; /* Cinza Escuro */
+    color: white;
 }
